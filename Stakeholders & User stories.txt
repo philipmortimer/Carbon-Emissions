@@ -1,0 +1,14 @@
+STAKEHOLDERS: 
+
+CTO, CEO, Companies, Employees of those companies
+
+
+USER STORIES:
+
+As the CTO of RouteZero I want to build a viable system so that I can save million tonnes of carbon dioxide
+
+As the CEO of RouteZero I want to administer a viable system that saves million tonnes of carbon dioxide to so that the system makes visible improvements.
+
+As a company, I want to minimise carbon emissions so that I achieve Net Zero.
+
+As an employee of the company that wants to achieve Net Zero, I want to not feel a strong impact of them trying to achieve Net Zero so that I can still do my job well while I travel comfortably.
