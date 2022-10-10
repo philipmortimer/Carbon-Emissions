@@ -1,6 +1,6 @@
 STAKEHOLDERS: 
 
-CTO, CEO, Companies, Employees of those companies
+CTO, CEO, Companies, Employees of those companies.
 
 
 USER STORIES:
