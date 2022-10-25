@@ -22,5 +22,5 @@ jobs:
           maven-version: 3.8.6
       - name: Test Build
         run: |
-          mvn clean install
-          mvn test
+          mvn clean install -f backend/server
+          mvn test -f backend/server
