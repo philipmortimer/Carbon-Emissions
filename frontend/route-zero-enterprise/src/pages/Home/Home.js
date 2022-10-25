@@ -4,7 +4,7 @@ import { Button, Container } from 'react-bootstrap';
 export const Home = () => {
 
     useEffect(() => {
-        document.title = "Upload Climate Data | RouteZero"
+        document.title = "Upload Travel Data | RouteZero"
     });
 
     return(
