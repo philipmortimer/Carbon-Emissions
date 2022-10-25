@@ -8,25 +8,20 @@ import {
 } from "react-router-dom";
 
 import {Home} from "./pages/Home/Home.js";
+import {Graph} from "./pages/Graph/Graph.js";
+import {Hero} from "./components/Hero/Hero.js";
 
 //import Button from 'react-bootstrap/Button';
 
 function App() {
   return (
     <>
-      <h1>Route Zero Carbon Tracking for Business</h1>
       <Router className="router">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            
-          </li>
-        </ul>
+        <Hero/>
 
         <Routes>
           <Route path="/" element={<Home/>} />
+          <Route path="/graph" element={<Graph/>}/>
         </Routes>
       </Router>
     </>
