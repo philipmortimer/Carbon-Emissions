@@ -1,7 +1,13 @@
-
-/* customise defaults... */
+/* and customise defaults... */
 $body-bg: #d6d6d6;
-$body-color: #eaeaea;
+$body-color: #2b2b2b;
+
+//$navbar-padding-y: 10rem 10rem;
 
 /* ...then import */
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+@import "./pages/Home/Home.scss";
+@import "./components/Hero/Hero.scss";
+@import "./components/Logo/Logo.scss";
+@import "./pages/Graph/Graph.scss";

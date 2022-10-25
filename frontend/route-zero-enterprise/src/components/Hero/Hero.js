@@ -10,7 +10,7 @@ export const Hero = () => {
     return(
         <>
         <Navbar bg="light" variant="light">
-            <Container>
+            <Container fluid>
             <Navbar.Brand className="navbar-brand" href="https://routezero.world/"><Logo/>{/*RouteZero*/}</Navbar.Brand>
             <Nav className="me-auto">
                 <Link className="nav-link" to="/">Upload</Link>
