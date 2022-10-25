@@ -2,7 +2,7 @@ name: Spring Application CI
 
 on:
   pull_request:
-    branches: [feature-*]
+    branches: [main, dev, feature-*]
 
 jobs:
   spring-app-ci:
