@@ -28,7 +28,7 @@ public class Helper {
 
     */
 
-    //java class to turn our properties json into
+    //java class to turn our api_key json into
     static public class ApiKey {
         public String apiKey;
 
