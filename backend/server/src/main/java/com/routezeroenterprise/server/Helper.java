@@ -4,15 +4,30 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Helper {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    //java class to turn our apikey json into
+    /* TODO
+        -
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        @@@@@@ DO NOT COMMIT OR PUSH A POPULATED api_key.json EVER @@@@@@
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        if you have accidentally git add 'd the api key, simply remove it from the staging area with
+        git reset -- src/main/resources/api_key.json
+
+    */
+
+    //java class to turn our properties json into
     static public class ApiKey {
         public String apiKey;
 
@@ -26,17 +41,29 @@ public class Helper {
     }
     //java class to turn our properties json into
     static public class Properties {
-        public String routeZeroEndpoint;
+        public String emissionsEndpoint;
 
         public void setRouteZeroEndpoint(String endpoint){
-            routeZeroEndpoint = endpoint;
+            emissionsEndpoint = endpoint;
         }
 
-        public String getRouteZeroEndpoint(){
-            return routeZeroEndpoint;
+        public String getEmissionsEndpoint(){
+            return emissionsEndpoint;
         }
     }
 
+    //general error function to be used where possible
+    private static String gracefulError(Exception e, String... preface){
+        String prefix;
+        if(preface.length == 0) { prefix = e.toString(); }
+        else if(preface.length == 1) { prefix = preface[0]; }
+        else { prefix = Arrays.stream(preface).reduce("", (x, y) -> x + y).toString(); }
+        System.out.println(prefix+e.getMessage());
+        e.printStackTrace();
+        return "MalformedURLException Error";
+    }
+
+    // general helper methods
     private static String loadFileAsText(String path){
         try {
             File f = new File(path);
@@ -55,7 +82,45 @@ public class Helper {
         }
     }
 
+    //sends a RESTful request to 'endpoint' according to the json 'j' in string form
+    public static String postJsonAsString(String endpoint, String j){
+        URL url;
+        try {
+            url = new URL(endpoint);
+        } catch(MalformedURLException e){
+            System.out.println("MalformedURLException Error "+e.getMessage());
+            e.printStackTrace();
+            return "MalformedURLException Error";
+        }
+        try {
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        }catch(IOException e){
 
+        }
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+
+        try(OutputStream outStream = connection.getOutputStream()){
+            String jsonText = "{\"apiKey\":\""+Helper.getApiKey()+"\",\"id\":\"id\",\"journeys\":[{\"transport\":{\"type\":\"flight\"},\"distanceKm\":480,\"travellers\":2},{\"transport\":{\"type\":\"electricScooter\"},\"distanceKm\":2.1,\"travellers\":1}]}";
+            System.out.println(jsonText);
+            byte[] payload = jsonText.getBytes(StandardCharsets.UTF_8);
+            outStream.write(payload, 0, payload.length);
+        }
+
+        StringBuilder response = new StringBuilder();
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            System.out.println(response.toString());
+        }
+    }
+
+    // initialisation methods
     public static String getApiKey(){
         try {
             String apiKeyAsText = loadFileAsText("src/main/resources/api_key.json");
@@ -69,7 +134,7 @@ public class Helper {
             System.out.println("JsonProcessingException Error "+e.getMessage());
             e.printStackTrace();
         }
-        return "Error 500";
+        return "Error reading API key";
     }
 
     public static Properties loadProperties(){
