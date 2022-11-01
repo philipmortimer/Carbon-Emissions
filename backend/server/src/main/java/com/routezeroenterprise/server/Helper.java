@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -53,6 +54,8 @@ public class Helper {
     }
 
     //general error function to be used where possible
+    //pass it the exception, and whatever error detail you want before it as 'preface'
+    //can be used for returning from string functions, as it always returns a string that starts with "Error"
     private static String gracefulError(Exception e, String... preface){
         String prefix;
         if(preface.length == 0) { prefix = e.toString(); }
@@ -60,7 +63,7 @@ public class Helper {
         else { prefix = Arrays.stream(preface).reduce("", (x, y) -> x + y).toString(); }
         System.out.println(prefix+e.getMessage());
         e.printStackTrace();
-        return "MalformedURLException Error";
+        return "Error" + prefix;
     }
 
     // general helper methods
@@ -76,37 +79,42 @@ public class Helper {
             return text;
 
         } catch (FileNotFoundException e) {
-            System.out.println("FileNotFoundException Error " + e.getMessage());
-            e.printStackTrace();
-            return "FileNotFoundException Error";
+            return gracefulError(e);
         }
     }
 
     //sends a RESTful request to 'endpoint' according to the json 'j' in string form
+    //on success it will return a json response as a string
+    //on fail it will return the string "Error <error-detail>"
     public static String postJsonAsString(String endpoint, String j){
         URL url;
         try {
             url = new URL(endpoint);
         } catch(MalformedURLException e){
-            System.out.println("MalformedURLException Error "+e.getMessage());
-            e.printStackTrace();
-            return "MalformedURLException Error";
+            return gracefulError(e);
         }
-        try {
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        }catch(IOException e){
 
+        HttpURLConnection connection;
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+        }catch(IOException e){
+            return gracefulError(e);
         }
-        connection.setRequestMethod("POST");
+
+        try {
+            connection.setRequestMethod("POST");
+        } catch(ProtocolException e){
+            return gracefulError(e);
+        }
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
         connection.setDoOutput(true);
 
         try(OutputStream outStream = connection.getOutputStream()){
-            String jsonText = "{\"apiKey\":\""+Helper.getApiKey()+"\",\"id\":\"id\",\"journeys\":[{\"transport\":{\"type\":\"flight\"},\"distanceKm\":480,\"travellers\":2},{\"transport\":{\"type\":\"electricScooter\"},\"distanceKm\":2.1,\"travellers\":1}]}";
-            System.out.println(jsonText);
-            byte[] payload = jsonText.getBytes(StandardCharsets.UTF_8);
+            byte[] payload = j.getBytes(StandardCharsets.UTF_8);
             outStream.write(payload, 0, payload.length);
+        }catch(IOException e){
+            return gracefulError(e);
         }
 
         StringBuilder response = new StringBuilder();
@@ -116,38 +124,32 @@ public class Helper {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
+            return response.toString();
+        }catch (IOException e){
+            return gracefulError(e);
         }
     }
 
-    // initialisation methods
+    // loads the api_key.json file into a java object
     public static String getApiKey(){
         try {
             String apiKeyAsText = loadFileAsText("src/main/resources/api_key.json");
             ApiKey k = mapper.readValue(apiKeyAsText, ApiKey.class);
             return k.get();
 
-        } catch (JsonMappingException e){
-            System.out.println("JsonMappingException Error "+e.getMessage());
-            e.printStackTrace();
         } catch (JsonProcessingException e){
-            System.out.println("JsonProcessingException Error "+e.getMessage());
-            e.printStackTrace();
+            return gracefulError(e);
         }
-        return "Error reading API key";
     }
 
+    // loads the properties.json file into a java object
     public static Properties loadProperties(){
         try {
             String propsAsText = loadFileAsText("src/main/resources/properties.json");
             return mapper.readValue(propsAsText, Properties.class);
 
-        } catch (JsonMappingException e){
-            System.out.println("JsonMappingException Error "+e.getMessage());
-            e.printStackTrace();
         } catch (JsonProcessingException e){
-            System.out.println("JsonProcessingException Error "+e.getMessage());
-            e.printStackTrace();
+            gracefulError(e);
         }
         return new Properties();
     }
