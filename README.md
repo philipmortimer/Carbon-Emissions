@@ -1,8 +1,9 @@
 # Route Zero Enterprise Carbon Savings Prediction
 ## Index
-- [Overview](#overview)
-- [User journeys](#user-journeys)
-- [Group notes and Gantt chart](#group-notes-and-gantt-chart)
+  - [Overview](#overview)
+  - [User Journeys](#user-journeys)
+  - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
+  - [Run this app](#run-this-app)
 ----
 ## Overview
 
@@ -27,5 +28,6 @@ They get back a panel containing two graphs on the right, and a selection of pol
 [View our Gantt chart](https://uob-my.sharepoint.com/:x:/g/personal/ai20192_bristol_ac_uk/EQ2tWVFm5X9EnJw5EIE3zg8BsSrJ3WRx1I6BgtUecnVbBg?e=OYrvjc) (Excel)\
 If you are unable to access/edit either of these, and feel you should be able to, you may [request access](mailto:np21862@bristol.ac.uk).
 
-# [Starting our Frontend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/dev/frontend/route-zero-enterprise/README.md)
-# [Starting our Backend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/main/backend/README.md)
+## Run this app
+[Starting our Frontend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/dev/frontend/route-zero-enterprise/README.md) \
+[Starting our Backend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/main/backend/README.md)
