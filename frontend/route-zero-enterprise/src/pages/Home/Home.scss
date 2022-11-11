@@ -1,12 +1,10 @@
-@mixin make-container($padding-x: $container-padding-x){
-    margin-top: 4rem;
-    width: 100%;
-    padding-right: $padding-x;
-    padding-left: $padding-x;
-    margin-right: auto;
-    margin-left: auto;
+.custom-container{
+    margin-top: 20rem;
+    //padding: 0 4rem 0 4rem;
 }
 
-.custom-container{
-    @include make-container();
+.buttons{
+    display: grid;
+    grid-template-columns: 10rem 10rem 20rem;
+    gap: 1rem;
 }

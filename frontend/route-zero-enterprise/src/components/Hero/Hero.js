@@ -6,6 +6,8 @@ import Navbar from "react-bootstrap/Navbar";
 
 import {Logo} from "../Logo/Logo.js";
 
+import "./Hero.scss";
+
 export const Hero = () => {
     return(
         <>

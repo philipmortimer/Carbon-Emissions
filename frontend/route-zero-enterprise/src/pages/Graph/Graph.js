@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import {Container} from "react-bootstrap";
 
+import "./Graph.scss";
+
 export const Graph = () => {
 
     useEffect(() => {
@@ -8,8 +10,6 @@ export const Graph = () => {
     });
     
     return(
-        <Container>
-            <h1>Visualisation</h1>
-        </Container>
+        <h1>Visualisation</h1>
     )
 }
