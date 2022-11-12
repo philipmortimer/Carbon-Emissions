@@ -1,10 +1,10 @@
 package com.routezeroenterprise.server;
 
-public class testAPI {
+public class apiResponse {
 
     private final String content;
 
-    public testAPI(String content) {
+    public apiResponse(String content) {
         this.content = content;
     }
 
