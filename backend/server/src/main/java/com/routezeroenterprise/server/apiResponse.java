@@ -2,13 +2,13 @@ package com.routezeroenterprise.server;
 
 public class apiResponse {
 
-    private final String content;
+    private final String response;
 
-    public apiResponse(String content) {
-        this.content = content;
+    public apiResponse(String jsonResponse) {
+        this.response = jsonResponse;
     }
 
-    public String getContent() {
-        return content;
+    public String getResponse() {
+        return response;
     }
 }
