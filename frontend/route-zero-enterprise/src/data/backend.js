@@ -4,5 +4,5 @@ export const params = {
 };
 
 export const client = {
-    local_id: ""
+    request_id: "" //store in localstorage? this relates to updating the policy & re-requesting graphs on visualise page 
 };
