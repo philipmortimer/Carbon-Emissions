@@ -1,6 +1,7 @@
 # Route Zero Enterprise Carbon Savings Prediction
 ## Index
 - [Overview](#overview)
+- [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 - [Starting our app](#startup-guides)
@@ -14,6 +15,13 @@ The Enterprise Carbon Savings Prediction web application aims to provide accurat
 This will have two main components:
 - Front-end created in React
 - A backend API in SpringBoot to interface with RouteZero's API
+
+## Concepts and planning 
+### Early design diagrams
+![image](https://user-images.githubusercontent.com/45922387/201781191-0ab142ed-e5b4-4942-87ea-2bc93bbc2091.png)
+![image](https://user-images.githubusercontent.com/45922387/201781254-fe7f4a76-d90c-4204-8037-f001b6d83f12.png)
+![image](https://user-images.githubusercontent.com/45922387/201781291-5eaae519-c5ae-4c30-b8a0-703d28cc5aab.png)
+
 
 ## User Journeys
 **Small climate-conscious business**, visits website looking for a cost-effective way to make as large an impact on their emissions as possible. They land on the [main page](https://enterprise.routezero.world/) and discover that travel contributes largly to corporate emissions.\
