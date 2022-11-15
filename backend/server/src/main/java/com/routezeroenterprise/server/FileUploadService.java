@@ -4,28 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-
-// WALK = "foot"
-// BIKE = "bike"
-// ELECTRIC_SCOOTER = "electricScooter"
-// PETROL_CAR = "petrolCar"
-// DIESEL_CAR = "dieselCar"
-// HYBRID_CAR = "hybridCar"
-// ELECTRIC_CAR = "electricCar"
-// TAXI = "taxi"
-// BUS = "bus"
-// COACH = "coach"
-// TRAIN = "train"
-// EUROSTAR = "eurostar"
-// LIGHT_RAIL = "lightRail"
-// TRAM = "tram"
-// SUBWAY = "subway"
-// DOMESTIC_FLIGHT = "flight"
-// FERRY = "ferry"
 
 @Service
 public class FileUploadService {
@@ -67,7 +47,6 @@ public class FileUploadService {
 
             int lineNo = 2;
             while ((line = br.readLine()) != null) {
-
                 List<String> lineData = List.of(line.split(","));
 
                 // Getting the index for the parameters required for the journeys' template
@@ -79,7 +58,6 @@ public class FileUploadService {
                     firstRow = false;
                     continue;
                 }
-
 
                 String transportType = lineData.get(transportIndex);
                 float distanceKM = Float.parseFloat(lineData.get(distanceIndex));
