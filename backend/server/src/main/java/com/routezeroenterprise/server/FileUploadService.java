@@ -8,11 +8,49 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+// WALK = "foot"
+// BIKE = "bike"
+// ELECTRIC_SCOOTER = "electricScooter"
+// PETROL_CAR = "petrolCar"
+// DIESEL_CAR = "dieselCar"
+// HYBRID_CAR = "hybridCar"
+// ELECTRIC_CAR = "electricCar"
+// TAXI = "taxi"
+// BUS = "bus"
+// COACH = "coach"
+// TRAIN = "train"
+// EUROSTAR = "eurostar"
+// LIGHT_RAIL = "lightRail"
+// TRAM = "tram"
+// SUBWAY = "subway"
+// DOMESTIC_FLIGHT = "flight"
+// FERRY = "ferry"
+
 @Service
 public class FileUploadService {
     private final static Helper.Properties props = Helper.loadProperties();
 
     public apiResponse uploadFile(MultipartFile file) {
+        List<String> validTravelType = Arrays.asList(
+                "foot",
+                "bike",
+                "electricScooter",
+                "petrolCar",
+                "dieselCar",
+                "hybridCar",
+                "electricCar",
+                "taxi",
+                "bus",
+                "coach",
+                "train",
+                "eurostar",
+                "lightRail",
+                "tram",
+                "subway",
+                "flight",
+                "ferry"
+        );
 
         String responseString = "";
         try {
@@ -27,6 +65,7 @@ public class FileUploadService {
             boolean firstRow = true;
             int distanceIndex = 0, transportIndex = 0, travellers = 0;
 
+            int lineNo = 2;
             while ((line = br.readLine()) != null) {
 
                 List<String> lineData = List.of(line.split(","));
@@ -46,7 +85,12 @@ public class FileUploadService {
                 float distanceKM = Float.parseFloat(lineData.get(distanceIndex));
                 // int travellers = Integer.parseInt(lineData.get(travellersIndex));
 
+                if (!validTravelType.contains(transportType)) {
+                   return new apiResponse("Invalid transport type on line " + lineNo + " of " + file.getOriginalFilename());
+                }
+
                 journeys = journeys.concat((journeys.isEmpty() ? "" : ",") + String.format(template, transportType, distanceKM, travellers));
+                lineNo++;
             }
 
             String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() + String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
