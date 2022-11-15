@@ -1,6 +1,7 @@
 export const params = {
     ip: "localhost",
-    port: 8800
+    port: 8080,
+    endpoint: "/api/get_predictions" 
 };
 
 export const client = {
