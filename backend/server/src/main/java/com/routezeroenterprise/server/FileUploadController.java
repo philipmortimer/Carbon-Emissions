@@ -12,7 +12,7 @@ public class FileUploadController {
     @Autowired
     FileUploadService fileUploadService;
 
-    @PostMapping("/upload")
+    @PostMapping("/api/get_predictions")
     public apiResponse fileUpload(@RequestParam("file") MultipartFile file){
         return fileUploadService.uploadFile((file));
     }
