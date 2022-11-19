@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from "react";
+//custom components
 import { Button } from 'react-bootstrap';
-
+//helpers
+import {fetchPOST} from '../../helpers/fetch.js';
+import {readText} from '../../helpers/file_reader.js';
+//data
+import {params} from '../../data/backend.js';
+//style
 import "./SeePredictions.scss";
 
 export const PredictButton = (props) => {
@@ -27,13 +33,19 @@ export const PredictButton = (props) => {
         : "Please select a file"
     }   
 
+    const loadThenPost = () => {
+        readText(props['file'], (e) => { 
+            fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, e.target.result);
+        });
+    }
+
     useEffect(() => {
         checkValidity();
     }, [props['file']]) //refreshes on updates to props['file']
 
     return(
         <>
-            {props['validity'] === 'valid' ? <Button>See predictions</Button> : <Button disabled>See predictions</Button>}
+            {props['validity'] === 'valid' ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
             <p className="suggestion">{getSuggestion(props['validity'])}</p>
         </>
     )
