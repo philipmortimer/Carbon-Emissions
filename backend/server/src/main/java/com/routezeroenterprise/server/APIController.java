@@ -38,6 +38,11 @@ public class APIController {
         return new apiResponse(responseString);
     }
 
+    @GetMapping("/api/get_predictions") //this is where the frontend will contact the server, we should require the frontend provide an API key to access this API
+    public testAPI getPredictions() {
+        return new testAPI("predictions");
+    }
+
     @GetMapping("/properties")
     public Helper.Properties props(){
         return props;
