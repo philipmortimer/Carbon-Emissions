@@ -39,8 +39,8 @@ public class APIController {
     }
 
     @GetMapping("/api/get_predictions") //this is where the frontend will contact the server, we should require the frontend provide an API key to access this API
-    public testAPI getPredictions() {
-        return new testAPI("predictions");
+    public apiResponse getPredictions() {
+        return new apiResponse("predictions");
     }
 
     @GetMapping("/properties")
