@@ -14,33 +14,33 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-public class testAPIController {
+public class APIController {
 
     private final static String template = "Hello, %s";
     private final static Helper.Properties props = Helper.loadProperties();
 
     @GetMapping("/")
-    public testAPI apiCall(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new testAPI(String.format(template, name));
+    public apiResponse apiCall(@RequestParam(value = "name", defaultValue = "World") String name) {
+        return new apiResponse(String.format(template, name));
     }
 
     @GetMapping("/rz_call")
-    public testAPI rzCall() throws IOException {
+    public apiResponse rzCall() throws IOException {
         //prediction api takes POST requests
         //testing calling the routezero api from our api
         if(Helper.getApiKey().contains("Error")){
-            return new testAPI(Helper.getApiKey());
+            return new apiResponse(Helper.getApiKey());
         }
 
         String jsonString = "{\"apiKey\":\""+Helper.getApiKey()+"\",\"id\":\"id\",\"journeys\":[{\"transport\":{\"type\":\"flight\"},\"distanceKm\":480,\"travellers\":2},{\"transport\":{\"type\":\"electricScooter\"},\"distanceKm\":2.1,\"travellers\":1}]}";
         String responseString = Helper.postJsonAsString(props.getEmissionsEndpoint(), jsonString);
 
-        return new testAPI(responseString);
+        return new apiResponse(responseString);
     }
 
     @GetMapping("/api/get_predictions") //this is where the frontend will contact the server, we should require the frontend provide an API key to access this API
-    public testAPI getPredictions() {
-        return new testAPI("predictions");
+    public apiResponse getPredictions() {
+        return new apiResponse("predictions");
     }
 
     @GetMapping("/properties")
