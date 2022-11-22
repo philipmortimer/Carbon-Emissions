@@ -12,8 +12,6 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
             //'Access-Control-Allow-Origin': 'localhost:3000',//`${params.ip}:${params.port}`,
-            'Access-Control-Allow-Origin': "*",
-            'Access-Control-Allow-Methods': "GET, PUT, POST, DELETE, HEAD, OPTIONS",
             'Content-Type': 'application/json'
             // 'Access-Control-Allow-Credentials': true
         },
@@ -24,16 +22,16 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
 
     console.log(request);
 
-    fetch(url, request)
+    return fetch(url, request)
     .then((raw) => {
         return raw.json()
     })
     .then((data) => {
         console.log(data);
+        return data;
     })
     .catch((err) => {
         console.log(`error when fetching from ${url}; ${err}`);
+        return "error";
     });
-
-
 }

@@ -8,7 +8,7 @@ export const UploadButton = (props) => {
 
     useEffect(() => {
         setFileInput(document.getElementById("file-input"));
-    }, []);
+    }, [props.validity]);
 
     const handleClicked = () => { //opens file explorer
         fileInput.click();
