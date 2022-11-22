@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 export const UploadButton = (props) => {
 
     const [fileInput, setFileInput] = useState(null); //for handling file input 
-    const [fileName , setFileName ] = useState(null); //for displaying the file name
 
     useEffect(() => {
         setFileInput(document.getElementById("file-input"));
@@ -17,7 +16,6 @@ export const UploadButton = (props) => {
     const handleUpload = () => { //sets the current file via hoisted setter
         let f = fileInput.files[0];
         if(f){
-            setFileName(f.name);
             console.log(f);
             props['setFile'](f);
             // let data = new FormData();
@@ -29,7 +27,7 @@ export const UploadButton = (props) => {
     return (
         <>
             <input id="file-input" onChange={handleUpload} className="d-none" type="file" />
-            <Button className={`btn-${props['validity'] === 'valid' ? "success" : props['validity'] === 'invalid_extension' ? "danger" : "primary"}`}onClick={handleClicked}>{fileName ? `${fileName.slice(0, 15)}${fileName.length > 15 ? "...": ""}` : "Upload" }</Button>
+            <Button className={`btn-${props['validity'] === 'valid' ? "success" : props['validity'] === 'invalid_extension' ? "danger" : "primary"}`}onClick={handleClicked}>{props.file ? `${props.file.name.slice(0, 15)}${props.file.name.length > 15 ? "...": ""}` : "Upload" }</Button>
         </>
     );
 }

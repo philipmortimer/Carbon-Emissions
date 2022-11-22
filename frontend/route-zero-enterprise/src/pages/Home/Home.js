@@ -23,7 +23,7 @@ export const Home = (props) => {
                     <PromptSchemaCSV className="homepage-csv-schema"/>
                 </div>
                 <div className="buttons">
-                    <UploadButton setFile={props.setFile} validity={props.validity}/>
+                    <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
                     <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
                 </div>
             </div>
