@@ -1,21 +1,30 @@
+import {params} from '../data/frontend.js';
+
 export const fetchPOST = async (url, data) => { //temporarily, this function only logs to the console and returns nothing
 
     //console.log(data)
     //console.log(JSON.stringify(data))
 
-    fetch(url, {
+    let request = {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
+            //'Access-Control-Allow-Origin': 'localhost:3000',//`${params.ip}:${params.port}`,
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Methods': "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+            'Content-Type': 'application/json'
+            // 'Access-Control-Allow-Credentials': true
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-    })
+        body: data // body data type must match "Content-Type" header
+    };
+
+    console.log(request);
+
+    fetch(url, request)
     .then((raw) => {
         return raw.json()
     })
@@ -23,7 +32,7 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         console.log(data);
     })
     .catch((err) => {
-        console.log(`error when fetching (POST) from ${url}; ${err}`);
+        console.log(`error when fetching from ${url}; ${err}`);
     });
 
 
