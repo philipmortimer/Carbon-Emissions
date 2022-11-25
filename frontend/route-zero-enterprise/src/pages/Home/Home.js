@@ -7,12 +7,7 @@ import { PromptSchemaCSV } from '../../components/Prompts/Prompts.js';
 
 import "./Home.scss";
 
-export const Home = () => {
-
-    //hoisted from button components to share between them
-    const [file, setFile] = useState(null); //current file
-    const [validity, setValidity] = useState("no_file"); //no upload
-
+export const Home = (props) => {
 
     useEffect(() => {
         document.title = "Upload Travel Data | RouteZero"
@@ -28,8 +23,8 @@ export const Home = () => {
                     <PromptSchemaCSV className="homepage-csv-schema"/>
                 </div>
                 <div className="buttons">
-                    <UploadButton setFile={setFile} validity={validity}/>
-                    <PredictButton file={file} validity={validity} setValidity={setValidity}/>
+                    <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
+                    <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
                 </div>
             </div>
         </div>    

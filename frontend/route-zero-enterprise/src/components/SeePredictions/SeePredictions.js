@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useNavigate } from 'react-router-dom';
 //custom components
 import { Button } from 'react-bootstrap';
 //helpers
@@ -12,6 +13,8 @@ import "./SeePredictions.scss";
 export const PredictButton = (props) => {
 
     // const [validity, setValidity] = useState("no_file"); //no upload
+    const [loading, setLoading] = useState("loaded");
+    const navigate = useNavigate();
 
     const checkValidity = () => {
         if(props['file'] !== null){
@@ -34,8 +37,15 @@ export const PredictButton = (props) => {
     }   
 
     const loadThenPost = () => {
-        readText(props['file'], (e) => { 
-            fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, e.target.result);
+        setLoading("loading")
+        readText(props['file'], async (e) => { 
+            fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, e.target.result)
+            .then((data) => { 
+                //once we load in with the data we redirect to the view page 
+                props.setResponse(data);
+                setLoading("loaded");
+                navigate("/view");
+            });
         });
     }
 
@@ -45,7 +55,7 @@ export const PredictButton = (props) => {
 
     return(
         <>
-            {props['validity'] === 'valid' ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
+            {(props['validity'] === 'valid' && loading === "loaded") ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
             <p className="suggestion">{getSuggestion(props['validity'])}</p>
         </>
     )

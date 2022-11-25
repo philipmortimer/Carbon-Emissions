@@ -8,7 +8,7 @@ import {Logo} from "../Logo/Logo.js";
 
 import "./Hero.scss";
 
-export const Hero = () => {
+export const Hero = (props) => {
     return(
         <>
         <Navbar bg="light" variant="light">
@@ -16,7 +16,7 @@ export const Hero = () => {
             <Navbar.Brand className="navbar-brand" href="https://routezero.world/"><Logo/>{/*RouteZero*/}</Navbar.Brand>
             <Nav className="me-auto">
                 <Link className="nav-link" to="/">Upload</Link>
-                <Link className="nav-link" to="/graph">View</Link>
+                <Link className="nav-link" id={"view-link" + (props.response === null ? "-disabled" : "")} to={props.response === null ? "/" : "/view"}>View</Link>
             </Nav>
             </Container>
         </Navbar>
