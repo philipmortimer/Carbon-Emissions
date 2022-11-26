@@ -1,5 +1,6 @@
 # Route Zero Enterprise Carbon Savings Prediction
 ## Index
+<<<<<<< HEAD
 - [Overview](#overview)
 - [Starting our app](#startup-guides)
 - [Starting our frontend](#starting-our-frontend)
@@ -8,6 +9,12 @@
 - [User journeys](#user-journeys)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
+=======
+  - [Overview](#overview)
+  - [User Journeys](#user-journeys)
+  - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
+  - [Run this app](#run-this-app)
+>>>>>>> 88ea8a235c7109312a870a66befb48f7883dda24
 ----
 ## Overview
 
@@ -136,3 +143,10 @@ They get back a panel containing two graphs on the right, and a selection of pol
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
 [View our Gantt chart](https://uob-my.sharepoint.com/:x:/g/personal/ai20192_bristol_ac_uk/EQ2tWVFm5X9EnJw5EIE3zg8BsSrJ3WRx1I6BgtUecnVbBg?e=OYrvjc) (Excel)\
 If you are unable to access/edit either of these, and feel you should be able to, you may [request access](mailto:np21862@bristol.ac.uk).
+<<<<<<< HEAD
+=======
+
+## Run this app
+[Starting our Frontend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/dev/frontend/route-zero-enterprise/README.md) \
+[Starting our Backend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/main/backend/README.md)
+>>>>>>> 88ea8a235c7109312a870a66befb48f7883dda24

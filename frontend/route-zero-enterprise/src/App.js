@@ -1,28 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  Navigate
 } from "react-router-dom";
 
 import {Home} from "./pages/Home/Home.js";
-import {Graph} from "./pages/Graph/Graph.js";
+import {View} from "./pages/Graph/View.js";
 import {Hero} from "./components/Hero/Hero.js";
+import {Content} from "./components/Content/Content.js";
 
 //import Button from 'react-bootstrap/Button';
 
 function App() {
+
+  //hoisted from button components to share between pages (home, view)
+  const [file, setFile] = useState(null); //current file
+  const [response, setResponse] = useState(null); //JSON data returned from server
+  const [validity, setValidity] = useState("no_file"); //no upload
+
   return (
     <>
       <Router className="router">
-        <Hero/>
-
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/graph" element={<Graph/>}/>
-        </Routes>
+        <Hero response={response}/>
+        <Content child={
+                  <Routes>  
+                  <Route path="/" element={<Home file={file} setFile={setFile} validity={validity} setValidity={setValidity} setResponse={setResponse}/>} />
+                  <Route path="/view" element={<View file={file} setFile={setFile} response={response}/>}/>
+                </Routes>
+        }></Content>
       </Router>
     </>
   );
