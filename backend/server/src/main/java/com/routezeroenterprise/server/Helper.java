@@ -11,6 +11,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class Helper {
@@ -42,15 +43,16 @@ public class Helper {
     }
     //java class to turn our properties json into
     static public class Properties {
-        public String emissionsEndpoint;
+        private String emissionsEndpoint;
+        private String frontendAddress;
 
-        public void setRouteZeroEndpoint(String endpoint){
-            emissionsEndpoint = endpoint;
-        }
+        public void setEmissionsEndpoint(String endpoint){ emissionsEndpoint = endpoint; }
+        public void setFrontendAddress(String address) { frontendAddress = address; }
 
         public String getEmissionsEndpoint(){
             return emissionsEndpoint;
         }
+        public String getFrontendAddress() { return frontendAddress; }
     }
 
     //general error function to be used where possible

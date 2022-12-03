@@ -1,3 +1,4 @@
 {
-  "emissionsEndpoint": "https://predict-qzzieui6kq-ew.a.run.app"
+  "emissionsEndpoint": "https://predict-qzzieui6kq-ew.a.run.app",
+  "frontendAddress": "localhost:3000"
 }
