@@ -2,7 +2,8 @@ import React, {useEffect} from "react";
 import {Container} from "react-bootstrap";
 
 import {readText} from '../../helpers/file_reader.js';
-import {Chart} from '../../components/Chart/Chart.js';
+import {JourneysChart} from '../../components/Chart/JourneysChart.js';
+import {EmissionsChart} from '../../components/Chart/EmmissionsChart.js';
 
 import "./View.scss";
 
@@ -19,19 +20,19 @@ export const View = (props) => {
                 <div className="cell">
                     <h2>Before</h2>
                     <div className="Chart">
-                        <Chart/>
+                        <JourneysChart/>
                     </div>
                     <div className="Chart">
-                        <Chart/>
+                        <EmissionsChart/>
                     </div>
                 </div>
                 <div className="cell">
                     <h2>After</h2>
                     <div className="Chart">
-                        <Chart/>
+                        <JourneysChart/>
                     </div>
                     <div className="Chart">
-                        <Chart/>
+                        <EmissionsChart/>
                     </div>
                 </div>
             </div>
