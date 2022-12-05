@@ -1,6 +1,6 @@
 # Route Zero Enterprise Carbon Savings Prediction
 ## Index
-<<<<<<< HEAD
+
 - [Overview](#overview)
 - [Starting our app](#startup-guides)
 - [Starting our frontend](#starting-our-frontend)
@@ -9,13 +9,7 @@
 - [User journeys](#user-journeys)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
-=======
-  - [Overview](#overview)
-  - [User Journeys](#user-journeys)
-  - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
-  - [Run this app](#run-this-app)
->>>>>>> 88ea8a235c7109312a870a66befb48f7883dda24
-----
+
 ## Overview
 
 _RouteZero's route planning, carbon analytics, and social media tools help your company cut business travel time & cost, while reaching your Net-Zero goals._ - [RouteZero](https://enterprise.routezero.world/)
