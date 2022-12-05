@@ -11,6 +11,7 @@ import {EmissionsChart2} from "../../components/Chart/EmissionsChart2";
 
 export const View = (props) => {
 
+
     useEffect(() => {
         document.title = "Graphs | RouteZero"
     }, []);
