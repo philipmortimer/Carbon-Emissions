@@ -3,6 +3,11 @@ import Chart from 'chart.js/auto'
 
 export const EmissionsChart2 = (props) => {
 
+    let color = 'rgb(153, 242, 199)'
+    if(props.chartId === '4'){
+        color = 'rgb(0, 223, 116)'
+    }
+
     useEffect(() => {
         const ctx = document.getElementById(props.chartId);
         const myChart = new Chart(ctx, {
@@ -12,8 +17,8 @@ export const EmissionsChart2 = (props) => {
                 datasets: [
                     {
                         data: [12, 19, 3, 5],
-                        backgroundColor: "lightgreen",
-                        borderColor: "lightgreen",
+                        backgroundColor: color,
+                        borderColor: color,
                         borderWidth: 1,
                         borderRadius: 10
                     }
@@ -24,14 +29,34 @@ export const EmissionsChart2 = (props) => {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Emissions (kgCO2e)',
+                        text: '        Emissions (kgCO2e)',
+                        position: 'top',
+                        align: 'start',
                         font: {
-                            size: 15,
-                            family: "tahoma"
-                        }
+                            size: 12,
+                            family: "tahoma",
+                        },
+                        padding: 15
                     },
                     legend: {
                         display: false
+                    }
+                },
+                scales: {
+                    y :{
+                        border: {
+                            width: 3,
+                            color: 'lightgrey'
+                        }
+                    },
+                    x: {
+                        border: {
+                            width: 3,
+                            color: 'lightgrey'
+                        },
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }

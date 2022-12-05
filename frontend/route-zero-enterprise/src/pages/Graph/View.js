@@ -20,7 +20,7 @@ export const View = (props) => {
             <p>{JSON.stringify(props.response)}</p>
             <div className="center-grid">
                 <div className="cell">
-                    <h2>Before</h2>
+                    <h2 id='h2'>Before</h2>
                     <div className="Chart">
                         <JourneysChart2 chartId="1"/>
                     </div>
@@ -29,7 +29,7 @@ export const View = (props) => {
                     </div>
                 </div>
                 <div className="cell">
-                    <h2>After</h2>
+                    <h2 id='h2'>After</h2>
                     <div className="Chart">
                         <JourneysChart2 chartId="3"/>
                     </div>
