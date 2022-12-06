@@ -1,5 +1,5 @@
 export const params = {
-    ip: "localhost",
-    port: 8080,
+    ip: "https://application-e8.vzjfxzf7sdt.eu-gb.codeengine.appdomain.cloud",
+    port: 443,
     endpoint: "/get_predictions" 
 };
