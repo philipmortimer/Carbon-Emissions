@@ -136,11 +136,21 @@ They get back a panel containing two graphs on the right, and a selection of pol
 
 **Large incentivized business**, the journey will look similar. They may have a lot more data, which will possibly afford them more policy options that display on their left.
 
+## User Stories of RouteZero
+**Carbon calculator: enterprises with unknown travel emissions**
+Small to Medium Sized Enterprises (SMEs) are not required to track their travel emissions, and so many are unaware of how large their travel emissions are. In this case, the tool allows staff (e.g. sustainability manager, founder, etc) to enter travel information they have readily available, and receive an accurate estimate of their travel emissions. This helps the SME understand where their emissions come from, and whether travel should be a priority.
+
+**Carbon calculator: more accurate emissions estimates**
+Many SMEs rely on carbon calculators that use a “spend-based” method to calculate total company emissions. However, these calculators produce inaccurate estimates (spend is a less than ideal proxy for carbon emissions). In this case, the tool allows staff (e.g. sustainability manager, founder, etc) to enter travel information they have readily available, and receive a more accurate estimate of their travel emissions. This helps ensure the SME can tackle their whole footprint - i.e. that they’re not underestimating their emissions.
+
+**Providing unique insight**
+Many large businesses (1000+ employees) have dedicated sustainability teams and have a good understanding of where their emissions come from (e.g. manufacturing, offices, travel, etc). However, due to a lack of data, these sustainability teams find it hard to estimate costs and carbon savings for different interventions (e.g. only allowing economy flights under 500 miles, running monthly competitions for carbon savings, introducing carbon budgets, etc). In this case, the tool helps a large enterprise understand the cost and carbon implications for adopting RouteZero, and various carbon cutting interventions.
+
+**Conflict resolution**
+Large organisations (250+ employees) usually have separate teams for sustainability and procurement/travel management, each with separate KPIs - sustainability teams focus on trying to cut emissions, while procurement try to drive down business running costs. This may lead to conflict when these goals are opposed, e.g. adopting a more expensive procedure to cut emissions. In this case, the tool helps enterprises find carbon cutting measures, while minimising costs.
+
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
 [View our Gantt chart](https://uob-my.sharepoint.com/:x:/g/personal/ai20192_bristol_ac_uk/EQ2tWVFm5X9EnJw5EIE3zg8BsSrJ3WRx1I6BgtUecnVbBg?e=OYrvjc) (Excel)\
 If you are unable to access/edit either of these, and feel you should be able to, you may [request access](mailto:np21862@bristol.ac.uk).
-<<<<<<< HEAD
-=======
->>>>>>> 34dbf2f607159559d77a2aab78be53c4eebd02da
