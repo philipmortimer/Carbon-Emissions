@@ -30,7 +30,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**. 
+Before you can run any of the below, please run ``npm install`` in **this directory**.
 
 ### Available Scripts
 
@@ -141,3 +141,6 @@ They get back a panel containing two graphs on the right, and a selection of pol
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
 [View our Gantt chart](https://uob-my.sharepoint.com/:x:/g/personal/ai20192_bristol_ac_uk/EQ2tWVFm5X9EnJw5EIE3zg8BsSrJ3WRx1I6BgtUecnVbBg?e=OYrvjc) (Excel)\
 If you are unable to access/edit either of these, and feel you should be able to, you may [request access](mailto:np21862@bristol.ac.uk).
+<<<<<<< HEAD
+=======
+>>>>>>> 34dbf2f607159559d77a2aab78be53c4eebd02da
