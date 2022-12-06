@@ -17,7 +17,8 @@ import java.nio.charset.StandardCharsets;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@CrossOrigin(origins = "localhost:3000")
+//@CrossOrigin(origins = {"localhost:3000", "https://rz-frontend.vzjfxzf7sdt.eu-gb.codeengine.appdomain.cloud/"})
+@CrossOrigin(origins = "*")
 @RestController
 public class APIController {
 
