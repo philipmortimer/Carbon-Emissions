@@ -39,7 +39,7 @@ export const PredictButton = (props) => {
         setLoading("loading")
         props['file']
         .text()
-        .then((text) => fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, text))
+        .then((text) => fetchPOST(`${params.ip}:${params.port}${params.endpoint}`, text))
         .then((json) => {
             props.setResponse(json);
             setLoading("loaded");
