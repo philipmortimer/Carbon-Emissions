@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import {Home} from "./pages/Home/Home.js";
-import {View} from "./pages/Graph/View.js";
+import {View} from "./pages/View/View.js";
 import {Hero} from "./components/Hero/Hero.js";
 import {Content} from "./components/Content/Content.js";
 

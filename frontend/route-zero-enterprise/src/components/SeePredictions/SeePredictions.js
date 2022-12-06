@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 //helpers
 import {fetchPOST} from '../../helpers/fetch.js';
-import {readText} from '../../helpers/file_reader.js';
 //data
 import {params} from '../../data/backend.js';
 //style
@@ -38,15 +37,25 @@ export const PredictButton = (props) => {
 
     const loadThenPost = () => {
         setLoading("loading")
-        readText(props['file'], async (e) => { 
-            fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, e.target.result)
-            .then((data) => { 
-                //once we load in with the data we redirect to the view page 
-                props.setResponse(data);
-                setLoading("loaded");
-                navigate("/view");
-            });
-        });
+        props['file']
+        .text()
+        .then((text) => fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, text))
+        .then((json) => {
+            props.setResponse(json);
+            setLoading("loaded");
+            navigate("/view");
+        })
+
+        // readText(props['file'], async (e) => { 
+        //     fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, e.target.result)
+        //     .then((data) => { 
+        //         //once we load in with the data we redirect to the view page 
+        //         props.setResponse(data);
+        //         setLoading("loaded");
+        //         navigate("/view");
+        //     });
+        // });
+        
     }
 
     useEffect(() => {
