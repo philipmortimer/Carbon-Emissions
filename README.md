@@ -1,6 +1,5 @@
 # Route Zero Enterprise Carbon Savings Prediction
 ## Index
-
 - [Overview](#overview)
 - [Starting our app](#startup-guides)
 - [Starting our frontend](#starting-our-frontend)
@@ -9,7 +8,7 @@
 - [User journeys](#user-journeys)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
-
+----
 ## Overview
 
 _RouteZero's route planning, carbon analytics, and social media tools help your company cut business travel time & cost, while reaching your Net-Zero goals._ - [RouteZero](https://enterprise.routezero.world/)
@@ -20,8 +19,6 @@ This will have two main components:
 - Front-end created in React
 - A backend API in SpringBoot to interface with RouteZero's API
 
-
-
 ## Startup guides
 
 
@@ -30,6 +27,10 @@ This will have two main components:
 ### Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+### Installing dependancies (prerequisite)
+
+Before you can run any of the below, please run ``npm install`` in **this directory**.
 
 ### Available Scripts
 
@@ -42,6 +43,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+If you're testing the frontend with a locally hosted backend, to avoid CORS issues, please visit the website in Chrome by starting it with the following settings, from console:
+- Ubuntu: ``google-chrome --disable-site-isolation-trials --disable-web-security --user-data-dir="~/tmp"``
+- Windows: ``todo``
 
 #### `npm test`
 
@@ -98,7 +103,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-
 ## Starting our Backend
 
 ### Getting the server running
@@ -139,8 +143,4 @@ They get back a panel containing two graphs on the right, and a selection of pol
 If you are unable to access/edit either of these, and feel you should be able to, you may [request access](mailto:np21862@bristol.ac.uk).
 <<<<<<< HEAD
 =======
-
-## Run this app
-[Starting our Frontend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/dev/frontend/route-zero-enterprise/README.md) \
-[Starting our Backend](https://github.com/spe-uob/2022-RouteZeroCarbonSavings/blob/main/backend/README.md)
->>>>>>> 88ea8a235c7109312a870a66befb48f7883dda24
+>>>>>>> 34dbf2f607159559d77a2aab78be53c4eebd02da
