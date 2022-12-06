@@ -11,7 +11,7 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
-            //'Access-Control-Allow-Origin': 'localhost:3000',//`${params.ip}:${params.port}`,
+            'Access-Control-Allow-Origin': 'localhost:3000',//`${params.ip}:${params.port}`,
             'Content-Type': 'application/json'
             // 'Access-Control-Allow-Credentials': true
         },

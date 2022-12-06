@@ -17,12 +17,13 @@ import java.nio.charset.StandardCharsets;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@CrossOrigin(origins = "localhost:3000")
+//@CrossOrigin(origins = {"localhost:3000", "https://rz-frontend.vzjfxzf7sdt.eu-gb.codeengine.appdomain.cloud/"})
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class APIController {
 
     private final static String template = "Hello, %s";
-    private final static String frontendAddress = "localhost:3000";  //since this value HAS to be constant, we will need to change it manually
+    //private final static String frontendAddress = "localhost:3000";  //since this value HAS to be constant, we will need to change it manually
     private final static Helper.Properties props = Helper.loadProperties();
     private final FileUploadService fs = new FileUploadService();
 
@@ -45,17 +46,18 @@ public class APIController {
 //        return new apiResponse(responseString);
 //    }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, path = "/get_predictions")
     //@GetMapping("/get_predictions") //this is where the frontend will contact the server, we should require the frontend provide an API key to access this API
     public ResponseEntity<String> getPredictions(@RequestBody String csv) throws IOException {
         System.out.println(csv);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Access-Control-Allow-Origin", frontendAddress);
+        //HttpHeaders responseHeaders = new HttpHeaders();
+        //responseHeaders.set("Access-Control-Allow-Origin", frontendAddress);
 
         //apiResponse res = fs.uploadFile(csv);
 
         return ResponseEntity.ok()
-                .headers(responseHeaders)
+                //.headers(responseHeaders)
                 .body(fs.upload(csv, null).getResponse()); //will delegate call to required method
     }
 

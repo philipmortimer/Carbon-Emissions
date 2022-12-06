@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 //helpers
 import {fetchPOST} from '../../helpers/fetch.js';
 //data
-import {params} from '../../data/backend.js';
+import {exposedEndpoints} from '../../data/backend.js';
 //style
 import "./SeePredictions.scss";
 
@@ -39,7 +39,7 @@ export const PredictButton = (props) => {
         setLoading("loading")
         props['file']
         .text()
-        .then((text) => fetchPOST(`${params.ip}:${params.port}${params.endpoint}`, text))
+        .then((text) => fetchPOST(`${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, text))
         .then((json) => {
             props.setResponse(json);
             setLoading("loaded");
@@ -47,7 +47,7 @@ export const PredictButton = (props) => {
         })
 
         // readText(props['file'], async (e) => { 
-        //     fetchPOST(`http://${params.ip}:${params.port}${params.endpoint}`, e.target.result)
+        //     fetchPOST(`http://${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, e.target.result)
         //     .then((data) => { 
         //         //once we load in with the data we redirect to the view page 
         //         props.setResponse(data);
