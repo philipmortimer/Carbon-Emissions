@@ -19,8 +19,6 @@ This will have two main components:
 - Front-end created in React
 - A backend API in SpringBoot to interface with RouteZero's API
 
-
-
 ## Startup guides
 
 
@@ -29,6 +27,10 @@ This will have two main components:
 ### Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+### Installing dependancies (prerequisite)
+
+Before you can run any of the below, please run ``npm install`` in **this directory**.
 
 ### Available Scripts
 
@@ -41,6 +43,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+If you're testing the frontend with a locally hosted backend, to avoid CORS issues, please visit the website in Chrome by starting it with the following settings, from console:
+- Ubuntu: ``google-chrome --disable-site-isolation-trials --disable-web-security --user-data-dir="~/tmp"``
+- Windows: ``todo``
 
 #### `npm test`
 
@@ -97,7 +103,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-
 ## Starting our Backend
 
 ### Getting the server running
@@ -130,6 +135,19 @@ They will be able to access the landing page of our app where they will be able 
 They get back a panel containing two graphs on the right, and a selection of policies to enforce low-carbon travel. By selecting these policies the company is able to manage effect against budget. This is a small company that may not have the incentive or capital to go all in, and our app will allow them to start small.
 
 **Large incentivized business**, the journey will look similar. They may have a lot more data, which will possibly afford them more policy options that display on their left.
+
+## User Stories of RouteZero
+**Carbon calculator: enterprises with unknown travel emissions**
+Small to Medium Sized Enterprises (SMEs) are not required to track their travel emissions, and so many are unaware of how large their travel emissions are. In this case, the tool allows staff (e.g. sustainability manager, founder, etc) to enter travel information they have readily available, and receive an accurate estimate of their travel emissions. This helps the SME understand where their emissions come from, and whether travel should be a priority.
+
+**Carbon calculator: more accurate emissions estimates**
+Many SMEs rely on carbon calculators that use a “spend-based” method to calculate total company emissions. However, these calculators produce inaccurate estimates (spend is a less than ideal proxy for carbon emissions). In this case, the tool allows staff (e.g. sustainability manager, founder, etc) to enter travel information they have readily available, and receive a more accurate estimate of their travel emissions. This helps ensure the SME can tackle their whole footprint - i.e. that they’re not underestimating their emissions.
+
+**Providing unique insight**
+Many large businesses (1000+ employees) have dedicated sustainability teams and have a good understanding of where their emissions come from (e.g. manufacturing, offices, travel, etc). However, due to a lack of data, these sustainability teams find it hard to estimate costs and carbon savings for different interventions (e.g. only allowing economy flights under 500 miles, running monthly competitions for carbon savings, introducing carbon budgets, etc). In this case, the tool helps a large enterprise understand the cost and carbon implications for adopting RouteZero, and various carbon cutting interventions.
+
+**Conflict resolution**
+Large organisations (250+ employees) usually have separate teams for sustainability and procurement/travel management, each with separate KPIs - sustainability teams focus on trying to cut emissions, while procurement try to drive down business running costs. This may lead to conflict when these goals are opposed, e.g. adopting a more expensive procedure to cut emissions. In this case, the tool helps enterprises find carbon cutting measures, while minimising costs.
 
 
 ## Group notes and Gantt chart
