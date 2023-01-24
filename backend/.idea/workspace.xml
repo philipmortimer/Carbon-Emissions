@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4e91c64-9742-4883-914b-6a4f2d03ee80" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/routezeroenterprise/server/APIController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/routezeroenterprise/server/APIController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/routezeroenterprise/server/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/routezeroenterprise/server/Helper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/properties.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/properties.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/route-zero-enterprise/src/data/backend.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/route-zero-enterprise/src/data/backend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/route-zero-enterprise/src/helpers/fetch.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/route-zero-enterprise/src/helpers/fetch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/route-zero-enterprise/src/helpers/chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/route-zero-enterprise/src/helpers/chart.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,19 +27,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/home/elliot/Documents/computer-science/year-2/tb4/spe/2022-RouteZeroCarbonSavings/backend/server",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/phili/Documents/University/Second Year/TB4/SPE/2022-RouteZeroCarbonSavings/backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -51,6 +54,8 @@
       <option name="presentableId" value="Default" />
       <updated>1668975677197</updated>
       <workItem from="1668975678398" duration="24000" />
+      <workItem from="1674560397130" duration="5795000" />
+      <workItem from="1674579796295" duration="2806000" />
     </task>
     <servers />
   </component>
