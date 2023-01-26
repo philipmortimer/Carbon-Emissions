@@ -60,7 +60,8 @@ export const PredictButton = (props) => {
 
     useEffect(() => {
         checkValidity();
-    }, [props['file']]) //refreshes on updates to props['file']
+    }, [props.file]) //refreshes on updates to props['file']
+    
 
     return(
         <>

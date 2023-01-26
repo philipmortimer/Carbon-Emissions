@@ -1,4 +1,3 @@
-import {params} from '../data/frontend.js';
 
 export const fetchPOST = async (url, data) => { //temporarily, this function only logs to the console and returns nothing
 

@@ -52,7 +52,7 @@ export const tallyList = (xs) => {
  
 //gets only the distinct items of a list
 export const listToSet = (xs) => { 
-    return [... new Set(xs)]
+    return [...new Set(xs)];
 }
 
 export const mapToPairs = (keys, tally) => {
@@ -136,9 +136,11 @@ export const predictJourneyBars = (response) => {
             }else{
                 transportTally[transport] += alternative.probability;
             }
+            return alternative; //warning about void arrow function mitigated; no longer mutates predict.alternatives
         });
+        return predict; //warning about void arrow function mitigated; no longer mutates response.predictions
     });
-    const transportList = new Array(... transportSet);
+    const transportList = new Array(...transportSet);
     const pairs = mapToPairs(transportList, transportTally);
 
     return transform(pairs, 0.5);

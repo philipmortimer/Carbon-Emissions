@@ -1,15 +1,15 @@
 import React, {useEffect} from "react";
 import Chart from 'chart.js/auto';
 
-export const BarChart = (props) => {
+export const BarChart = ({chartId,  header, bars}) => {
 
     useEffect(() => {
-        const ctx = document.getElementById(props.chartId);
-        if(props.bars !== undefined){
+        const ctx = document.getElementById(chartId);
+        if(bars !== undefined){
 
-            const labels = props.bars.map(x => x[0]);
-            const values = props.bars.map(x => x[1]);
-            const header = props.header;
+            const labels = bars.map(x => x[0]);
+            const values = bars.map(x => x[1]);
+            // const header = header;
 
             const myChart = new Chart(ctx, {
                 type: "bar",
@@ -56,10 +56,11 @@ export const BarChart = (props) => {
                 myChart.destroy()
             }
         }
-    }, [props.bars]);
+    }, [bars, chartId, header]);
+    // 01/26/23 chardID and header were added to mitigate 'react-hooks/exhaustive-deps' warning
 
     return (
-        <canvas id={props.chartId}/>
+        <canvas id={chartId}/>
     )
 
 }

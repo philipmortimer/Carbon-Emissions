@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from "react";
-import { Button, Row, Col, Container } from 'react-bootstrap';
+import React, {useEffect} from "react";
 
 import { UploadButton } from '../../components/Upload/Upload.js';
 import { PredictButton } from '../../components/SeePredictions/SeePredictions.js';
