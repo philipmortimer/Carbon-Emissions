@@ -19,14 +19,14 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         body: data // body data type must match "Content-Type" header
     };
 
-    console.log(request);
+    //console.log(request);
 
     return fetch(url, request)
     .then((raw) => {
         return raw.json()
     })
     .then((data) => {
-        console.log(data);
+        //console.log(data);
         return data;
     })
     .catch((err) => {

@@ -98,7 +98,7 @@ export const emissionBars = (csvBlob, response, fieldName) => {
             return x;
         }); //fresh map
         transports.map((x, i) => {
-            co2Tally[x] += response.predictions[i][fieldName];
+            co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i][fieldName]; //handles undefined 
             return x;
         })
         const pairs = mapToPairs(uniqueTransports, co2Tally);

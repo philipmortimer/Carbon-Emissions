@@ -35,7 +35,7 @@ export const View = (props) => {
                 setPredictEmissions(pairs);
             })
         }
-    }, [props.setFile]);
+    }, [props.setFile, props.file, props.response]);
     
     return(<>
             <h1>Visualisation</h1>
