@@ -4,6 +4,7 @@
 - [Starting our app](#startup-guides)
 - [Starting our frontend](#starting-our-frontend)
 - [Starting our backend](#starting-our-backend)
+- [Generating Docker Images](#generating-docker-images)
 - [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
@@ -18,6 +19,24 @@ The Enterprise Carbon Savings Prediction web application aims to provide accurat
 This will have two main components:
 - Front-end created in React
 - A backend API in SpringBoot to interface with RouteZero's API
+
+### Repository Structure
+
+```
+├── backend
+│   ├── README.md
+│   ├── server
+│   └── server.iml
+├── docs
+│   ├── ETHICS.md
+│   └── stakeholders-and-user-stories.txt
+├── frontend
+│   ├── package-lock.json
+│   └── route-zero-enterprise
+├── LICENSE.md
+└── README.md
+
+```
 
 ## Startup guides
 
@@ -121,6 +140,21 @@ Using IntelliJ's builtin terminal:
 Note that the server will run on port 8080 by default.
 To change that, change the value of `server.port` in the *application.properties* file in **./server/src/main/resources**
 
+## Generating Docker Images
+
+### For the Frontend
+
+Currently ``compose.yaml`` contains the ports of the image, these are subject to change (currently set 3000:3000)
+To generate the *production-build* version of our project, running NGINX, follow the steps below:
+- Open Docker Desktop
+- Delete any old images of the frontend you have 
+- Navigate to the root of the React App
+- Run ``docker compose up -d``
+- Test that it is running by visiting ``localhost:3000`` **after shutting down** the development React build 
+
+### For the Backend
+
+``TODO``
 
 ## Concepts and planning
 ### Early design diagrams

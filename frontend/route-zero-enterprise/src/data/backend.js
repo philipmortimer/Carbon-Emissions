@@ -1,4 +1,4 @@
-const deployed = false;
+const deployed = true;
 
 const deploy = {
     ip: "https://application-e8.vzjfxzf7sdt.eu-gb.codeengine.appdomain.cloud",
