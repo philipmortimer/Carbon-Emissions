@@ -65,7 +65,12 @@ export const mapToPairs = (keys, tally) => {
 }
 
 export const getTransportsCSV = (text) => {
-    return text.split(/[\r\n]/).slice(1).map(x => x.split(',').at(-1));
+    /* Converts text into transports using the following transformations:
+    - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
+    - Slices the nought element as element 0 is just the field headings
+    - Splits the record by comma and accesses the transport method (last element of record)
+    */
+    return text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1));
 }
 
 export const journeyBars = (csvBlob) => {
@@ -115,7 +120,7 @@ export const transform = (xs, lowerCutoff) => {
             return [x[0], -1];
         }
     });
-    const xsFilter = xsMap.filter(x => x[1] != -1); //removes those set to be removed
+    const xsFilter = xsMap.filter(x => x[1] !== -1); //removes those set to be removed
     return xsFilter;
 }
 
