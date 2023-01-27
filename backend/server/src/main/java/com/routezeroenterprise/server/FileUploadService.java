@@ -94,7 +94,7 @@ public class FileUploadService {
             }
 
             String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() + String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
-            System.out.println(jsonString);
+            //System.out.println(jsonString);
 
             responseString = Helper.postJsonAsString(props.getEmissionsEndpoint(), jsonString);
         } catch (Exception e) {

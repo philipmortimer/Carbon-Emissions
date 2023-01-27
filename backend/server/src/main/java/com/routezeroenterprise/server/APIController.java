@@ -36,7 +36,7 @@ public class APIController {
     @RequestMapping(method = RequestMethod.POST, path = "/get_predictions")
     //@GetMapping("/get_predictions") //this is where the frontend will contact the server, we should require the frontend provide an API key to access this API
     public ResponseEntity<String> getPredictions(@RequestBody String csv) throws IOException {
-        System.out.println(csv);
+        //System.out.println(csv);
 
         return ResponseEntity.ok()
                 //.headers(responseHeaders)
