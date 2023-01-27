@@ -149,7 +149,6 @@ To generate the *production-build* version of our project, running NGINX, follow
 - Open Docker Desktop
 - Delete any old images of the frontend you have 
 - Navigate to the root of the React App
-- Run ``npm run build``
 - Run ``docker compose up -d``
 - Test that it is running by visiting ``localhost:3000`` **after shutting down** the development React build 
 
