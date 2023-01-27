@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useReducer} from "react";
 import { useNavigate } from 'react-router-dom';
 //custom components
 import { Button } from 'react-bootstrap';
@@ -9,24 +9,29 @@ import {exposedEndpoints} from '../../data/backend.js';
 //style
 import "./SeePredictions.scss";
 
+function checkValidity(state, action){
+    console.log("DISPATCHED!!!baybee");
+    
+    if(action.f !== null){
+        if(action.f.name.split('.')[1] !== 'csv'){
+            action.setV("invalid_extension");
+        }else{
+            action.setV("valid");
+        }
+    }else{
+        action.setV("no_file");
+    }
+    return {};
+}
+
 export const PredictButton = (props) => {
 
-    // const [validity, setValidity] = useState("no_file"); //no upload
     const [loading, setLoading] = useState("loaded");
+
+    const [, dispatch] = useReducer(checkValidity, {}); // react needs to know that we arent changing the checkValidity function
+    
     const navigate = useNavigate();
-
-    const checkValidity = () => {
-        if(props['file'] !== null){
-            if(props['file'].name.split('.')[1] !== 'csv'){
-                props['setValidity']("invalid_extension");
-            }else{
-                props['setValidity']("valid");
-            }
-        }else{
-            props['setValidity']("no_file");
-        }
-    }
-
+ 
     const getSuggestion = (validity) => {
         return validity === "valid" ?
             "CSV file selected"
@@ -45,22 +50,12 @@ export const PredictButton = (props) => {
             setLoading("loaded");
             navigate("/view");
         })
-
-        // readText(props['file'], async (e) => { 
-        //     fetchPOST(`http://${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, e.target.result)
-        //     .then((data) => { 
-        //         //once we load in with the data we redirect to the view page 
-        //         props.setResponse(data);
-        //         setLoading("loaded");
-        //         navigate("/view");
-        //     });
-        // });
-        
     }
 
     useEffect(() => {
-        checkValidity();
-    }, [props['file']]) //refreshes on updates to props['file']
+        dispatch({f: props.file, setV: props.setValidity}); //dubiously important console warning in exchange for removing a compilation warning, bring this up in discussion for more information
+    }, [props.file, props.setValidity]) //refreshes on updates to props['file']
+    
 
     return(
         <>
