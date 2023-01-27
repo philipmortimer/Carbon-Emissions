@@ -66,32 +66,25 @@ public class FileUploadService {
 
         String responseString = "";
         try {
-
             String template = "{\"transport\":{\"type\":\"%s\"},\"distanceKm\":%f,\"travellers\":%d}";
             String journeys = "";
-            String line;
 
-            boolean firstRow = true;
-            int distanceIndex = 0, transportIndex = 0, travellers = 0;
+            // Getting the index for the parameters required for the journeys' template
+            // CSV title row: (origin, destination, distanceKm, departureTime, arrivalTime, transport)
+            String firstRow = lines.get(0);
+            List<String> lineData;
+            lineData = List.of(firstRow.split(","));
+            int distanceIndex = lineData.indexOf("distanceKm");
+            int transportIndex = lineData.indexOf("transport");
+            int travellers = 1; // int travellersIndex = lineData.indexOf("travellers");
 
             int lineNo = 2;
-            for(String ln : lines) {
-                List<String> lineData = List.of(ln.split(","));
+            for(String ln : lines.subList(1, lines.size())) {
+                lineData = List.of(ln.split(","));
 
-                // Getting the index for the parameters required for the journeys' template
-                // CSV title row: (origin, destination, distanceKm, departureTime, arrivalTime, transport)
-                if (firstRow){
-                    distanceIndex = lineData.indexOf("distanceKm");
-                    transportIndex = lineData.indexOf("transport");
-                    travellers = 1; // int travellersIndex = lineData.indexOf("travellers");
-                    firstRow = false;
-                    continue;
-                }
-
-                String transportType = lineData.get(transportIndex);
                 float distanceKM = Float.parseFloat(lineData.get(distanceIndex));
                 // int travellers = Integer.parseInt(lineData.get(travellersIndex));
-
+                String transportType = lineData.get(transportIndex);
                 if (!validTravelType.contains(transportType)) {
                     return new apiResponse("{\"error\": \"Invalid transport type on line " + lineNo + " of input\"}");
                 }

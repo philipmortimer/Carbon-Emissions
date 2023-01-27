@@ -11,10 +11,4 @@ public class FileUploadController {
 
     @Autowired
     FileUploadService fileUploadService;
-
-    //its not a request param
-//    @PostMapping("/api/get_predictions")
-//    public apiResponse fileUpload(@RequestParam("file") MultipartFile file){
-//        return fileUploadService.uploadFile((file));
-//    }
 }

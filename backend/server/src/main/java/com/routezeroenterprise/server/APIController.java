@@ -32,29 +32,11 @@ public class APIController {
         return new apiResponse(String.format(template, name));
     }
 
-//    @GetMapping("/rz_call")
-//    public apiResponse rzCall() throws IOException {
-//        //prediction api takes POST requests
-//        //testing calling the routezero api from our api
-//        if(Helper.getApiKey().contains("Error")){
-//            return new apiResponse(Helper.getApiKey());
-//        }
-//
-//        String jsonString = "{\"apiKey\":\""+Helper.getApiKey()+"\",\"id\":\"id\",\"journeys\":[{\"transport\":{\"type\":\"flight\"},\"distanceKm\":480,\"travellers\":2},{\"transport\":{\"type\":\"electricScooter\"},\"distanceKm\":2.1,\"travellers\":1}]}";
-//        String responseString = Helper.postJsonAsString(props.getEmissionsEndpoint(), jsonString);
-//
-//        return new apiResponse(responseString);
-//    }
-
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, path = "/get_predictions")
     //@GetMapping("/get_predictions") //this is where the frontend will contact the server, we should require the frontend provide an API key to access this API
     public ResponseEntity<String> getPredictions(@RequestBody String csv) throws IOException {
         System.out.println(csv);
-        //HttpHeaders responseHeaders = new HttpHeaders();
-        //responseHeaders.set("Access-Control-Allow-Origin", frontendAddress);
-
-        //apiResponse res = fs.uploadFile(csv);
 
         return ResponseEntity.ok()
                 //.headers(responseHeaders)
