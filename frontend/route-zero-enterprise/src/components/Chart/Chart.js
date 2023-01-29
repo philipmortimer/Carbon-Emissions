@@ -1,7 +1,32 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Chart from 'chart.js/auto';
 
 export const BarChart = ({chartId,  header, bars}) => {
+
+    const [dimensions, setDimensions] = useState({
+        h: window.innerHeight,
+        w: window.innerWidth
+    }); 
+
+    const debounce = (f, args, ms) => { //higher-order function that delays many quickly repeated function calls into one function call 'ms' milliseconds after the last call
+        let timer;
+        return () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = null;
+                f(args);
+            }, ms);
+        }
+    }
+
+    const handleResize = () => {
+        setDimensions({
+            h: window.innerHeight,
+            w: window.innerWidth
+        });
+    }
+
+    window.addEventListener('resize', debounce(handleResize, null, 1000));
 
     useEffect(() => {
         const ctx = document.getElementById(chartId);
@@ -56,8 +81,10 @@ export const BarChart = ({chartId,  header, bars}) => {
                 myChart.destroy()
             }
         }
-    }, [bars, chartId, header]);
+
+    }, [bars, chartId, header, dimensions]);
     // 01/26/23 chardID and header were added to mitigate 'react-hooks/exhaustive-deps' warning
+    // feature-policy-selection-framework: added 'dimensions' to dependency array because the graphs need to rerender when the window changes size.
 
     return (
         <canvas id={chartId}/>

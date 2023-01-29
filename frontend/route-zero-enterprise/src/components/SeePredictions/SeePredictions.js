@@ -10,7 +10,6 @@ import {exposedEndpoints} from '../../data/backend.js';
 import "./SeePredictions.scss";
 
 function checkValidity(state, action){
-    console.log("DISPATCHED!!!baybee");
     
     if(action.f !== null){
         if(action.f.name.split('.')[1] !== 'csv'){
