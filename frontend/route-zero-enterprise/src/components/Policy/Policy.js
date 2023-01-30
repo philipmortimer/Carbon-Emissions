@@ -32,13 +32,20 @@ export const PolicySelector = ({policies, setPolicies}) => {
         }));
     }
 
+    const getCO2eSaved = (policyOption) => {
+        return 0;
+    }
+
     //takes a policy option (json of three fields)
     //gives a bootsrap checkbox
     const checkboxElem = (policyOption, i) => {
         return (
             <label className="list-group-item">
                 <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {togglePolicy(i); policyOption.effect();}}/>
-                {policyOption.name} 
+                {policyOption.name}
+                <div className="aligner">
+                    <span className={`${policyOption.selected}`}>{getCO2eSaved(policyOption)}Kt</span>
+                </div>
             </label>
         )
     }
@@ -49,7 +56,7 @@ export const PolicySelector = ({policies, setPolicies}) => {
         ? <em>Error: Please provide policies and setter. </em>
         : 
         (
-            <div className="list-group">
+            <div className="list-group policy">
                 {policies.map((policyOption, i) => {
                     return checkboxElem(policyOption, i);
                 })}
