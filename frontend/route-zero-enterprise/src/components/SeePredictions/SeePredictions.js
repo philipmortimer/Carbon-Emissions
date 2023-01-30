@@ -31,7 +31,8 @@ export const PredictButton = (props) => {
 
     const [, dispatch] = useReducer(checkValidity, {}); // react needs to know that we arent changing the checkValidity function
     
-    const [modalErrorTxt, setModalErrorTxt] = useState(""); // Empty texts indicates no error
+    const [modalErrorTxt, setModalErrorTxt] = useState(""); // Text to show in modal
+    const [showModal, setShowModal] = useState(false); // Indicates whether modal should be shown
 
     const navigate = useNavigate();
  
@@ -65,6 +66,7 @@ export const PredictButton = (props) => {
                 // Handles case where backend has returned an error message (e.g. invalid CSV file provided)
                 props.setValidity("invalid_by_backend_determination");
                 setModalErrorTxt(json.error);
+                setShowModal(true);
                 setLoading("loaded");
             } else {
                 // Loads view after receiving response from backend (no errors)
@@ -84,7 +86,7 @@ export const PredictButton = (props) => {
         <>
             {(props['validity'] === 'valid' && loading === "loaded") ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
             <p className="suggestion">{getSuggestion(props['validity'])}</p>
-            <InvalidFileModal show={modalErrorTxt !== ""} onHide={() => setModalErrorTxt("")} msg={modalErrorTxt}/>
+            <InvalidFileModal show={showModal} onHide={() => {setModalErrorTxt(""); setShowModal(false);}} msg={modalErrorTxt}/>
         </>
     )
 }
