@@ -8,6 +8,7 @@ import {fetchPOST} from '../../helpers/fetch.js';
 import {exposedEndpoints} from '../../data/backend.js';
 //style
 import "./SeePredictions.scss";
+import { InvalidFileModal } from "../InvalidFileModal/InvalidFileModal.js";
 
 function checkValidity(state, action){
     console.log("DISPATCHED!!!baybee");
@@ -30,6 +31,8 @@ export const PredictButton = (props) => {
 
     const [, dispatch] = useReducer(checkValidity, {}); // react needs to know that we arent changing the checkValidity function
     
+    const [modalErrorTxt, setModalErrorTxt] = useState(""); // Empty texts indicates no error
+
     const navigate = useNavigate();
  
     const getSuggestion = (validity) => {
@@ -61,8 +64,8 @@ export const PredictButton = (props) => {
             else if (json.error !== undefined) {
                 // Handles case where backend has returned an error message (e.g. invalid CSV file provided)
                 props.setValidity("invalid_by_backend_determination");
+                setModalErrorTxt(json.error);
                 setLoading("loaded");
-                alert("error");
             } else {
                 // Loads view after receiving response from backend (no errors)
                 props.setResponse(json);
@@ -81,6 +84,7 @@ export const PredictButton = (props) => {
         <>
             {(props['validity'] === 'valid' && loading === "loaded") ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
             <p className="suggestion">{getSuggestion(props['validity'])}</p>
+            <InvalidFileModal show={modalErrorTxt !== ""} onHide={() => setModalErrorTxt("")} msg={modalErrorTxt}/>
         </>
     )
 }
