@@ -20,8 +20,6 @@ this object will get mutated here, provided a setter setPolicies which will upda
 */
 export const PolicySelector = ({policies, setPolicies}) => {
 
-    console.log(policies);
-
     //toggles a policy option based on its index in policies
     const togglePolicy = (index) => {
         setPolicies(policies.map((x, i) => {

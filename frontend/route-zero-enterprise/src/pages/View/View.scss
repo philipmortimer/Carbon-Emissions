@@ -3,21 +3,40 @@ $span_width: 0.75rem;
 $span_height: 0.35rem;
 
 .center-grid {
-  display: grid;
   margin: 0 auto;
   background-color: white;
   border-radius: 15px;
   padding: 5px;
 }
 
-@media (min-width: 800px) {
-  .center-grid {
+.inner{
+  display: grid;
+}
+
+.outer{
+  display: grid;
+}
+
+@media (min-width: 1100px) {
+  .inner {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 800px){
-  .center-grid {
+@media (max-width: 1100px){
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 800px) { 
+  .outer{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .outer{
     grid-template-columns: 1fr;
   }
 }

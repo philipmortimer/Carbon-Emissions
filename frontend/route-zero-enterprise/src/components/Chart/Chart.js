@@ -3,6 +3,8 @@ import Chart from 'chart.js/auto';
 
 export const BarChart = ({chartId,  header, bars}) => {
 
+
+
     const [dimensions, setDimensions] = useState({
         h: window.innerHeight,
         w: window.innerWidth
@@ -34,6 +36,7 @@ export const BarChart = ({chartId,  header, bars}) => {
 
             const labels = bars.map(x => x[0]);
             const values = bars.map(x => x[1]);
+            console.log(bars);
             // const header = header;
 
             const myChart = new Chart(ctx, {

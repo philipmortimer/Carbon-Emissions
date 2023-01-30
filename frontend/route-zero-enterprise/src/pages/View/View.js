@@ -48,12 +48,14 @@ export const View = (props) => {
     return(<>
             {/* <p>{JSON.stringify(props.response)}</p> */}
             <div className="center-grid">
+                <div className="outer">
                 <div className="cell">
                     <PolicySelector policies={policies} setPolicies={setPolicies}/>
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>
                     <div className="center-grid">
+                        <div className="inner">
                         <div className="cell">
                             <h2>Before</h2>
                             <div className="Chart">
@@ -72,7 +74,9 @@ export const View = (props) => {
                                 <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
                             </div>
                         </div>
+                        </div>
                     </div>
+                </div>
                 </div>
             </div>
 
