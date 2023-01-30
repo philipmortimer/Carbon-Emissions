@@ -58,7 +58,7 @@ export const PredictButton = (props) => {
             if (err !== undefined) {
                 // Handles error coming from fetchPOST request (e.g. wifi issues or backend down etc)
                 alert("An unexpected communication error occurred. Please try again." + 
-                "\nError details: " + err);
+                "\nError details:\n" + err);
                 setLoading("loaded");
             }
             else if (json.error !== undefined) {
