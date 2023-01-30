@@ -27,7 +27,8 @@ export const UploadButton = (props) => {
     return (
         <>
             <input id="file-input" onChange={handleUpload} className="d-none" type="file" />
-            <Button className={`btn-${props['validity'] === 'valid' ? "success" : props['validity'] === 'invalid_extension' ? "danger" : "primary"}`}onClick={handleClicked}>{props.file ? `${props.file.name.slice(0, 15)}${props.file.name.length > 15 ? "...": ""}` : "Upload" }</Button>
+            <Button className={`btn-${props['validity'] === 'valid' ? "success" : (props['validity'] === 'invalid_extension' || 
+                props['validity'] === 'invalid_by_backend_determination') ? "danger" : "primary"}`}onClick={handleClicked}>{props.file ? `${props.file.name.slice(0, 15)}${props.file.name.length > 15 ? "...": ""}` : "Upload" }</Button>
         </>
     );
 }

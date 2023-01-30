@@ -27,10 +27,10 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
     })
     .then((data) => {
         //console.log(data);
-        return data;
+        return {"data": data};
     })
     .catch((err) => {
-        console.log(`error when fetching from ${url}; ${err}`);
-        return "error";
+        console.error(`error when fetching from ${url}; ${err}`);
+        return {"error": err};
     });
 }

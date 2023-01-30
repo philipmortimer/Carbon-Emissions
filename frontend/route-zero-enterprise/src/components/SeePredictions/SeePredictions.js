@@ -33,11 +33,15 @@ export const PredictButton = (props) => {
     const navigate = useNavigate();
  
     const getSuggestion = (validity) => {
-        return validity === "valid" ?
-            "CSV file selected"
-        : validity === "invalid_extension" ?
-            "You must select a CSV file"
-        : "Please select a file"
+        if (validity === "valid") {
+            return "CSV file selected";
+        } else if (validity === "invalid_extension") {
+            return "You must select a CSV file";
+        } else if (validity === "invalid_by_backend_determination") {
+            return "You must select a correctly formatted file";
+        } else { // In this case validty = "no_file"
+            return "Please select a file";
+        }
     }   
 
     const loadThenPost = () => {
@@ -45,10 +49,26 @@ export const PredictButton = (props) => {
         props['file']
         .text()
         .then((text) => fetchPOST(`${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, text))
-        .then((json) => {
-            props.setResponse(json);
-            setLoading("loaded");
-            navigate("/view");
+        .then((response) => {
+            const json = response.data;
+            const err =  response.error;
+            if (err !== undefined) {
+                // Handles error coming from fetchPOST request (e.g. wifi issues or backend down etc)
+                alert("An unexpected communication error occurred. Please try again." + 
+                "\nError details: " + err);
+                setLoading("loaded");
+            }
+            else if (json.error !== undefined) {
+                // Handles case where backend has returned an error message (e.g. invalid CSV file provided)
+                props.setValidity("invalid_by_backend_determination");
+                setLoading("loaded");
+                alert("error");
+            } else {
+                // Loads view after receiving response from backend (no errors)
+                props.setResponse(json);
+                setLoading("loaded");
+                navigate("/view");
+            }
         })
     }
 
