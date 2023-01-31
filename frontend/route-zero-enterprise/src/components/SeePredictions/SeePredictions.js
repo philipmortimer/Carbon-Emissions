@@ -8,6 +8,7 @@ import {fetchPOST} from '../../helpers/fetch.js';
 import {exposedEndpoints} from '../../data/backend.js';
 //style
 import "./SeePredictions.scss";
+import { InvalidFileModal } from "../InvalidFileModal/InvalidFileModal.js";
 
 function checkValidity(state, action){
     
@@ -29,14 +30,21 @@ export const PredictButton = (props) => {
 
     const [, dispatch] = useReducer(checkValidity, {}); // react needs to know that we arent changing the checkValidity function
     
+    const [modalErrorTxt, setModalErrorTxt] = useState(""); // Text to show in modal
+    const [showModal, setShowModal] = useState(false); // Indicates whether modal should be shown
+
     const navigate = useNavigate();
  
     const getSuggestion = (validity) => {
-        return validity === "valid" ?
-            "CSV file selected"
-        : validity === "invalid_extension" ?
-            "You must select a CSV file"
-        : "Please select a file"
+        if (validity === "valid") {
+            return "CSV file selected";
+        } else if (validity === "invalid_extension") {
+            return "You must select a CSV file";
+        } else if (validity === "invalid_by_backend_determination") {
+            return "You must select a correctly formatted file";
+        } else { // In this case validty = "no_file"
+            return "Please select a file";
+        }
     }   
 
     const loadThenPost = () => {
@@ -44,10 +52,27 @@ export const PredictButton = (props) => {
         props['file']
         .text()
         .then((text) => fetchPOST(`${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, text))
-        .then((json) => {
-            props.setResponse(json);
-            setLoading("loaded");
-            navigate("/view");
+        .then((response) => {
+            const json = response.data;
+            const err =  response.error;
+            if (err !== undefined) {
+                // Handles error coming from fetchPOST request (e.g. wifi issues or backend down etc)
+                alert("An unexpected communication error occurred. Please try again." + 
+                "\nError details:\n" + err);
+                setLoading("loaded");
+            }
+            else if (json.error !== undefined) {
+                // Handles case where backend has returned an error message (e.g. invalid CSV file provided)
+                props.setValidity("invalid_by_backend_determination");
+                setModalErrorTxt(json.error);
+                setShowModal(true);
+                setLoading("loaded");
+            } else {
+                // Loads view after receiving response from backend (no errors)
+                props.setResponse(json);
+                setLoading("loaded");
+                navigate("/view");
+            }
         })
     }
 
@@ -60,6 +85,7 @@ export const PredictButton = (props) => {
         <>
             {(props['validity'] === 'valid' && loading === "loaded") ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
             <p className="suggestion">{getSuggestion(props['validity'])}</p>
+            <InvalidFileModal show={showModal} onHide={() => {setModalErrorTxt(""); setShowModal(false);}} msg={modalErrorTxt}/>
         </>
     )
 }
