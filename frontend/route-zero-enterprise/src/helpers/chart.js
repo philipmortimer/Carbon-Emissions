@@ -70,7 +70,11 @@ export const getTransportsCSV = (text) => {
     - Slices the nought element as element 0 is just the field headings
     - Splits the record by comma and accesses the transport method (last element of record)
     */
-    return text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1));
+    return (() => { 
+        const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1));
+        t.pop();
+        return t;
+    })();
 }
 
 export const journeyBars = (csvBlob) => {
@@ -100,7 +104,7 @@ export const emissionBars = (csvBlob, response, fieldName) => {
         transports.map((x, i) => {
             co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i][fieldName]; //handles undefined 
             return x;
-        })
+        });
         const pairs = mapToPairs(uniqueTransports, co2Tally);
         
         return transform(pairs, 10);
@@ -132,7 +136,7 @@ export const predictJourneyBars = (response) => {
             const transport = alternative.transport.type;
             transportSet.add(transport);
             if(transportTally[transport] === undefined) {
-                transportTally[transport] = alternative.probability;
+                transportTally[transport] = 0;
             }else{
                 transportTally[transport] += alternative.probability;
             }
