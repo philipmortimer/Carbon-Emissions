@@ -37,7 +37,7 @@ public class FileUploadService {
                     requestStringLines.add(ln);
                 }
             }catch(IOException error){
-                System.err.println("An error occured: "+ error.getMessage());
+                System.err.println("An error occurred: " + error.getMessage());
             }
         }
         return process(requestStringLines);
@@ -69,33 +69,55 @@ public class FileUploadService {
             String template = "{\"transport\":{\"type\":\"%s\"},\"distanceKm\":%f,\"travellers\":%d}";
             String journeys = "";
 
-            // Getting the index for the parameters required for the journeys' template
-            // CSV title row: (origin, destination, distanceKm, departureTime, arrivalTime, transport)
-            String firstRow = lines.get(0);
+            String headerRow = lines.get(0).toUpperCase();
             List<String> lineData;
-            lineData = List.of(firstRow.split(","));
-            int distanceIndex = lineData.indexOf("distanceKm");
-            int transportIndex = lineData.indexOf("transport");
-            int travellers = 1; // int travellersIndex = lineData.indexOf("travellers");
+            lineData = List.of(headerRow.split(","));
+            if (lineData.size() == 0) {
+                return new apiResponse("{\"error\": \"Empty input file\"}");
+            }
+
+            // CSV title row: (origin, destination, distanceKm, departureTime, arrivalTime, transport)
+            // Indices are constant since csv schema is set
+            int distanceIndex = 2;
+            int transportIndex = 5;
+
+            int travellersNo = 1;
 
             int lineNo = 2;
             for(String ln : lines.subList(1, lines.size())) {
                 lineData = List.of(ln.split(","));
 
-                float distanceKM = Float.parseFloat(lineData.get(distanceIndex));
-                // int travellers = Integer.parseInt(lineData.get(travellersIndex));
+                float distanceKM;
+                try{
+                    distanceKM = Float.parseFloat(lineData.get(distanceIndex));
+                } catch (NumberFormatException e) {
+                    return new apiResponse("{\"error\": \"Invalid trip Distance on line " + lineNo + " of input\"}");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new apiResponse("{\"error\": \"Error parsing trip Distance on line " + lineNo + " of input\"}");
+                }
+
                 String transportType = lineData.get(transportIndex);
                 if (!validTravelType.contains(transportType)) {
                     return new apiResponse("{\"error\": \"Invalid transport type on line " + lineNo + " of input\"}");
                 }
 
-                journeys = journeys.concat((journeys.isEmpty() ? "" : ",") + String.format(template, transportType, distanceKM, travellers));
+//                Uncomment later if number of travellers for trips is no longer standardised to 1
+//                int travellers;
+//                try{
+//                    travellers = Integer.parseInt(lineData.get(travellersIndex));
+//                } catch (NumberFormatException e) {
+//                    return new apiResponse("{\"error\": \"Invalid no. of Travellers on line " + lineNo + " of input\"}");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return new apiResponse("{\"error\": \"Error parsing no. of Travellers on line " + lineNo + " of input\"}");
+//                }
+
+                journeys = journeys.concat((journeys.isEmpty() ? "" : ",") + String.format(template, transportType, distanceKM, travellersNo));
                 lineNo++;
             }
 
             String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() + String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
-            //System.out.println(jsonString);
-
             responseString = Helper.postJsonAsString(props.getEmissionsEndpoint(), jsonString);
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,5 +125,4 @@ public class FileUploadService {
 
         return new apiResponse(responseString);
     }
-
 }
