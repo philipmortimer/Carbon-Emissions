@@ -69,13 +69,13 @@ public class Helper {
     }
 
     // general helper methods
-    private static String loadFileAsText(String path){
+    public static String loadFileAsText(String path){
         try {
             File f = new File(path);
             Scanner r = new Scanner(f);
             String text = "";
             while (r.hasNextLine()) {
-                text += r.nextLine();
+                text += r.nextLine() + "\n";
             }
             r.close();
             return text;
