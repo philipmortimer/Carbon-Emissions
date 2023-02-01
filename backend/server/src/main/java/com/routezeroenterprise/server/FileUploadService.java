@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,6 +87,8 @@ public class FileUploadService {
 
             // CSV title row: (origin, destination, distanceKm, departureTime, arrivalTime, transport)
             // Indices are constant since csv schema is set
+            int originIndex = 0;
+            int destinationIndex = 1;
             int distanceIndex = 2;
             int transportIndex = 5;
 
@@ -94,6 +97,13 @@ public class FileUploadService {
             int lineNo = 2;
             for(String ln : lines.subList(1, lines.size())) {
                 lineData = List.of(ln.split(","));
+
+                String originLower = lineData.get(originIndex).toLowerCase();
+                String destinationLower = lineData.get(destinationIndex).toLowerCase();
+                // Throw error if origin == destinations [allows for empty origin/destination fields to pass]
+                if (originLower.compareTo(destinationLower) == 0 && !(originLower.equals("") || destinationLower.equals(""))) {
+                    return new apiResponse("{\"error\": \"Origin and destination cannot be the same. Error in line " + lineNo + " of input\"}");
+                }
 
                 float distanceKM;
                 try{
