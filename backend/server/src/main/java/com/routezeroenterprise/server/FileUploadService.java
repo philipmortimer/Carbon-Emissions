@@ -14,9 +14,14 @@ import java.util.stream.Collectors;
 @Service
 public class FileUploadService {
     private final static Helper.Properties props = Helper.loadProperties();
+    private List<String> lastFileAsLines = null;
+
+    public List<String> getLastFileAsLines() {
+        return lastFileAsLines;
+    }
 
     //takes a file OR a string
-    public apiResponse upload(String csvString, MultipartFile csvFile){
+    public apiResponse upload(String csvString, MultipartFile csvFile, boolean ... testing){
         if (csvString == null && csvFile == null) {
             return new apiResponse("{\"error\": \"upload requires one input, got none\"}");
         }
@@ -40,7 +45,10 @@ public class FileUploadService {
                 System.err.println("An error occurred: " + error.getMessage());
             }
         }
-        return process(requestStringLines);
+        lastFileAsLines = requestStringLines; //just for testing
+        if(testing.length == 1 && testing[0]) {
+            return new apiResponse("{\"error\": \"testing\"}");
+        } else { return process(requestStringLines); }
     }
 
     private apiResponse process(List<String> lines) {
@@ -125,4 +133,6 @@ public class FileUploadService {
 
         return new apiResponse(responseString);
     }
+
+
 }
