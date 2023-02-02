@@ -1,5 +1,6 @@
 ### Description of changes made
 
+Summarize here the changes made and the reason for these changes 
 
 closes #'issue number'
 
