@@ -9,6 +9,7 @@
 - [User journeys](#user-journeys)
 - [Ethics](#ethics)
 - [License](#license)
+- [Documentation](#documentation)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
 ----
@@ -41,6 +42,8 @@ This will have two main components:
 ```
 ## Requirements
 - [Docker](https://www.docker.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Maven](https://maven.apache.org/download.cgi)
 
 ## Startup guides
 
@@ -171,7 +174,7 @@ This project uses the MIT License. Please refer to the link below for more infor
 [See more...](/LICENSE.md)
 
 ## Documentation
-Find the javadocs here.
+Find the javadocs here. (upcoming)
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
