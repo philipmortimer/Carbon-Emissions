@@ -102,22 +102,25 @@ public class FileUploadService {
                 String destinationLower = lineData.get(destinationIndex).toLowerCase();
                 // Throw error if origin == destinations [allows for empty origin/destination fields to pass]
                 if (originLower.compareTo(destinationLower) == 0 && !(originLower.equals("") || destinationLower.equals(""))) {
-                    return new apiResponse("{\"error\": \"Origin and destination cannot be the same. Error in line " + lineNo + " of input\"}");
+                    return new apiResponse("{\"error\": \"Origin and destination cannot be the same. Error in line " + lineNo + " of input.\"}");
                 }
 
                 float distanceKM;
                 try{
                     distanceKM = Float.parseFloat(lineData.get(distanceIndex));
+                    if (distanceKM <= 0) {
+                        return new apiResponse("{\"error\": \"Trip distance cannot be less than or equal to 0. Error in line " + lineNo + " of input.\"}");
+                    }
                 } catch (NumberFormatException e) {
-                    return new apiResponse("{\"error\": \"Invalid trip Distance on line " + lineNo + " of input\"}");
+                    return new apiResponse("{\"error\": \"Invalid trip Distance in line " + lineNo + " of input.\"}");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return new apiResponse("{\"error\": \"Error parsing trip Distance on line " + lineNo + " of input\"}");
+                    return new apiResponse("{\"error\": \"Error parsing trip Distance in line " + lineNo + " of input.\"}");
                 }
 
                 String transportType = lineData.get(transportIndex);
                 if (!validTravelType.contains(transportType)) {
-                    return new apiResponse("{\"error\": \"Invalid transport type on line " + lineNo + " of input\"}");
+                    return new apiResponse("{\"error\": \"Invalid transport type in line " + lineNo + " of input.\"}");
                 }
 
 //                Uncomment later if number of travellers for trips is no longer standardised to 1
@@ -125,10 +128,10 @@ public class FileUploadService {
 //                try{
 //                    travellers = Integer.parseInt(lineData.get(travellersIndex));
 //                } catch (NumberFormatException e) {
-//                    return new apiResponse("{\"error\": \"Invalid no. of Travellers on line " + lineNo + " of input\"}");
+//                    return new apiResponse("{\"error\": \"Invalid no. of Travellers in line " + lineNo + " of input.\"}");
 //                } catch (Exception e) {
 //                    e.printStackTrace();
-//                    return new apiResponse("{\"error\": \"Error parsing no. of Travellers on line " + lineNo + " of input\"}");
+//                    return new apiResponse("{\"error\": \"Error parsing no. of Travellers in line " + lineNo + " of input.\"}");
 //                }
 
                 journeys = journeys.concat((journeys.isEmpty() ? "" : ",") + String.format(template, transportType, distanceKM, travellersNo));
