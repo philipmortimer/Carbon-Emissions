@@ -106,6 +106,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ## Starting our Backend
 
 ### Getting the server running
+Before booting up the server, make sure to include the api key in the api_key.json file in ``/resources``.
 
 ### Terminal
 On your terminal:
