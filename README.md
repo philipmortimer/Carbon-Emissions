@@ -158,6 +158,9 @@ Many large businesses (1000+ employees) have dedicated sustainability teams and 
 Large organisations (250+ employees) usually have separate teams for sustainability and procurement/travel management, each with separate KPIs - sustainability teams focus on trying to cut emissions, while procurement try to drive down business running costs. This may lead to conflict when these goals are opposed, e.g. adopting a more expensive procedure to cut emissions. In this case, the tool helps enterprises find carbon cutting measures, while minimising costs.
 
 
+## Ethics
+No data is being collected as part of this project
+
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
 [View our Gantt chart](https://uob-my.sharepoint.com/:x:/g/personal/ai20192_bristol_ac_uk/EQ2tWVFm5X9EnJw5EIE3zg8BsSrJ3WRx1I6BgtUecnVbBg?e=OYrvjc) (Excel)\
