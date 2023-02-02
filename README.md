@@ -37,6 +37,8 @@ This will have two main components:
 └── README.md
 
 ```
+## Requirements
+- [Docker](https://www.docker.com/)
 
 ## Startup guides
 
