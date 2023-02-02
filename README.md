@@ -160,6 +160,7 @@ Large organisations (250+ employees) usually have separate teams for sustainabil
 
 ## Ethics
 No data is being collected as part of this project
+[See more...](/docs/ETHICS.md)
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
