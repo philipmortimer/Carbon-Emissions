@@ -7,6 +7,8 @@
 - [Generating Docker Images](#generating-docker-images)
 - [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
+- [Ethics](#ethics)
+- [License](#license)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
 ----
