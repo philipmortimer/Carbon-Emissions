@@ -164,6 +164,10 @@ Large organisations (250+ employees) usually have separate teams for sustainabil
 No data is being collected as part of this project
 [See more...](/docs/ETHICS.md)
 
+## License
+This project uses the MIT License. Please refer to the link below for more information.
+[See more...](/LICENSE.md)
+
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
 [View our Gantt chart](https://uob-my.sharepoint.com/:x:/g/personal/ai20192_bristol_ac_uk/EQ2tWVFm5X9EnJw5EIE3zg8BsSrJ3WRx1I6BgtUecnVbBg?e=OYrvjc) (Excel)\
