@@ -53,4 +53,7 @@ RUN rm -rf ./*
 COPY --from=build /rze/build .
 
 # Containers run nginx with global directives and daemon off
+#######
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+RUN echo "Server started and hosting on ${PORT}"
