@@ -2,15 +2,11 @@ package com.routezeroenterprise.server;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class FileUploadService {
@@ -22,12 +18,12 @@ public class FileUploadService {
     }
 
     //takes a file OR a string
-    public apiResponse upload(String csvString, MultipartFile csvFile, boolean ... testing){
+    public APIResponse upload(String csvString, MultipartFile csvFile, boolean ... testing){
         if (csvString == null && csvFile == null) {
-            return new apiResponse("{\"error\": \"upload requires one input, got none\"}");
+            return new APIResponse("{\"error\": \"upload requires one input, got none\"}");
         }
         if (csvString != null && csvFile != null) {
-            return new apiResponse("{\"error\": \"upload requires one input, got two\"}");
+            return new APIResponse("{\"error\": \"upload requires one input, got two\"}");
         }
         List<String> requestStringLines;
         if (csvString != null) { //split into lines and send to internal parsing method
@@ -48,11 +44,11 @@ public class FileUploadService {
         }
         lastFileAsLines = requestStringLines; //just for testing
         if(testing.length == 1 && testing[0]) {
-            return new apiResponse("{\"error\": \"testing\"}");
+            return new APIResponse("{\"error\": \"testing\"}");
         } else { return process(requestStringLines); }
     }
 
-    private apiResponse process(List<String> lines) {
+    private APIResponse process(List<String> lines) {
         List<String> validTravelType = Arrays.asList(
                 "foot",
                 "bike",
@@ -82,7 +78,7 @@ public class FileUploadService {
             List<String> lineData;
             lineData = List.of(headerRow.split(","));
             if (lineData.size() == 0) {
-                return new apiResponse("{\"error\": \"Empty input file\"}");
+                return new APIResponse("{\"error\": \"Empty input file\"}");
             }
 
             // CSV title row: (origin, destination, distanceKm, departureTime, arrivalTime, transport)
@@ -102,25 +98,25 @@ public class FileUploadService {
                 String destinationLower = lineData.get(destinationIndex).toLowerCase();
                 // Throw error if origin == destinations [allows for empty origin/destination fields to pass]
                 if (originLower.compareTo(destinationLower) == 0 && !(originLower.equals("") || destinationLower.equals(""))) {
-                    return new apiResponse("{\"error\": \"Origin and destination cannot be the same. Error in line " + lineNo + " of input.\"}");
+                    return new APIResponse("{\"error\": \"Origin and destination cannot be the same. Error in line " + lineNo + " of input.\"}");
                 }
 
                 float distanceKM;
                 try{
                     distanceKM = Float.parseFloat(lineData.get(distanceIndex));
                     if (distanceKM <= 0) {
-                        return new apiResponse("{\"error\": \"Trip distance cannot be less than or equal to 0. Error in line " + lineNo + " of input.\"}");
+                        return new APIResponse("{\"error\": \"Trip distance cannot be less than or equal to 0. Error in line " + lineNo + " of input.\"}");
                     }
                 } catch (NumberFormatException e) {
-                    return new apiResponse("{\"error\": \"Invalid trip Distance in line " + lineNo + " of input.\"}");
+                    return new APIResponse("{\"error\": \"Invalid trip Distance in line " + lineNo + " of input.\"}");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return new apiResponse("{\"error\": \"Error parsing trip Distance in line " + lineNo + " of input.\"}");
+                    return new APIResponse("{\"error\": \"Error parsing trip Distance in line " + lineNo + " of input.\"}");
                 }
 
                 String transportType = lineData.get(transportIndex);
                 if (!validTravelType.contains(transportType)) {
-                    return new apiResponse("{\"error\": \"Invalid transport type in line " + lineNo + " of input.\"}");
+                    return new APIResponse("{\"error\": \"Invalid transport type in line " + lineNo + " of input.\"}");
                 }
 
 //                Uncomment later if number of travellers for trips is no longer standardised to 1
@@ -144,7 +140,7 @@ public class FileUploadService {
             e.printStackTrace();
         }
 
-        return new apiResponse(responseString);
+        return new APIResponse(responseString);
     }
 
 
