@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class parses CSV file, performing validation on the file.
+ * The class then returns the Route Zero API response.
+ */
 @Service
 public class FileUploadService {
-    private final static Helper.Properties props = Helper.loadProperties();
     private List<String> lastFileAsLines = null;
 
     public List<String> getLastFileAsLines() {
@@ -135,7 +138,7 @@ public class FileUploadService {
             }
 
             String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() + String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
-            responseString = Helper.postJsonAsString(props.getEmissionsEndpoint(), jsonString);
+            responseString = Helper.postJsonAsString(Helper.props.getEmissionsEndpoint(), jsonString);
         } catch (Exception e) {
             e.printStackTrace();
         }

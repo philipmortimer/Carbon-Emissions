@@ -17,6 +17,11 @@ import java.util.Scanner;
 public class Helper {
 
     private static final ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Stores the contents of the properties JSON. Currently, this contains the emissionsEndpoint
+     * and frontend address.
+     */
+    final static Helper.Properties props = Helper.loadProperties();
 
     /* TODO
         -
