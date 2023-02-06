@@ -8,7 +8,7 @@ const deploy = {
 
 const develop = {
     ip: "http://localhost",
-    port: 8080,
+    port: 3001,
     endpoint: "/get_predictions" 
 };
 
