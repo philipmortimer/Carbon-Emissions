@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from "react";
 
+//components
 import "./View.scss";
 import {BarChart} from "../../components/Chart/Chart.js";
+import {PolicySelector} from "../../components/Policy/Policy.js";
 
 //helpers
 import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart.js";
 
+//data
+import {getPolicies} from "../../data/policies.js";
 
 export const View = (props) => {
 
@@ -13,6 +17,10 @@ export const View = (props) => {
     const [beforeEmissions, setBeforeEmissions] = useState([]);
     const [predictJourneys, setPredictJourneys] = useState([]);
     const [predictEmissions, setPredictEmissions] = useState([]);
+
+    const [policies, setPolicies] = useState(getPolicies());
+
+    //console.log(policies);
 
     useEffect(() => {
         document.title = "Graphs | RouteZero"
@@ -38,26 +46,37 @@ export const View = (props) => {
     }, [props.setFile, props.file, props.response]);
     
     return(<>
-            <h1>Visualisation</h1>
             {/* <p>{JSON.stringify(props.response)}</p> */}
             <div className="center-grid">
+                <div className="outer">
                 <div className="cell">
-                    <h2>Before</h2>
-                    <div className="Chart">
-                        <BarChart chartId="1" header="Journeys" bars={beforeJourneys}/>
-                    </div>
-                    <div className="Chart">
-                        <BarChart chartId="2" header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
-                    </div>
+                    <PolicySelector policies={policies} setPolicies={setPolicies}/>
                 </div>
                 <div className="cell">
-                    <h2>After</h2>
-                    <div className="Chart">
-                        <BarChart chartId="3" header="Average Predicted Journeys" bars={predictJourneys}/>
+                    <h1>Visualisation</h1>
+                    <div className="center-grid">
+                        <div className="inner">
+                        <div className="cell">
+                            <h2>Before</h2>
+                            <div className="Chart">
+                                <BarChart chartId="1" header="Journeys" bars={beforeJourneys}/>
+                            </div>
+                            <div className="Chart">
+                                <BarChart chartId="2" header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
+                            </div>
+                        </div>
+                        <div className="cell">
+                            <h2>After</h2>
+                            <div className="Chart">
+                                <BarChart chartId="3" header="Average Predicted Journeys" bars={predictJourneys}/>
+                            </div>
+                            <div className="Chart">
+                                <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
+                            </div>
+                        </div>
+                        </div>
                     </div>
-                    <div className="Chart">
-                        <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
-                    </div>
+                </div>
                 </div>
             </div>
 
