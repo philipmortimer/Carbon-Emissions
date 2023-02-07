@@ -1,5 +1,10 @@
 package com.routezeroenterprise.server;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -48,7 +53,7 @@ public class FileUploadService {
      * @param lines The CSV file.
      * @return Optional.empty() is returned if there are no critical errors.
      * Otherwise, a String error message will be returned
-     * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'ferry'")).
+     * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'submarine'")).
      */
     private static Optional<String> checkForErrors(List<String> lines) {
         // Performs null checks. This probably isn't necessary but is safe.
@@ -73,7 +78,8 @@ public class FileUploadService {
             }
         }
         // Checks that every "distanceKm" and "transport" field is valid.
-        for (int i = 0; i < lines.size(); i++) {
+        // First line is ignored as it is a header line.
+        for (int i = 1; i < lines.size(); i++) {
             String[] line =  lines.get(i).split(",", -1);
             // Checks that transport is one of the predefined valid types.
             if (!FileFormat.VALID_TRAVEL_TYPES.contains(line[FileFormat.TRANSPORT_INDEX])){
@@ -107,7 +113,9 @@ public class FileUploadService {
      */
     private static String getWarnings(List<String> lines) {
         StringBuilder warnings = new StringBuilder("");
-
+        /*
+        TODO Implement
+         */
         return warnings.toString();
     }
 
@@ -142,11 +150,16 @@ public class FileUploadService {
 
         // Sends request to API and returns response
         String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() +
-                "\"warnings\":[" + warnings + "]" +
                 String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
         String responseString = Helper.postJsonAsString(Helper.props.getEmissionsEndpoint(), jsonString);
 
-        return new APIResponse(responseString);
+        // Adds warnings to JSON string
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
+        jsonObject.addProperty("warnings", "[" + warnings + "]");
+        responseString = jsonObject.toString();
+
+        return new APIResponse(responseString); // Returns response
     }
 
     /**
