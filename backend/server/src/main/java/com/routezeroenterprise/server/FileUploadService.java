@@ -1,13 +1,11 @@
 package com.routezeroenterprise.server;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -107,16 +105,14 @@ public class FileUploadService {
      * variables are not used by the Route Zero API, it is not a fatal error. However, it is something that the
      * user probably should be warned about. This method must only be called for files with no critical errors.
      * @param lines The CSV file.
-     * @return A string containing all the warnings. This String is comma seperated, so it's of the form
-     * "warning1","warning2",...
-     * If there are no warnings, "" is just returned.
+     * @return All the warnings. Each list element is a warning message.
      */
-    private static String getWarnings(List<String> lines) {
-        StringBuilder warnings = new StringBuilder("");
+    private static List<String> getWarnings(List<String> lines) {
+        List<String> warnings =  new ArrayList<>();
         /*
-        TODO Implement
+        TODO IMPLEMENT
          */
-        return warnings.toString();
+        return warnings;
     }
 
 
@@ -135,7 +131,6 @@ public class FileUploadService {
         if (errors.isPresent()) {
             return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
         }
-        String warnings = getWarnings(lines); // Retrieves warning messages
 
         // Builds the data of all the journeys using each record of CSV file.
         // As first line is header, this line is ignored.
@@ -155,11 +150,24 @@ public class FileUploadService {
 
         // Adds warnings to JSON string
         Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
-        jsonObject.addProperty("warnings", "[" + warnings + "]");
+        JsonObject jsonObject = gson.fromJson(responseString, JsonObject.class);
+        addWarningsToJson(jsonObject, getWarnings(lines));
         responseString = jsonObject.toString();
 
         return new APIResponse(responseString); // Returns response
+    }
+
+    /**
+     * Adds string array containing warnings to JSON response.
+     * @param jo The JSON.
+     * @param warnings The list of warnings to add.
+     */
+    private static void addWarningsToJson(JsonObject jo, List<String> warnings) {
+        JsonArray array = new JsonArray();
+        for (String warning : warnings) {
+            array.add(new JsonPrimitive(warning));
+        }
+        jo.add("warnings", array);
     }
 
     /**
