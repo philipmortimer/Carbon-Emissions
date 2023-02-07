@@ -52,6 +52,7 @@ public class Helper {
      * Loads file into string.
      * @param path File path.
      * @return File as string.
+     * @throws IOException IOException may occur when attempting to read from file.
      */
     public static String loadFileAsText(String path) throws IOException {
         return Files.readString(Paths.get(path));
@@ -60,7 +61,7 @@ public class Helper {
     /**
      * Sends a RESTful request to the endpoint according to the json request provided.
      * On success, it will return the json response as a string.
-     * On failure, it will return the string "Error <error-detail>".
+     * On failure, it will return the string "Error 'error-detail'".
      * @param endpoint The endpoint.
      * @param j The JSON request.
      * @return The API response or an error message.
