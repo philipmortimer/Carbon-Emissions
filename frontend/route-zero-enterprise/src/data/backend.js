@@ -1,4 +1,4 @@
-const deployed = false;
+// const deployed = false;
 
 const deploy = {
     ip: "https://application-e8.vzjfxzf7sdt.eu-gb.codeengine.appdomain.cloud",
@@ -8,8 +8,8 @@ const deploy = {
 
 const develop = {
     ip: "http://localhost",
-    port: 3001,
-    endpoint: "/get_predictions" 
+    port: 8080,
+    endpoint: "/get_predictions"
 };
 
 //endpoint exposed 
