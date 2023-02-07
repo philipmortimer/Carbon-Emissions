@@ -4,6 +4,7 @@ import com.google.gson.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -129,7 +130,10 @@ public class FileUploadService {
     private APIResponse process(String csvFile) {
         // Handles case when API key could not be loaded
         if (APIController.API_KEY.isEmpty()) {
-            return new APIResponse("{\"errorApiKey\": \"The backend server failed to load the API key.\"}");
+            System.err.println("API Key not loaded. Restart server and ensure key is loaded. No requests" +
+                    " will work until the API key is read from api_key.json.");
+            return new APIResponse("{\"errorCommunication\": \"" +
+                    "The backend server failed to load the API key.\"}");
         }
         // Null check
         if (csvFile == null) {
@@ -156,7 +160,15 @@ public class FileUploadService {
         // Sends request to API and returns response
         String jsonString = "{\"apiKey\":" + APIController.API_KEY.get() +
                 String.format(",\"id\":\"id\",\"journeys\":[%s]}", journeys);
-        String responseString = Helper.postJsonAsString(APIController.PROPS.getEmissionsEndpoint(), jsonString);
+        String responseString = null;
+        try {
+            responseString = Helper.postJsonAsString(APIController.PROPS.getEmissionsEndpoint(), jsonString);
+        } catch (IOException e) {
+            System.err.println("Error making post request " + e);
+            e.printStackTrace();
+            return new APIResponse("{\"errorCommunication\": \"" +
+                    "Error when communicating with backend. Details: " + e.getMessage() + "\"}");
+        }
 
         // Adds warnings to JSON string
         JsonObject jsonObject = new Gson().fromJson(responseString, JsonObject.class);
