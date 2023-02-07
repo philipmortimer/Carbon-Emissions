@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Helper class used for a small number of helper methods.
@@ -112,11 +113,10 @@ public class Helper {
 
     /**
      * Loads the API key.
-     * @return The API key.
-     * @throws RuntimeException If the reading the contents of the api_key.json file throws an error,
-     * we throw a runtime exception.
+     * @return The API key. If the API key file can't be found, an error message is displayed
+     * and Optional.empty() is returned.
      */
-    static String getApiKey() throws RuntimeException{
+    static Optional<String> getApiKey(){
         String apiKeyAsText = null;
         try {
             apiKeyAsText = loadFileAsText("src/main/resources/api_key.json");
@@ -131,14 +131,15 @@ public class Helper {
             However, correct programming practice dictates that this catch block should read "
             throw new RuntimeException(e);". Instead it reads as follows below
             */
-            return gracefulError(e, "Error retrieving API key. You MUST stop the backend" +
+            gracefulError(e, "Error retrieving API key. You MUST stop the backend" +
                     " immediately and restart, ensuring that the API key file is accessible. A runtime exception" +
                     " should be thrown here. However, this would mess up GitHub automated tests" +
                     " which don't have access to the API key. So unless, this log is being displayed in a GitHub" +
                     " automated test, RESTART AND FIX THE ISSUE.");
+            return Optional.empty();
         }
         JsonObject jsonObject = new Gson().fromJson(apiKeyAsText, JsonObject.class);
-        return jsonObject.get("apiKey").toString();
+        return Optional.of(jsonObject.get("apiKey").toString());
     }
 
     /**

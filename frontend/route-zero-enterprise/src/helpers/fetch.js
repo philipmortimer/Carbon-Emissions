@@ -26,8 +26,14 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         return raw.json()
     })
     .then((data) => {
-        //console.log(data);
-        return {"data": data};
+        // Checks to see if backend has been unabled to upload API key.
+        // If it has, it returns a different kind of error message (as CSV file is not necessarily invalid).
+        if (data.errorApiKey !== undefined) {
+            console.error(`error when fetching from ${url}; ${data.errorApiKey} due to API key not being loaded`);
+            return {"error": data.errorApiKey};
+        } else {
+            return {"data": data};
+        }
     })
     .catch((err) => {
         console.error(`error when fetching from ${url}; ${err}`);

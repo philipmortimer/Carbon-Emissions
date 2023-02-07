@@ -3,6 +3,8 @@ package com.routezeroenterprise.server;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 /**
  * Controller for the API. This class is the point of contact for the frontend end and is where requests are
  * made and corresponding results are returned.
@@ -17,9 +19,10 @@ public class APIController {
      */
     final static Helper.Properties PROPS = Helper.loadProperties();
     /**
-     * The API KEY.
+     * The API key. If the API key can't be found (e.g. because 'api_key.json' doesn't exist),
+     * this variable is just Optional.empty().
      */
-    final static String API_KEY = Helper.getApiKey();
+    final static Optional<String> API_KEY = Helper.getApiKey();
     /**
      * Used to upload the CSV file to route zero API.
      */

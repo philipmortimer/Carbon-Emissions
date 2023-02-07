@@ -127,6 +127,10 @@ public class FileUploadService {
      * @return The API response
      */
     private APIResponse process(String csvFile) {
+        // Handles case when API key could not be loaded
+        if (APIController.API_KEY.isEmpty()) {
+            return new APIResponse("{\"errorApiKey\": \"The backend server failed to load the API key.\"}");
+        }
         // Null check
         if (csvFile == null) {
             return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
@@ -150,7 +154,7 @@ public class FileUploadService {
         }
 
         // Sends request to API and returns response
-        String jsonString = "{\"apiKey\":" + APIController.API_KEY +
+        String jsonString = "{\"apiKey\":" + APIController.API_KEY.get() +
                 String.format(",\"id\":\"id\",\"journeys\":[%s]}", journeys);
         String responseString = Helper.postJsonAsString(APIController.PROPS.getEmissionsEndpoint(), jsonString);
 
