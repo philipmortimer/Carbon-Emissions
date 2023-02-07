@@ -1,6 +1,7 @@
 package com.routezeroenterprise.server;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,8 +41,65 @@ public class FileUploadService {
      * Otherwise, a String error message will be returned
      * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'ferry'")).
      */
-    private Optional<String> checkForErrors(List<String> lines) {
+    private static Optional<String> checkForErrors(List<String> lines) {
+        // Performs null checks. This probably isn't necessary but is safe.
+        if (lines == null || lines.stream().anyMatch(x -> x == null)) {
+            return Optional.of("Unexpected null error. This is likely because the file provided is empty.");
+        }
+        // Checks that file is not empty.
+        if (lines.isEmpty()) {
+            return Optional.of("Empty CSV File provided.");
+        }
+        // Checks that first line is header providing titles for each column.
+        if (!lines.get(0).equals("origin,destination,distanceKm,departureTime,arrivalTime,transport")) {
+            return Optional.of("First line of CSV file must be heading. The first line of the CSV" +
+                    "file should say: 'origin,destination,distanceKm,departureTime,arrivalTime,transport'");
+        }
+        // Checks that every line in file has exactly the number of columns required by format
+        for (int i = 0; i < lines.size(); i++) {
+            if (StringUtils.countOccurrencesOf(lines.get(i), ",") != FileFormat.NO_FIELDS_IN_FILE) {
+                return Optional.of("Line " + (i + 1) + " should have exactly " + FileFormat.NO_FIELDS_IN_FILE +
+                        " fields. I.E. it should have exactly " + FileFormat.NO_FIELDS_IN_FILE +
+                        " commas.Here is the content of the invalid line: " + lines.get(i));
+            }
+        }
+        // Checks that every "distanceKm" and "transport" field is valid.
+        for (int i = 0; i < lines.size(); i++) {
+            String[] line =  lines.get(i).split(",", -1);
+            // Checks that transport is one of the predefined valid types.
+            if (!FileFormat.VALID_TRAVEL_TYPES.contains(line[FileFormat.TRANSPORT_INDEX])){
+                return Optional.of("Line " + (i + 1) + " contains an invalid transport type. " +
+                        " Transport type '" + line[FileFormat.TRANSPORT_INDEX] + "' is invalid.");
+            }
+            // Checks that distanceKm is a real number greater than 0
+            try {
+                double dist = Double.parseDouble(line[FileFormat.DIST_INDEX]);
+                if (dist <= 0) {
+                    return Optional.of("Error on line " + (i + 1) +" of file. Distance must be positive " +
+                            "(strictly greater than zero). Distance found: " + dist);
+                }
+            } catch (NumberFormatException e) {
+                return Optional.of("Error on line " + (i + 1) +" of file. Distance must be a valid real number" +
+                        " (e.g. 1.2).");
+            }
+        }
+        return Optional.empty(); // No critical errors
+    }
 
+    /**
+     * This method parses the CSV file for things that the user should be warned about but do not make a file
+     * invalid. For example, it may be that the departure time is after the arrival time. As these
+     * variables are not used by the Route Zero API, it is not a fatal error. However, it is something that the
+     * user probably should be warned about.
+     * @param lines The CSV file.
+     * @return A string containing all the warnings. This String is comma seperated, so it's of the form
+     * warning1,warning2,...
+     * If there are no warnings, "" is just returned.
+     */
+    private static String getWarnings(List<String> lines) {
+        String warnings = "";
+        
+        return warnings;
     }
 
 
@@ -54,6 +112,12 @@ public class FileUploadService {
      * @return
      */
     private APIResponse process(List<String> lines) {
+        // Checks for critical errors in CSV file
+        Optional<String> errors = checkForErrors(lines);
+        if (errors.isPresent()) {
+            return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
+        }
+        String warnings = getWarnings(lines); // Retrieves warning messages
         List<String> validTravelType = Arrays.asList(
                 "foot",
                 "bike",
@@ -149,5 +213,61 @@ public class FileUploadService {
         return new APIResponse(responseString);
     }
 
-
+    /**
+     * This class contains a few constants used to help access to CSV files uploaded.
+     */
+    private static class FileFormat {
+        /**
+         * The number of fields in the CSV file. A file is of the format:
+         * origin,destination,distanceKm,departureTime,arrivalTime,transport.
+         * Hence, it has 5 valid fields.
+         */
+        private static final int NO_FIELDS_IN_FILE = 5;
+        /**
+         * The index of each line at which the origin field is.
+         */
+        private static final int ORIGIN_INDEX = 0;
+        /**
+         * The index of each line at which the destination field is.
+         */
+        private static final int DEST_INDEX = 1;
+        /**
+         * The index of each line at which the distanceKm field is.
+         */
+        private static final int DIST_INDEX = 2;
+        /**
+         * The index of each line at which the departureTime field is.
+         */
+        private static final int DEP_TIME_INDEX = 3;
+        /**
+         * The index of each line at which the arrivalTime field is.
+         */
+        private static final int ARR_TIME_INDEX = 4;
+        /**
+         * The index of each line at which the transport field is.
+         */
+        private static final int TRANSPORT_INDEX = 5;
+        /**
+         * Stores all the valid transport types that the Route Zero API recognises.
+         */
+        private static final List<String> VALID_TRAVEL_TYPES = Arrays.asList(
+                "foot",
+                "bike",
+                "electricScooter",
+                "petrolCar",
+                "dieselCar",
+                "hybridCar",
+                "electricCar",
+                "taxi",
+                "bus",
+                "coach",
+                "train",
+                "eurostar",
+                "lightRail",
+                "tram",
+                "subway",
+                "flight",
+                "ferry"
+        );
+    }
 }
