@@ -1,10 +1,11 @@
 package com.routezeroenterprise.server;
 
 import com.google.gson.*;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -110,7 +111,9 @@ public class FileUploadService {
     private static List<String> getWarnings(List<String> lines) {
         List<String> warnings =  new ArrayList<>();
         /*
-        TODO IMPLEMENT
+        At the moment, this code generates no warnings as we have decided that most warnings are likely
+        to detract from the user experience. However, the skeleton code has been left as we wish
+        to add warnings in the future. To add warnings simply do warnings.add("Warning message here").
          */
         return warnings;
     }
