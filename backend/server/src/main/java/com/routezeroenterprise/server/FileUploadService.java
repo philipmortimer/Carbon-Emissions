@@ -104,6 +104,8 @@ public class FileUploadService {
      * invalid. For example, it may be that the departure time is after the arrival time. As these
      * variables are not used by the Route Zero API, it is not a fatal error. However, it is something that the
      * user probably should be warned about. This method must only be called for files with no critical errors.
+     * Note that no warning logic has been implemented yet as we have decided that most warnings hurt the user
+     * experience.
      * @param lines The CSV file.
      * @return All the warnings. Each list element is a warning message.
      */
