@@ -1,12 +1,10 @@
 package com.routezeroenterprise.server;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class parses CSV file, performing validation on the file.
@@ -14,43 +12,47 @@ import java.util.List;
  */
 @Service
 public class FileUploadService {
-    private List<String> lastFileAsLines = null;
-
-    public List<String> getLastFileAsLines() {
-        return lastFileAsLines;
+    /**
+     * Uploads the CSV string and sends it to the route zero backend for processing.
+     * Returns the API response. If the CSV file is invalid, an error message is returned.
+     * @param csvString The string containing the CSV file.
+     * @return The API response (or an error message if the string is determined to be invalid).
+     */
+    public APIResponse upload(String csvString){
+        /* Converts csv file to line of Strings, where each line is a row in the file.
+        Sends the data to the process method which handles validation and API response. */
+        return process(csvString.lines().toList());
     }
 
-    //takes a file OR a string
-    public APIResponse upload(String csvString, MultipartFile csvFile, boolean ... testing){
-        if (csvString == null && csvFile == null) {
-            return new APIResponse("{\"error\": \"upload requires one input, got none\"}");
-        }
-        if (csvString != null && csvFile != null) {
-            return new APIResponse("{\"error\": \"upload requires one input, got two\"}");
-        }
-        List<String> requestStringLines;
-        if (csvString != null) { //split into lines and send to internal parsing method
-            requestStringLines = csvString.lines().toList();
-        }else{
-            requestStringLines = new ArrayList<String>();
-            BufferedReader br;
-            try {
-                InputStream is = csvFile.getInputStream();
-                br = new BufferedReader(new InputStreamReader(is));
-                String ln;
-                while ((ln = br.readLine()) != null) {
-                    requestStringLines.add(ln);
-                }
-            }catch(IOException error){
-                System.err.println("An error occurred: " + error.getMessage());
-            }
-        }
-        lastFileAsLines = requestStringLines; //just for testing
-        if(testing.length == 1 && testing[0]) {
-            return new APIResponse("{\"error\": \"testing\"}");
-        } else { return process(requestStringLines); }
+    /**
+     * Checks the CSV String for any critical errors.
+     * A critical error is either:
+     * 1) An incorrectly formatted CSV file. Each line of the file must be of the form:
+     * origin, destination, distanceKm, departureTime, arrivalTime, transport
+     * The exception to this is the very first line which must be exactly
+     * "origin,destination,distanceKm,departureTime,arrivalTime,transport".
+     * For a file to be validly formatted, every other line must have exactly 5 commas.
+     * 2) Invalid data in mandatory fields. Only "distanceKm" and "transport" are required fields.
+     * "transport" must be one of the predefined valid transport types. "distanceKm" must be a positive
+     * real number to be a valid journey.
+     * @param lines The CSV file.
+     * @return Optional.empty() is returned if there are no critical errors.
+     * Otherwise, a String error message will be returned
+     * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'ferry'")).
+     */
+    private Optional<String> checkForErrors(List<String> lines) {
+
     }
 
+
+    /**
+     * Processes the CSV file and returns the Route Zero API predictions.
+     * The CSV file is first validated by this method to ensure that it is potentially valid.
+     * Once validated, it is sent to the Route Zero API. The result of this API query is then returned.
+     * If the file is invalid, an error JSON is returned instead.
+     * @param lines
+     * @return
+     */
     private APIResponse process(List<String> lines) {
         List<String> validTravelType = Arrays.asList(
                 "foot",
@@ -138,6 +140,7 @@ public class FileUploadService {
             }
 
             String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() + String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
+            System.out.println(jsonString);
             responseString = Helper.postJsonAsString(Helper.props.getEmissionsEndpoint(), jsonString);
         } catch (Exception e) {
             e.printStackTrace();

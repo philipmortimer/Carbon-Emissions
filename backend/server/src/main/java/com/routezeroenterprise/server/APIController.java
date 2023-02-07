@@ -27,7 +27,7 @@ public class APIController {
     @RequestMapping(method = RequestMethod.POST, path = "/get_predictions")
     public ResponseEntity<String> getPredictions(@RequestBody String csv){
         return ResponseEntity.ok()
-                .body(fs.upload(csv, null).getResponse()); //will delegate call to required method
+                .body(fs.upload(csv).getResponse()); //will delegate call to required method
     }
 
     /**
