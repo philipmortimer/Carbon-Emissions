@@ -4,8 +4,6 @@ import com.google.gson.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -112,7 +110,7 @@ public class FileUploadService {
         List<String> warnings =  new ArrayList<>();
         /*
         At the moment, this code generates no warnings as we have decided that most warnings are likely
-        to detract from the user experience. However, the skeleton code has been left as we wish
+        to detract from the user experience. However, the skeleton code has been left as we may wish
         to add warnings in the future. To add warnings simply do warnings.add("Warning message here").
          */
         return warnings;
@@ -147,13 +145,12 @@ public class FileUploadService {
         }
 
         // Sends request to API and returns response
-        String jsonString = "{\"apiKey\":\"" + Helper.getApiKey() +
-                String.format("\",\"id\":\"id\",\"journeys\":[%s]}", journeys);
-        String responseString = Helper.postJsonAsString(Helper.props.getEmissionsEndpoint(), jsonString);
+        String jsonString = "{\"apiKey\":" + APIController.API_KEY +
+                String.format(",\"id\":\"id\",\"journeys\":[%s]}", journeys);
+        String responseString = Helper.postJsonAsString(APIController.PROPS.getEmissionsEndpoint(), jsonString);
 
         // Adds warnings to JSON string
-        Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(responseString, JsonObject.class);
+        JsonObject jsonObject = new Gson().fromJson(responseString, JsonObject.class);
         addWarningsToJson(jsonObject, getWarnings(lines));
         responseString = jsonObject.toString();
 

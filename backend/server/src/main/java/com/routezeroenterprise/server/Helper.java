@@ -1,8 +1,8 @@
 package com.routezeroenterprise.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -10,18 +10,15 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Properties;
-import java.util.Scanner;
 
+/**
+ * Helper class used for a small number of helper methods.
+ * Primarily used for loading the API key and other properties from text files.
+ */
 public class Helper {
-
-    private static final ObjectMapper mapper = new ObjectMapper();
-    /**
-     * Stores the contents of the properties JSON. Currently, this contains the emissionsEndpoint
-     * and frontend address.
-     */
-    final static Helper.Properties props = Helper.loadProperties();
 
     /* TODO
         -
@@ -34,35 +31,13 @@ public class Helper {
 
     */
 
-    //java class to turn our api_key json into
-    static public class ApiKey {
-        public String apiKey;
-
-        public void set(String k){
-            apiKey = k;
-        }
-
-        public String get(){
-            return apiKey;
-        }
-    }
-    //java class to turn our properties json into
-    static public class Properties {
-        private String emissionsEndpoint;
-        private String frontendAddress;
-
-        public void setEmissionsEndpoint(String endpoint){ emissionsEndpoint = endpoint; }
-        public void setFrontendAddress(String address) { frontendAddress = address; }
-
-        public String getEmissionsEndpoint(){
-            return emissionsEndpoint;
-        }
-        public String getFrontendAddress() { return frontendAddress; }
-    }
-
-    //general error function to be used where possible
-    //pass it the exception, and whatever error detail you want before it as 'preface'
-    //can be used for returning from string functions, as it always returns a string that starts with "Error"
+    /**
+     * A general error function to be used where possible.
+     * Can be used for returning from string functions, as it always returns a string that starts with "Error".
+     * @param e The exception
+     * @param preface Error details
+     * @return The error string
+     */
     private static String gracefulError(Exception e, String... preface){
         String prefix;
         if(preface.length == 0) { prefix = e.toString(); }
@@ -73,26 +48,23 @@ public class Helper {
         return "Error" + prefix;
     }
 
-    // general helper methods
-    public static String loadFileAsText(String path){
-        try {
-            File f = new File(path);
-            Scanner r = new Scanner(f);
-            String text = "";
-            while (r.hasNextLine()) {
-                text += r.nextLine() + "\n";
-            }
-            r.close();
-            return text;
-
-        } catch (FileNotFoundException e) {
-            return gracefulError(e);
-        }
+    /**
+     * Loads file into string.
+     * @param path File path.
+     * @return File as string.
+     */
+    public static String loadFileAsText(String path) throws IOException {
+        return Files.readString(Paths.get(path));
     }
 
-    //sends a RESTful request to 'endpoint' according to the json 'j' in string form
-    //on success it will return a json response as a string
-    //on fail it will return the string "Error <error-detail>"
+    /**
+     * Sends a RESTful request to the endpoint according to the json request provided.
+     * On success, it will return the json response as a string.
+     * On failure, it will return the string "Error <error-detail>".
+     * @param endpoint The endpoint.
+     * @param j The JSON request.
+     * @return The API response or an error message.
+     */
     public static String postJsonAsString(String endpoint, String j){
         URL url;
         try {
@@ -137,27 +109,78 @@ public class Helper {
         }
     }
 
-    // loads the api_key.json file into a java object
-    public static String getApiKey(){
+    /**
+     * Loads the API key.
+     * @return The API key.
+     * @throws RuntimeException If the reading the contents of the api_key.json file throws an error,
+     * we throw a runtime exception.
+     */
+    static String getApiKey() throws RuntimeException{
+        String apiKeyAsText = null;
         try {
-            String apiKeyAsText = loadFileAsText("src/main/resources/api_key.json");
-            ApiKey k = mapper.readValue(apiKeyAsText, ApiKey.class);
-            return k.get();
-
-        } catch (JsonProcessingException e){
-            return gracefulError(e);
+            apiKeyAsText = loadFileAsText("src/main/resources/api_key.json");
+        } catch (IOException e) {
+            // Failure to load the API key is a non-recoverable error
+            throw new RuntimeException(e);
         }
+        JsonObject jsonObject = new Gson().fromJson(apiKeyAsText, JsonObject.class);
+        return jsonObject.get("apiKey").toString();
     }
 
-    // loads the properties.json file into a java object
-    public static Properties loadProperties(){
+    /**
+     * Loads the properties.jon file.
+     * @return The properties.
+     * @throws RuntimeException If the reading the contents of the properties.json file throws an error,
+     * we throw a runtime exception.
+     */
+    static Properties loadProperties() throws RuntimeException{
         try {
+            ObjectMapper mapper = new ObjectMapper();
             String propsAsText = loadFileAsText("src/main/resources/properties.json");
             return mapper.readValue(propsAsText, Properties.class);
 
-        } catch (JsonProcessingException e){
-            gracefulError(e);
+        } catch (IOException e){
+            // Failure to load the properties is a non-recoverable error
+            throw new RuntimeException(e);
         }
-        return new Properties();
+    }
+
+    /**
+     * Class used that stores the values of the properties file.
+     */
+    static class Properties {
+        /**
+         * The emissions endpoint from the file
+         */
+        private String emissionsEndpoint;
+        /**
+         * The frontend address from the file
+         */
+        private String frontendAddress;
+
+        /**
+         * Sets the emissions endpoint
+         * @param endpoint The endpoint
+         */
+        void setEmissionsEndpoint(String endpoint){ emissionsEndpoint = endpoint; }
+        /**
+         * Sets the frontend address
+         * @param address The frontend address
+         */
+        void setFrontendAddress(String address) { frontendAddress = address; }
+
+        /**
+         * Gets the emissions endpoint.
+         * @return The emissions endpoint
+         */
+        String getEmissionsEndpoint(){
+            return emissionsEndpoint;
+        }
+
+        /**
+         * Gets the frontend address.
+         * @return The frontend address.
+         */
+        String getFrontendAddress() { return frontendAddress; }
     }
 }

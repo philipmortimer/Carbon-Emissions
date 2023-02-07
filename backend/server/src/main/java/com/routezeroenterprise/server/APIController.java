@@ -12,6 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class APIController {
     /**
+     * Stores the contents of the properties JSON. Currently, this contains the emissionsEndpoint
+     * and frontend address.
+     */
+    final static Helper.Properties PROPS = Helper.loadProperties();
+    /**
+     * The API KEY.
+     */
+    final static String API_KEY = Helper.getApiKey();
+    /**
      * Used to upload the CSV file to route zero API.
      */
     private final FileUploadService fs = new FileUploadService();
@@ -36,6 +45,6 @@ public class APIController {
      */
     @GetMapping("/properties")
     public Helper.Properties props(){
-        return Helper.props;
+        return PROPS;
     }
 }
