@@ -33,7 +33,7 @@ public class FileUploadService {
     public APIResponse upload(String csvString){
         /* Converts csv file to line of Strings, where each line is a row in the file.
         Sends the data to the process method which handles validation and API response. */
-        return process(csvString.lines().toList());
+        return process(csvString);
     }
 
     /**
@@ -123,10 +123,15 @@ public class FileUploadService {
      * Once validated, it is sent to the Route Zero API. The result of this API query is then returned.
      * If the file is invalid, an error JSON is returned instead. Additionally, warnings may be returned
      * about the CSV file alongside the API result.
-     * @param lines The CSV file
+     * @param csvFile The CSV file
      * @return The API response
      */
-    private APIResponse process(List<String> lines) {
+    private APIResponse process(String csvFile) {
+        // Null check
+        if (csvFile == null) {
+            return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
+        }
+        List<String> lines = csvFile.lines().toList();
         // Checks for critical errors in CSV file
         Optional<String> errors = checkForErrors(lines);
         if (errors.isPresent()) {
