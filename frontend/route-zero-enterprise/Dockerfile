@@ -1,4 +1,5 @@
-# for source*, see https://github.com/docker/awesome-compose/blob/master/react-nginx/Dockerfile
+
+
 # samples liscened under CC0 (creative commons) thus they are free to use comercially and otherwise without warrenty. 
 
 FROM node:lts AS development

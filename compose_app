@@ -1,9 +1,8 @@
 #!/bin/zsh
+
 echo "composing app"
 docker compose down 
-cd ./frontend/route-zero-enterprise && npm run build && \
+cd frontend/route-zero-enterprise && npm run build && \
 cd .. && cd .. && \
 docker compose up -d && \
-docker tag 2022-routezerocarbonsavings elliotmb/rze && \
-docker push elliotmb/rze:latest
 

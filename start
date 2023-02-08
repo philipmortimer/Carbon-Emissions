@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-cd /usr/share/nginx/html
-nginx -g daemon off
-cd /backend
-java -jar /app.jar
+cd /usr/share/nginx/html &&\ 
+nginx -g "daemon off;" &\
+java -jar /backend/app.jar 

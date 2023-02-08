@@ -1,25 +1,29 @@
-# for source*, see https://github.com/docker/awesome-compose/blob/master/react-nginx/Dockerfile
+FROM maven:3-openjdk-17 as build-backend
+
+COPY backend/server/src src
+COPY backend/server/pom.xml .
+RUN mvn package
+
 # samples liscened under CC0 (creative commons) thus they are free to use comercially and otherwise without warrenty. 
 
 FROM node:lts AS development
 
 #RouteZeroEnterprise
-WORKDIR /frontend
+WORKDIR /rze
 
 # COPY <repo-location> <container-location>
 
 # copy react settings
-COPY /frontend/route-zero-enterprise/package.json package.json
-COPY /frontend/route-zero-enterprise/package-lock.json package-lock.json
+COPY frontend/route-zero-enterprise/package.json /rze/package.json
+COPY frontend/route-zero-enterprise/package-lock.json /rze/package-lock.json
 
 RUN npm install 
 
-COPY /frontend/route-zero-enterprise .
+COPY frontend/route-zero-enterprise/. /rze
 
 # https://stackoverflow.com/questions/55926939/node-in-docker-npm-test-and-exit
 # tests run then exit
 ENV CI=true
-EXPOSE 3000 8080
 
 CMD ["npm", "start"]
 
@@ -39,10 +43,10 @@ COPY --from=gloursdocker/docker / /
 CMD [ "npm", "start" ]
 
 # 2. For Nginx setup
-FROM nginx:alpine
+FROM nginx:alpine AS boot-nginx
 
 # Copy config nginx
-COPY --from=build /frontend/.nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /rze/.nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
@@ -50,41 +54,77 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 # Copy static assets from builder stage
-COPY --from=build /frontend/build .
+COPY --from=build /rze/build .
 
-# Containers run nginx with global directives and daemon off
-#######
-# ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# grab backend assets from a prior build stage
+WORKDIR /backend
 
-#RUN echo "Server started and hosting on ${PORT}"
+RUN apk add openjdk17
+
+COPY --from=build-backend target/server-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build-backend src/main/resources src/main/resources
+
+# for the following script
+RUN apk update && apk add bash
+
+# place the start script in the image
+WORKDIR /
+
+COPY ./start start
+
+RUN chmod 700 start
+
+ENTRYPOINT ["./start"]
+
+#ENTRYPOINT ["nginx", "-g", "daemon off;"]
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ######### BACKEND #########
 
-FROM maven:3-openjdk-17 as build-backend
+#FROM maven:3-openjdk-17 as build-backend
 
-WORKDIR /backend
+#WORKDIR /backend
 
-COPY /backend/server/src src
-COPY /backend/server/pom.xml .
-# COPY /backend/server/.mvn .mvn
+#COPY /backend/server/src src
+#COPY /backend/server/pom.xml .
+#COPY /backend/server/.mvn .mvn
 
-RUN mvn package
+#RUN mvn package
 
-FROM openjdk:17
-COPY --from=build-backend /backend/target/server-0.0.1-SNAPSHOT.jar app.jar
-COPY --from=build-backend /backend/src/main/resources src/main/resources
+# final build stage
 
+#FROM openjdk:17
+
+# slams frontend content in the new image 
+#COPY --from=boot-nginx /etc/nginx /etc/nginx 
+#COPY --from=boot-nginx /usr/share/nginx /usr/share/nginx
+
+#COPY --from=build-backend /backend /backend
 
 # ENTRYPOINT ["java", "-jar", "/app.jar"]
 
-WORKDIR /scripts
+#WORKDIR /scripts
 
-COPY ./start .
+#COPY ./start .
 
-RUN ["chmod", "700", "start"]
+#RUN ["chmod", "700", "start"]
 
-ENTRYPOINT ["/scripts/start"]
+#ENTRYPOINT ["/scripts/start"]
 
 
 # os concepts for  
