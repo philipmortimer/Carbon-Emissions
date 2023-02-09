@@ -1,6 +1,5 @@
 package com.routezeroenterprise.server;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -62,12 +61,22 @@ public class Helper {
 
         //Gets response
         StringBuilder response = new StringBuilder();
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+        InputStream inputStream = connection.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(inputStreamReader);
         String responseLine = null;
         while ((responseLine = br.readLine()) != null) {
             response.append(responseLine.trim());
         }
+
+        // Closes resources
+        connection.disconnect();
+        outStream.flush();
+        outStream.close();
+        inputStream.close();
+        inputStreamReader.close();
+        br.close();
+
         return response.toString();
     }
 
@@ -111,9 +120,11 @@ public class Helper {
      */
     static Properties loadProperties() throws RuntimeException{
         try {
-            ObjectMapper mapper = new ObjectMapper();
             String propsAsText = loadFileAsText("src/main/resources/properties.json");
-            return mapper.readValue(propsAsText, Properties.class);
+            JsonObject jsonObject = new Gson().fromJson(propsAsText, JsonObject.class);
+            String emissionsEndpoint = jsonObject.getAsJsonPrimitive("emissionsEndpoint").getAsString();
+            String frontendAddress = jsonObject.getAsJsonPrimitive("frontendAddress").getAsString();
+            return new Properties(emissionsEndpoint, frontendAddress);
 
         } catch (IOException e){
             // Failure to load the properties is a non-recoverable error
@@ -128,35 +139,34 @@ public class Helper {
         /**
          * The emissions endpoint from the file
          */
-        private String emissionsEndpoint;
+        private final String EMISSIONS_ENDPOINT;
         /**
          * The frontend address from the file
          */
-        private String frontendAddress;
-
-        /**
-         * Sets the emissions endpoint
-         * @param endpoint The endpoint
-         */
-        void setEmissionsEndpoint(String endpoint){ emissionsEndpoint = endpoint; }
-        /**
-         * Sets the frontend address
-         * @param address The frontend address
-         */
-        void setFrontendAddress(String address) { frontendAddress = address; }
+        private final String FRONTEND_ADDRESS;
 
         /**
          * Gets the emissions endpoint.
          * @return The emissions endpoint
          */
         String getEmissionsEndpoint(){
-            return emissionsEndpoint;
+            return EMISSIONS_ENDPOINT;
         }
 
         /**
          * Gets the frontend address.
          * @return The frontend address.
          */
-        String getFrontendAddress() { return frontendAddress; }
+        String getFrontendAddress() { return FRONTEND_ADDRESS; }
+
+        /**
+         * Creates new properties object that stores emissions endpoint and the frontend address.
+         * @param emissionsEndpoint The emissions endpoint.
+         * @param frontendAddress The frontend address.
+         */
+        private Properties(String emissionsEndpoint, String frontendAddress) {
+            this.FRONTEND_ADDRESS = frontendAddress;
+            this.EMISSIONS_ENDPOINT = emissionsEndpoint;
+        }
     }
 }
