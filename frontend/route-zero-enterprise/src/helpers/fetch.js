@@ -26,8 +26,14 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         return raw.json()
     })
     .then((data) => {
-        //console.log(data);
-        return {"data": data};
+        // Checks to see if backend has encountered communication error or API file issue.
+        // If it has, it returns a different kind of error message (as CSV file is not necessarily invalid).
+        if (data.errorCommunication !== undefined) {
+            console.error(`error when fetching from ${url}; ${data.errorCommunication} due to backend communication error`);
+            return {"error": data.errorCommunication};
+        } else {
+            return {"data": data};
+        }
     })
     .catch((err) => {
         console.error(`error when fetching from ${url}; ${err}`);
