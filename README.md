@@ -4,7 +4,7 @@
 - [Starting our app](#startup-guides)
 - [Starting our frontend](#starting-our-frontend)
 - [Starting our backend](#starting-our-backend)
-- [Generating Docker Images](#generating-docker-images)
+- [Docker Images](#docker-images)
 - [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
@@ -140,21 +140,41 @@ Using IntelliJ's builtin terminal:
 Note that the server will run on port 8080 by default.
 To change that, change the value of `server.port` in the *application.properties* file in **./server/src/main/resources**
 
-## Generating Docker Images
+## Docker Images
 
 ### For the Frontend
 
-Currently ``compose.yaml`` contains the ports of the image, these are subject to change (currently set 3000:3000)
-To generate the *production-build* version of our project, running NGINX, follow the steps below:
-- Open Docker Desktop
-- Delete any old images of the frontend you have 
-- Navigate to the root of the React App
-- Run ``docker compose up -d``
-- Test that it is running by visiting ``localhost:3000`` **after shutting down** the development React build 
+The ``docker compose`` instructions are **depricated** as there was no need for a multistage build.
+
+To generate and run just the frontend image, observe the following steps: 
+- start the docker desktop app
+- find ``frontend/route-zero-enterprise/``
+- select a name for the image, here ``<docker_username>/frontend:latest`` is used
+- run ``docker build --tag <docker_username>/frontend:latest . && docker run -p 3000:3000 <docker_username>/frontend:latest``
+
+If no errors were thrown, visitng ``localhost:3000`` brings you to the production build of our React app served by NGINX.
+
+Note this site will not function beyond the landing page as without the backend running it is not able to make requests to RouteZero's API.
 
 ### For the Backend
 
-``TODO``
+To generate and run just the backend image, observe the following steps:
+- start the docker desktop app
+- find ``backend/server/``
+- select a name for the image, here ``<docker_username>/backend:latest`` is used
+- run ``docker build --tag <docker_username>/backend:latest . && docker run -p 8080:8080 <docker_username>/backend:latest``
+
+If no errors were thrown, the backend is now running and bound to port ``8080``. To test this, you may, for example, start the frontend via ``npm run start`` and notice that the full app works. 
+
+### For the whole app
+
+To generate and run the whole application, observe the following steps: 
+- start the docker desktop app
+- find ``/``, the root of the project 
+- select a name for the image, here ``<docker_username>/fullstack:latest`` is used
+- run ``docker build --tag elliotmb/fullstack_app:latest . && docker run -p 3000:3000 -p 8080:8080 elliotmb/fullstack_app:latest ``
+
+Visit ``localhost:3000`` to use the full app. 
 
 ## Concepts and planning
 ### Early design diagrams

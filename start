@@ -2,4 +2,5 @@
 
 cd /usr/share/nginx/html &&\ 
 nginx -g "daemon off;" &\
-java -jar /backend/app.jar 
+cd /backend &&\
+java -jar app.jar 

@@ -1,8 +1,0 @@
-#!/bin/zsh
-
-echo "composing app"
-docker compose down 
-cd frontend/route-zero-enterprise && npm run build && \
-cd .. && cd .. && \
-docker compose up -d && \
-

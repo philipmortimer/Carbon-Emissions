@@ -67,64 +67,15 @@ COPY --from=build-backend src/main/resources src/main/resources
 # for the following script
 RUN apk update && apk add bash
 
-# place the start script in the image
-WORKDIR /
+# workdir is still /backend
 
 COPY ./start start
 
 RUN chmod 700 start
 
 ENTRYPOINT ["./start"]
-
+#            |  |  |
+#            V  V  V
 #ENTRYPOINT ["nginx", "-g", "daemon off;"]
 #ENTRYPOINT ["java", "-jar", "/app.jar"]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######### BACKEND #########
-
-#FROM maven:3-openjdk-17 as build-backend
-
-#WORKDIR /backend
-
-#COPY /backend/server/src src
-#COPY /backend/server/pom.xml .
-#COPY /backend/server/.mvn .mvn
-
-#RUN mvn package
-
-# final build stage
-
-#FROM openjdk:17
-
-# slams frontend content in the new image 
-#COPY --from=boot-nginx /etc/nginx /etc/nginx 
-#COPY --from=boot-nginx /usr/share/nginx /usr/share/nginx
-
-#COPY --from=build-backend /backend /backend
-
-# ENTRYPOINT ["java", "-jar", "/app.jar"]
-
-#WORKDIR /scripts
-
-#COPY ./start .
-
-#RUN ["chmod", "700", "start"]
-
-#ENTRYPOINT ["/scripts/start"]
-
-
-# os concepts for  
