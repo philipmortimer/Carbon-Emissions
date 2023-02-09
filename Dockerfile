@@ -61,13 +61,12 @@ WORKDIR /backend
 
 RUN apk add openjdk17
 
+# Take the compiled Java files 
 COPY --from=build-backend target/server-0.0.1-SNAPSHOT.jar app.jar
 COPY --from=build-backend src/main/resources src/main/resources
 
-# for the following script
+# For the following script we install bash
 RUN apk update && apk add bash
-
-# workdir is still /backend
 
 COPY ./start start
 
