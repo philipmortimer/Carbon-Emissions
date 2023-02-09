@@ -38,7 +38,7 @@ export const PolicySelector = ({policies, setPolicies}) => {
     //gives a bootsrap checkbox
     const checkboxElem = (policyOption, i) => {
         return (
-            <label className="list-group-item">
+            <label key={i} className="list-group-item">
                 <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {togglePolicy(i); policyOption.effect();}}/>
                 {policyOption.name}
                 <div className="aligner">
