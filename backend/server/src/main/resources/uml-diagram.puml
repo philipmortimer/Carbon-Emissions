@@ -1,0 +1,60 @@
+@startuml
+class APIController{
+    -firstName: String
+    +apiCall(String name): apiResponse
+    +getPredictions(String csv): ResponseEntity<String>
+    +props(): Helper.Properties
+}
+
+class apiResponse{
+    -response: String
+    +getResponse(): String
+}
+
+class FileUploadController{
+    -FileUploadService: FileUploadService
+}
+
+class FileUploadService{
+    -props: Helper.Properties
+    +upload(String csvString, MultipartFile csvFile): apiResponse
+    +process(List<String> lines): apiResponse
+}
+
+class Helper{
+    -mapper: ObjectMapper
+    +gracefulError(Exception e, String... preface): String
+    +loadFileAsText(String path): String
+    +postJsonAsString(String endpoint, String j): String
+    +getApiKey(): String
+    +loadProperties(): Properties
+}
+
+class ApiKey{
+    -apiKey: String
+    +set(String k): void
+    +get(): String
+}
+
+class Properties{
+    -emissionsEndpoint: String
+    -frontendAddress: String
+    +setEmissionsEndpoint(String endpoint): void
+    +setFrontendAddress(String address): void
+    +getEmissionsEndpoint(): String
+    +getFrontendAddress(): String
+}
+
+Helper -- ApiKey
+Helper -- Properties
+
+class ServerApplication{
+    +main(String[] args): void
+}
+
+ServerApplication -- FileUploadController
+ServerApplication -- FileUploadService
+ServerApplication -- apiResponse
+ServerApplication -- APIController
+ServerApplication -- Helper
+@enduml
