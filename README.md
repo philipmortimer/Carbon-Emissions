@@ -49,7 +49,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**.
+Before you can run any of the below, please run ``npm install`` in **this directory**. 
 
 ### Available Scripts
 
