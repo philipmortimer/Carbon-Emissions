@@ -65,6 +65,9 @@ RUN apk add openjdk17
 COPY --from=build-backend target/server-0.0.1-SNAPSHOT.jar app.jar
 COPY --from=build-backend src/main/resources src/main/resources
 
+# link to our repo
+LABEL org.opencontainers.image.source https://github.com/spe-uob/2022-RouteZeroCarbonSavings/
+
 # For the following script we install bash
 RUN apk update && apk add bash
 
