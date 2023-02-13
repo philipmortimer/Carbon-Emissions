@@ -130,13 +130,6 @@ public class FileUploadService {
      * @return The API response
      */
     private APIResponse process(String csvFile) {
-        // Handles case when API key could not be loaded
-        if (APIController.API_KEY.isEmpty()) {
-            System.err.println("API Key not loaded. Restart server and ensure key is loaded. No requests" +
-                    " will work until the API key is read from api_key.json.");
-            return new APIResponse("{\"errorCommunication\": \"" +
-                    "The backend server failed to load the API key.\"}");
-        }
         // Null check
         if (csvFile == null) {
             return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
