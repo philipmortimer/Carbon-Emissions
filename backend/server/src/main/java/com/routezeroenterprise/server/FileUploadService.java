@@ -160,7 +160,7 @@ public class FileUploadService {
         }
 
         // Sends request to API and returns response
-        String jsonString = "{\"apiKey\":" + APIController.API_KEY.get() +
+        String jsonString = "{\"apiKey\":" + APIController.API_KEY +
                 String.format(",\"id\":\"id\",\"journeys\":[%s]}", journeys);
         String responseString = null;
         try {
