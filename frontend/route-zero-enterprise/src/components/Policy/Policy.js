@@ -1,4 +1,4 @@
-import React /*, {useEffect, useState}*/ from "react";
+import React /**/, {useEffect}/*, useState}*/ from "react";
 import {KiloTonBubble} from "../KiloTonBubble/KiloTonBubble.js";
 
 // policies is an object containing all selectable options
@@ -19,7 +19,11 @@ policies =
 
 this object will get mutated here, provided a setter setPolicies which will update each policy field as a callback of the bootstrap 'form-check-input'
 */
-export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState}) => {
+export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState, savedCO2e, setSavedCO2e}) => {
+
+    useEffect(() => {
+        
+    }, [setPolicies]);
 
     //toggles a policy option based on its index in policies
     const togglePolicy = (index) => {
@@ -41,10 +45,12 @@ export const PolicySelector = ({policies, setPolicies, journeysState, emissionsS
                     // policyOption.effect.apply(journeysState, emissionsState); //mutates 'After' data
                     if(policyOption.selected) {
                         policyOption.effect.apply(journeysState, emissionsState);
+                    }else{
+                        policyOption.effect.revert(journeysState, emissionsState);
                     }
                 }}/>
                 {policyOption.name}
-                <KiloTonBubble policyOption={policyOption} journeysState={journeysState} emissionsState={emissionsState}/>
+                <KiloTonBubble setPolicies={setPolicies} policyOption={policyOption} journeysState={journeysState} emissionsState={emissionsState} savedCO2e={savedCO2e[i]}/>
             </label>
         )
     }

@@ -27,11 +27,16 @@ class Effect {
     
     apply(){}
 
-    getCO2eSaved(){}
+    revert(){}
 
+    getCO2eSaved(){ return 0; }
+
+    //takes a list of bars (pairs of [name, num]), make sure you dont pass in a [bar, setter] pair ([[name, num], setter])
     static sumCO2e(emissions){
-        //                     num, pair  number
-        return emissions.reduce((x, y) => x + y[1], 0);
+          
+        const sum = emissions.reduce((x, y) => x + y[1], 0);
+        console.log("SUM", sum);
+        return sum;
     }
 
     //arguments: any bars (pairs of [name, value]), variadic array of strings
@@ -61,25 +66,9 @@ class Effect {
     }
 }
 
-    // *Example effect* 
-/*
-    (jState, eState) => {
-        const [j, setJ] = jState;
-        const [e, setE] = eState;
-        setJ(j.pop(1));
-        const newE = [];
-        e.map((emission, i) => {
-            [name, value] = emission;
-            if(name === "flight"){
-                newE.push(emission);
-            }
-        });
-        setE(newE);
-    }
-*/
 
 //Placeholder, returns a new effect that does nothing
-const NO_EFFECT = (() => {return new Effect(()=>{})})();
+const NO_EFFECT = (() => {return new Effect(()=>{return [[], []]})})();
 
 //A class to be used for all simple effects, ensures they are only accessing the current prediction data. Consistency of scope. 
 class SimpleEffect extends Effect {
@@ -91,26 +80,25 @@ class SimpleEffect extends Effect {
     //journeysState and emissionsState are array-setter pairs
     apply(journeysState, emissionsState){
         this.revertState = [journeysState[0], emissionsState[0]]; //saves the current state before changing it, so we can change things back when we uncheck
-        this.effect(journeysState, emissionsState);
+        const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
+        //assigns new values to bars
+        (journeysState[1])(newJourneys);
+        (emissionsState[1])(newEmissions);
+    }
+
+    revert(journeysState, emissionsState){
+        (journeysState[1])(this.revertState[0]);
+        (emissionsState[1])(this.revertState[1]);
     }
 
     //Returns the change in emissions a simple effect gives
     getCO2eSaved(journeysState, emissionsState){
-        //Unpacking just the data and not the setter makes this function inherently safer
-        const journeysCopy = [...journeysState[0]];
-        const emissionsCopy = [...emissionsState[0]];
-
-        const previousTotalCO2e = Effect.sumCO2e(emissionsCopy);
-
-        //Create setters for the copy data to apply the effect as usual
-        const journeysCopySetter = (newJourneys) => {journeysCopy = newJourneys;} 
-        const emissionsCopySetter = (newEmissions) => {emissionsCopy = newEmissions;} 
 
         //effect will mutate copies
-        this.effect([journeysCopy, journeysCopySetter], [emissionsCopy, emissionsCopySetter]);
+        const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
 
         //measure the change in the emissionsCopy
-        return previousTotalCO2e - Effect.sumCO2e(emissionsCopy);
+        return Effect.sumCO2e(emissionsState[0]) - Effect.sumCO2e(newEmissions);
     }
 }
 
@@ -131,33 +119,29 @@ const POLICIES_BASE =
                 //console.log("print");
                 const [journeys, setJourneys] = jState;
                 const [emissions, setEmissions] = eState;
+
+                console.log(journeys, emissions);
+
                 //Swap all ICE journeys with EVs
-                //what bar # is ICEs? 
-                let barNos = [];
-                let barEVJourneys = -1;
-                for(let i = 0; i < journeys.length; i++){
-                    const name = journeys[i][0];
-                    if(name === travelKind.petrolCar || name === travelKind.dieselCar){
-                        barNos.push(i); //those bars representing ICEs
-                    }
-                    if(name === travelKind.electricCar){
-                        barEVJourneys = i;
-                    }
-                }
+
+                //indices of all interesting bars
+                const [journeyEVBar, journeyPetrolBar, journeyDieselBar] = Effect.searchBarsOnNames(journeys, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
+                const iceBars = [journeyPetrolBar, journeyDieselBar];
 
                 let newJourneys = Effect.copyBars(journeys); //a mutable copy of journeys
-                console.log(journeys, newJourneys);
 
-                barNos.map((i) => {
-                    //add extra journeys to electricCars from diesel or petrol 
-                    newJourneys[barEVJourneys][1] += newJourneys[i][1];
-                    newJourneys[i][1] = 0;
-                    return i;
+                //add extra journeys to electricCars from diesel or petrol 
+                iceBars.map((position) => {
+                    if(position !== -1){ //if it was found by Effect.searchBarsOnNames
+                        newJourneys[journeyEVBar][1] += journeys[position][1];
+                        newJourneys[position][1] = 0;
+                    }
                 });
-                //console.log(barNos, barEVs, newJourneys);
 
+                console.log("NEW JOURNEYS", newJourneys);
                 //remove ICE emissions, scale EV emissions by extrapolation
-                const factorEV = newJourneys[barEVJourneys][1] / journeys[barEVJourneys][1];
+                const factorEV = newJourneys[journeyEVBar][1] / journeys[journeyEVBar][1];
+
                 let newEmissions = Effect.copyBars(emissions); //a mutable copy of emissions
 
                 const [emissionsEVBar, emissionsPetrolBar, emissionsDieselBar] = Effect.searchBarsOnNames(emissions, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
@@ -169,9 +153,7 @@ const POLICIES_BASE =
                 newEmissions[emissionsDieselBar][1] = 0; //no longer emitters
                 console.log(newEmissions[emissionsEVBar][1]);
 
-                //set state
-                setJourneys(newJourneys);
-                setEmissions(newEmissions);
+                return [newJourneys, newEmissions];
             })
     },
     {

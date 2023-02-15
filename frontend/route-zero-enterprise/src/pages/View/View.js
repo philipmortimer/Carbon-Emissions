@@ -20,6 +20,7 @@ export const View = (props) => {
     const [predictEmissions, setPredictEmissions] = useState([]);
 
     const [policies, setPolicies] = useState(getPolicies());
+    const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
 
     //console.log(policies);
 
@@ -42,7 +43,16 @@ export const View = (props) => {
             emissionBars(props.file, props.response, "newCarbonKgCo2e")
             .then((pairs) => {
                 setPredictEmissions(pairs);
+                return pairs;
             })
+            .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
+                const savedCO2eBuilder = [];
+                policies.map(pol => {
+                    savedCO2eBuilder.push(pol.effect.getCO2eSaved([predictJourneyBars(props.response), () => {}], [pairs, setPredictEmissions]));
+                    return pol;
+                });
+                setSavedCO2e(savedCO2eBuilder);
+            });
         }
     }, [props.setFile, props.file, props.response]);
     
@@ -52,7 +62,7 @@ export const View = (props) => {
                 <div className="outer">
                 <div className="cell">
                     {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
-                    <PolicySelector policies={policies} setPolicies={setPolicies} journeysState={[predictJourneys, setPredictJourneys]} emissionsState={[predictEmissions, setPredictEmissions]}/>
+                    <PolicySelector policies={policies} setPolicies={setPolicies} journeysState={[predictJourneys, setPredictJourneys]} emissionsState={[predictEmissions, setPredictEmissions]} savedCO2e={savedCO2e}/>
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>
