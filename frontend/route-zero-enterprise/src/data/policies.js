@@ -35,7 +35,6 @@ class Effect {
     static sumCO2e(emissions){
           
         const sum = emissions.reduce((x, y) => x + y[1], 0);
-        console.log("SUM", sum);
         return sum;
     }
 
@@ -43,7 +42,6 @@ class Effect {
     //returns  : array of indices for all names
     static searchBarsOnNames(bars, ...names){
         if(names.length === 0) { return [-1]; }
-        console.log(names);
 
         //indices corresponds 1:1 with names
         const indices = []; //names.map(n => {indices.push(-1); return n}); 
@@ -116,11 +114,8 @@ const POLICIES_BASE =
     {
         name: "Replace all ICEs with EVs",
         effect: new SimpleEffect((jState, eState) => {
-                //console.log("print");
                 const [journeys, setJourneys] = jState;
                 const [emissions, setEmissions] = eState;
-
-                console.log(journeys, emissions);
 
                 //Swap all ICE journeys with EVs
 
@@ -138,20 +133,17 @@ const POLICIES_BASE =
                     }
                 });
 
-                console.log("NEW JOURNEYS", newJourneys);
                 //remove ICE emissions, scale EV emissions by extrapolation
                 const factorEV = newJourneys[journeyEVBar][1] / journeys[journeyEVBar][1];
 
                 let newEmissions = Effect.copyBars(emissions); //a mutable copy of emissions
 
                 const [emissionsEVBar, emissionsPetrolBar, emissionsDieselBar] = Effect.searchBarsOnNames(emissions, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
-                console.log(emissionsEVBar, emissionsPetrolBar, emissionsDieselBar);
-                console.log(newEmissions[emissionsEVBar][1], factorEV);
+
                 const EVBar = newEmissions[emissionsEVBar];
                 EVBar[1] = EVBar[1] * factorEV; //extrapolate the increase in ev journeys
                 newEmissions[emissionsPetrolBar][1] = 0; //no longer emitters
                 newEmissions[emissionsDieselBar][1] = 0; //no longer emitters
-                console.log(newEmissions[emissionsEVBar][1]);
 
                 return [newJourneys, newEmissions];
             })
