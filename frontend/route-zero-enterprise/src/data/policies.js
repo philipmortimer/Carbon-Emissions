@@ -1,3 +1,4 @@
+import {travelKind} from "../data/travelkind";
 // policies is an object containing all selectable options
 /* 
 it may look something like this
@@ -101,13 +102,16 @@ const POLICIES_BASE =
         name: "Replace all ICEs with EVs",
         effect:
             new SimpleEffect((jState, eState) => {
-                const [j, setJ] = jState;
-                const [e, setE] = eState;
+                const [journeys, setJourneys] = jState;
+                const [emissions, setEmissions] = eState;
                 //Swap all ICE journeys with EVs
                 //what bar # is ICEs? 
-                j.map((journey, i) => {
-                    
-                })
+                let barNos = [];
+                for(let i = 0; i < journeys.length; i++){
+                    if(journeys[0] === travelKind.petrolCar || journeys[0] === travelKind.dieselCar){
+                        barNos.push(i);
+                    }
+                }
 
                 //remove ICE emissions, scale EV emissions by extrapolation
                 
