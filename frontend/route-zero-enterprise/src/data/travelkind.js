@@ -5,6 +5,7 @@ export const travelKind = {
     petrolCar: "petrolCar",
     dieselCar: "dieselCar",
     hybridCar: "hybridCar",
+    electricCar: "electricCar",
     taxi: "taxi",
     bus: "bus",
     coach: "coach",

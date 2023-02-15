@@ -39,7 +39,9 @@ export const PolicySelector = ({policies, setPolicies, journeysState, emissionsS
                 <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {
                     togglePolicy(i); 
                     // policyOption.effect.apply(journeysState, emissionsState); //mutates 'After' data
-                    policyOption.effect.apply(journeysState, emissionsState);
+                    if(policyOption.selected) {
+                        policyOption.effect.apply(journeysState, emissionsState);
+                    }
                 }}/>
                 {policyOption.name}
                 <KiloTonBubble policyOption={policyOption} journeysState={journeysState} emissionsState={emissionsState}/>

@@ -22,16 +22,42 @@ this object will get mutated here, provided a setter setPolicies which will upda
 class Effect {
     constructor(effect){
         this.effect = effect;
+        this.revertState = []; //the state we write when we uncheck a policy change, pair of journeys and emission bars
     }
-
-    //Overridden as needed
+    
     apply(){}
 
     getCO2eSaved(){}
 
-    sumCO2e(emissions){
+    static sumCO2e(emissions){
         //                     num, pair  number
         return emissions.reduce((x, y) => x + y[1], 0);
+    }
+
+    //arguments: any bars (pairs of [name, value]), variadic array of strings
+    //returns  : array of indices for all names
+    static searchBarsOnNames(bars, ...names){
+        if(names.length === 0) { return [-1]; }
+        console.log(names);
+
+        //indices corresponds 1:1 with names
+        const indices = []; //names.map(n => {indices.push(-1); return n}); 
+        for(let i = 0; i < names.length; i++){
+            indices.push(-1);
+        }
+
+        for(let i = 0; i < bars.length; i++){
+            const name = bars[i][0];
+            names.map((n, j) => { 
+                if(name === n) { indices[j] = i; };
+            })
+        }
+
+        return indices;
+    }
+
+    static copyBars(src){
+        return JSON.parse(JSON.stringify(src));
     }
 }
 
@@ -64,6 +90,7 @@ class SimpleEffect extends Effect {
     //wraps effects in a context of just taking two arguments
     //journeysState and emissionsState are array-setter pairs
     apply(journeysState, emissionsState){
+        this.revertState = [journeysState[0], emissionsState[0]]; //saves the current state before changing it, so we can change things back when we uncheck
         this.effect(journeysState, emissionsState);
     }
 
@@ -73,7 +100,7 @@ class SimpleEffect extends Effect {
         const journeysCopy = [...journeysState[0]];
         const emissionsCopy = [...emissionsState[0]];
 
-        const previousTotalCO2e = this.sumCO2e(emissionsCopy);
+        const previousTotalCO2e = Effect.sumCO2e(emissionsCopy);
 
         //Create setters for the copy data to apply the effect as usual
         const journeysCopySetter = (newJourneys) => {journeysCopy = newJourneys;} 
@@ -83,7 +110,7 @@ class SimpleEffect extends Effect {
         this.effect([journeysCopy, journeysCopySetter], [emissionsCopy, emissionsCopySetter]);
 
         //measure the change in the emissionsCopy
-        return previousTotalCO2e - this.sumCO2e(emissionsCopy);
+        return previousTotalCO2e - Effect.sumCO2e(emissionsCopy);
     }
 }
 
@@ -100,21 +127,51 @@ const POLICIES_BASE =
     },
     {
         name: "Replace all ICEs with EVs",
-        effect:
-            new SimpleEffect((jState, eState) => {
+        effect: new SimpleEffect((jState, eState) => {
+                //console.log("print");
                 const [journeys, setJourneys] = jState;
                 const [emissions, setEmissions] = eState;
                 //Swap all ICE journeys with EVs
                 //what bar # is ICEs? 
                 let barNos = [];
+                let barEVJourneys = -1;
                 for(let i = 0; i < journeys.length; i++){
-                    if(journeys[0] === travelKind.petrolCar || journeys[0] === travelKind.dieselCar){
-                        barNos.push(i);
+                    const name = journeys[i][0];
+                    if(name === travelKind.petrolCar || name === travelKind.dieselCar){
+                        barNos.push(i); //those bars representing ICEs
+                    }
+                    if(name === travelKind.electricCar){
+                        barEVJourneys = i;
                     }
                 }
 
+                let newJourneys = Effect.copyBars(journeys); //a mutable copy of journeys
+                console.log(journeys, newJourneys);
+
+                barNos.map((i) => {
+                    //add extra journeys to electricCars from diesel or petrol 
+                    newJourneys[barEVJourneys][1] += newJourneys[i][1];
+                    newJourneys[i][1] = 0;
+                    return i;
+                });
+                //console.log(barNos, barEVs, newJourneys);
+
                 //remove ICE emissions, scale EV emissions by extrapolation
-                
+                const factorEV = newJourneys[barEVJourneys][1] / journeys[barEVJourneys][1];
+                let newEmissions = Effect.copyBars(emissions); //a mutable copy of emissions
+
+                const [emissionsEVBar, emissionsPetrolBar, emissionsDieselBar] = Effect.searchBarsOnNames(emissions, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
+                console.log(emissionsEVBar, emissionsPetrolBar, emissionsDieselBar);
+                console.log(newEmissions[emissionsEVBar][1], factorEV);
+                const EVBar = newEmissions[emissionsEVBar];
+                EVBar[1] = EVBar[1] * factorEV; //extrapolate the increase in ev journeys
+                newEmissions[emissionsPetrolBar][1] = 0; //no longer emitters
+                newEmissions[emissionsDieselBar][1] = 0; //no longer emitters
+                console.log(newEmissions[emissionsEVBar][1]);
+
+                //set state
+                setJourneys(newJourneys);
+                setEmissions(newEmissions);
             })
     },
     {
