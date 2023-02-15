@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 // Modal that pops up with relevant error message when backend rejects CSV file
-export const InvalidFileModal= (props) => {
+export const InvalidFileModal = (props) => {
 
   return (
     <Modal

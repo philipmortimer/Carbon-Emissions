@@ -13,7 +13,8 @@ import {getPolicies} from "../../data/policies.js";
 
 export const View = (props) => {
 
-    const [beforeJourneys, setBeforeJourneys] = useState([]); //array of pairs
+    // PairArray<BarName, Number>
+    const [beforeJourneys, setBeforeJourneys] = useState([]);
     const [beforeEmissions, setBeforeEmissions] = useState([]);
     const [predictJourneys, setPredictJourneys] = useState([]);
     const [predictEmissions, setPredictEmissions] = useState([]);
@@ -51,7 +52,7 @@ export const View = (props) => {
                 <div className="outer">
                 <div className="cell">
                     {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
-                    <PolicySelector policies={policies} setPolicies={setPolicies} predictJourneysState={[predictJourneys, setPredictJourneys]} predictEmissionsState={[predictEmissions, setPredictEmissions]}/>
+                    <PolicySelector policies={policies} setPolicies={setPolicies} journeysState={[predictJourneys, setPredictJourneys]} emissionsState={[predictEmissions, setPredictEmissions]}/>
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>

@@ -1,4 +1,5 @@
 import React /*, {useEffect, useState}*/ from "react";
+import {KiloTonBubble} from "../KiloTonBubble/KiloTonBubble.js";
 
 // policies is an object containing all selectable options
 /* 
@@ -18,7 +19,7 @@ policies =
 
 this object will get mutated here, provided a setter setPolicies which will update each policy field as a callback of the bootstrap 'form-check-input'
 */
-export const PolicySelector = ({policies, setPolicies}) => {
+export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState}) => {
 
     //toggles a policy option based on its index in policies
     const togglePolicy = (index) => {
@@ -30,12 +31,6 @@ export const PolicySelector = ({policies, setPolicies}) => {
         }));
     }
 
-    //takes a policy option and returns the change in CO2e that it has on the data
-    //this needs to be computed at selection-time, since it may depend on what policies are already selected 
-    const getCO2eSaved = (policyOption) => {
-        return -1;
-    }
-
     //takes a policy option (json of three fields)
     //gives a bootsrap checkbox
     const checkboxElem = (policyOption, i) => {
@@ -43,12 +38,11 @@ export const PolicySelector = ({policies, setPolicies}) => {
             <label key={i} className="list-group-item">
                 <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {
                     togglePolicy(i); 
-                    policyOption.effect(); //mutates 'After' data
+                    // policyOption.effect.apply(journeysState, emissionsState); //mutates 'After' data
+                    policyOption.effect.apply(journeysState, emissionsState);
                 }}/>
                 {policyOption.name}
-                <div className="aligner">
-                    <span className={`${policyOption.selected}`}>{getCO2eSaved(policyOption)}Kt</span>
-                </div>
+                <KiloTonBubble policyOption={policyOption} journeysState={journeysState} emissionsState={emissionsState}/>
             </label>
         )
     }

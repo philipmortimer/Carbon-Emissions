@@ -9,7 +9,6 @@ export const BarChart = ({chartId,  header, bars}) => {
 
             const labels = bars.map(x => x[0]);
             const values = bars.map(x => x[1]);
-            console.log(bars);
 
             const myChart = new Chart(ctx, {
                 type: "bar",
