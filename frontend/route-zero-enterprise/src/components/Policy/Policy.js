@@ -30,8 +30,10 @@ export const PolicySelector = ({policies, setPolicies}) => {
         }));
     }
 
+    //takes a policy option and returns the change in CO2e that it has on the data
+    //this needs to be computed at selection-time, since it may depend on what policies are already selected 
     const getCO2eSaved = (policyOption) => {
-        return 0;
+        return -1;
     }
 
     //takes a policy option (json of three fields)
@@ -39,7 +41,10 @@ export const PolicySelector = ({policies, setPolicies}) => {
     const checkboxElem = (policyOption, i) => {
         return (
             <label key={i} className="list-group-item">
-                <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {togglePolicy(i); policyOption.effect();}}/>
+                <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {
+                    togglePolicy(i); 
+                    policyOption.effect(); //mutates 'After' data
+                }}/>
                 {policyOption.name}
                 <div className="aligner">
                     <span className={`${policyOption.selected}`}>{getCO2eSaved(policyOption)}Kt</span>

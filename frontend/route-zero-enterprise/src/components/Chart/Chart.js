@@ -3,33 +3,6 @@ import Chart from 'chart.js/auto';
 
 export const BarChart = ({chartId,  header, bars}) => {
 
-
-
-    const [dimensions, setDimensions] = useState({
-        h: window.innerHeight,
-        w: window.innerWidth
-    }); 
-
-    const debounce = (f, args, ms) => { //higher-order function that delays many quickly repeated function calls into one function call 'ms' milliseconds after the last call
-        let timer;
-        return () => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                timer = null;
-                f(args);
-            }, ms);
-        }
-    }
-
-    const handleResize = () => {
-        setDimensions({
-            h: window.innerHeight,
-            w: window.innerWidth
-        });
-    }
-
-    window.addEventListener('resize', debounce(handleResize, null, 1000));
-
     useEffect(() => {
         const ctx = document.getElementById(chartId);
         if(bars !== undefined){
@@ -37,7 +10,6 @@ export const BarChart = ({chartId,  header, bars}) => {
             const labels = bars.map(x => x[0]);
             const values = bars.map(x => x[1]);
             console.log(bars);
-            // const header = header;
 
             const myChart = new Chart(ctx, {
                 type: "bar",
@@ -85,9 +57,8 @@ export const BarChart = ({chartId,  header, bars}) => {
             }
         }
 
-    }, [bars, chartId, header, dimensions]);
+    }, [bars, chartId, header]);
     // 01/26/23 chardID and header were added to mitigate 'react-hooks/exhaustive-deps' warning
-    // feature-policy-selection-framework: added 'dimensions' to dependency array because the graphs need to rerender when the window changes size.
 
     return (
         <canvas id={chartId}/>

@@ -50,7 +50,8 @@ export const View = (props) => {
             <div className="center-grid">
                 <div className="outer">
                 <div className="cell">
-                    <PolicySelector policies={policies} setPolicies={setPolicies}/>
+                    {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
+                    <PolicySelector policies={policies} setPolicies={setPolicies} predictJourneysState={[predictJourneys, setPredictJourneys]} predictEmissionsState={[predictEmissions, setPredictEmissions]}/>
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>
