@@ -53,6 +53,7 @@ class Effect {
             const name = bars[i][0];
             names.map((n, j) => { 
                 if(name === n) { indices[j] = i; };
+                return n;
             })
         }
 
@@ -71,7 +72,7 @@ const NO_EFFECT = (() => {return new Effect(()=>{return [[], []]})})();
 //A class to be used for all simple effects, ensures they are only accessing the current prediction data. Consistency of scope. 
 class SimpleEffect extends Effect {
 
-    constructor(effect){super(effect)}
+    //constructor(effect){super(effect)}
 
     //mutates journeys and/or emissions and returns nothing
     //wraps effects in a context of just taking two arguments
@@ -93,7 +94,7 @@ class SimpleEffect extends Effect {
     getCO2eSaved(journeysState, emissionsState){
 
         //effect will mutate copies
-        const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
+        const newEmissions = this.effect(journeysState, emissionsState)[1];
 
         //measure the change in the emissionsCopy
         return Effect.sumCO2e(emissionsState[0]) - Effect.sumCO2e(newEmissions);
@@ -114,8 +115,8 @@ const POLICIES_BASE =
     {
         name: "Replace all ICEs with EVs",
         effect: new SimpleEffect((jState, eState) => {
-                const [journeys, setJourneys] = jState;
-                const [emissions, setEmissions] = eState;
+                const journeys = jState[0];
+                const emissions = eState[0];
 
                 //Swap all ICE journeys with EVs
 
@@ -131,6 +132,7 @@ const POLICIES_BASE =
                         newJourneys[journeyEVBar][1] += journeys[position][1];
                         newJourneys[position][1] = 0;
                     }
+                    return position;
                 });
 
                 //remove ICE emissions, scale EV emissions by extrapolation
