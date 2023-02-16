@@ -1,4 +1,3 @@
-import {params} from '../data/frontend.js';
 
 export const fetchPOST = async (url, data) => { //temporarily, this function only logs to the console and returns nothing
 
@@ -20,18 +19,24 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
         body: data // body data type must match "Content-Type" header
     };
 
-    console.log(request);
+    //console.log(request);
 
     return fetch(url, request)
     .then((raw) => {
         return raw.json()
     })
     .then((data) => {
-        console.log(data);
-        return data;
+        // Checks to see if backend has encountered communication error or API file issue.
+        // If it has, it returns a different kind of error message (as CSV file is not necessarily invalid).
+        if (data.errorCommunication !== undefined) {
+            console.error(`error when fetching from ${url}; ${data.errorCommunication} due to backend communication error`);
+            return {"error": data.errorCommunication};
+        } else {
+            return {"data": data};
+        }
     })
     .catch((err) => {
-        console.log(`error when fetching from ${url}; ${err}`);
-        return "error";
+        console.error(`error when fetching from ${url}; ${err}`);
+        return {"error": err};
     });
 }

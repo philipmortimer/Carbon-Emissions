@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useReducer} from "react";
 import { useNavigate } from 'react-router-dom';
 //custom components
 import { Button } from 'react-bootstrap';
@@ -8,31 +8,43 @@ import {fetchPOST} from '../../helpers/fetch.js';
 import {exposedEndpoints} from '../../data/backend.js';
 //style
 import "./SeePredictions.scss";
+import { InvalidFileModal } from "../InvalidFileModal/InvalidFileModal.js";
+
+function checkValidity(state, action){
+    
+    if(action.f !== null){
+        if(action.f.name.split('.')[1] !== 'csv'){
+            action.setV("invalid_extension");
+        }else{
+            action.setV("valid");
+        }
+    }else{
+        action.setV("no_file");
+    }
+    return {};
+}
 
 export const PredictButton = (props) => {
 
-    // const [validity, setValidity] = useState("no_file"); //no upload
     const [loading, setLoading] = useState("loaded");
+
+    const [, dispatch] = useReducer(checkValidity, {}); // react needs to know that we arent changing the checkValidity function
+    
+    const [modalErrorTxt, setModalErrorTxt] = useState(""); // Text to show in modal
+    const [showModal, setShowModal] = useState(false); // Indicates whether modal should be shown
+
     const navigate = useNavigate();
-
-    const checkValidity = () => {
-        if(props['file'] !== null){
-            if(props['file'].name.split('.')[1] !== 'csv'){
-                props['setValidity']("invalid_extension");
-            }else{
-                props['setValidity']("valid");
-            }
-        }else{
-            props['setValidity']("no_file");
-        }
-    }
-
+ 
     const getSuggestion = (validity) => {
-        return validity === "valid" ?
-            "CSV file selected"
-        : validity === "invalid_extension" ?
-            "You must select a CSV file"
-        : "Please select a file"
+        if (validity === "valid") {
+            return "CSV file selected";
+        } else if (validity === "invalid_extension") {
+            return "You must select a CSV file";
+        } else if (validity === "invalid_by_backend_determination") {
+            return "You must select a correctly formatted file";
+        } else { // In this case validty = "no_file"
+            return "Please select a file";
+        }
     }   
 
     const loadThenPost = () => {
@@ -40,32 +52,40 @@ export const PredictButton = (props) => {
         props['file']
         .text()
         .then((text) => fetchPOST(`${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, text))
-        .then((json) => {
-            props.setResponse(json);
-            setLoading("loaded");
-            navigate("/view");
+        .then((response) => {
+            const json = response.data;
+            const err =  response.error;
+            if (err !== undefined) {
+                // Handles error coming from fetchPOST request (e.g. wifi issues or backend down etc)
+                alert("An unexpected communication error occurred. Please try again." + 
+                "\nError details:\n" + err);
+                setLoading("loaded");
+            }
+            else if (json.error !== undefined) {
+                // Handles case where backend has returned an error message (e.g. invalid CSV file provided)
+                props.setValidity("invalid_by_backend_determination");
+                setModalErrorTxt(json.error);
+                setShowModal(true);
+                setLoading("loaded");
+            } else {
+                // Loads view after receiving response from backend (no errors)
+                props.setResponse(json);
+                setLoading("loaded");
+                navigate("/view");
+            }
         })
-
-        // readText(props['file'], async (e) => { 
-        //     fetchPOST(`http://${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, e.target.result)
-        //     .then((data) => { 
-        //         //once we load in with the data we redirect to the view page 
-        //         props.setResponse(data);
-        //         setLoading("loaded");
-        //         navigate("/view");
-        //     });
-        // });
-        
     }
 
     useEffect(() => {
-        checkValidity();
-    }, [props['file']]) //refreshes on updates to props['file']
+        dispatch({f: props.file, setV: props.setValidity}); //dubiously important console warning in exchange for removing a compilation warning, bring this up in discussion for more information
+    }, [props.file, props.setValidity]) //refreshes on updates to props['file']
+    
 
     return(
         <>
             {(props['validity'] === 'valid' && loading === "loaded") ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
             <p className="suggestion">{getSuggestion(props['validity'])}</p>
+            <InvalidFileModal show={showModal} onHide={() => {setModalErrorTxt(""); setShowModal(false);}} msg={modalErrorTxt}/>
         </>
     )
 }
