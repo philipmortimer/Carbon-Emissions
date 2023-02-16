@@ -1,9 +1,8 @@
-
-const deployed = false;
+const deployed = true;
 
 const deploy = {
-    ip: "depricated",
-    port: 443,
+    ip: "http://44.205.217.6",
+    port: 8080,
     endpoint: "/get_predictions" 
 }
 
