@@ -20,7 +20,14 @@ jobs:
         uses: stCarolas/setup-maven@v4.4
         with:
           maven-version: 3.8.6
+      - name: Set up API key file
+        run: |
+          touch backend/server/src/main/resources/api_key.json
+          printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
       - name: Test Build
         run: |
           mvn clean install -f backend/server
           mvn test -f backend/server
+      - name: Delete API key file
+        run: |
+          rm backend/server/src/main/resources/api_key.json
