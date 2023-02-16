@@ -1,7 +1,8 @@
-// const deployed = false;
+
+const deployed = false;
 
 const deploy = {
-    ip: "https://application-e8.vzjfxzf7sdt.eu-gb.codeengine.appdomain.cloud",
+    ip: "depricated",
     port: 443,
     endpoint: "/get_predictions" 
 }
@@ -13,4 +14,4 @@ const develop = {
 };
 
 //endpoint exposed 
-export const exposedEndpoints = false ? deploy : develop;
+export const exposedEndpoints = deployed ? deploy : develop;

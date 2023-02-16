@@ -7,6 +7,9 @@
 - [Docker Images](#docker-images)
 - [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
+- [Ethics](#ethics)
+- [License](#license)
+- [Documentation](#documentation)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
 ----
@@ -37,6 +40,10 @@ This will have two main components:
 └── README.md
 
 ```
+## Requirements
+- [Docker](https://www.docker.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Maven](https://maven.apache.org/download.cgi)
 
 ## Startup guides
 
@@ -92,35 +99,9 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-### Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-#### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-#### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-#### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-#### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
 #### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-#### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To do: insert deployment instructions
 
 ## Starting our Backend
 
@@ -203,6 +184,17 @@ Many large businesses (1000+ employees) have dedicated sustainability teams and 
 **Conflict resolution**
 Large organisations (250+ employees) usually have separate teams for sustainability and procurement/travel management, each with separate KPIs - sustainability teams focus on trying to cut emissions, while procurement try to drive down business running costs. This may lead to conflict when these goals are opposed, e.g. adopting a more expensive procedure to cut emissions. In this case, the tool helps enterprises find carbon cutting measures, while minimising costs.
 
+
+## Ethics
+No data is being collected as part of this project
+[See more...](/docs/ETHICS.md)
+
+## License
+This project uses the MIT License. Please refer to the link below for more information.
+[See more...](/LICENSE.md)
+
+## Documentation
+Find the javadocs here. (upcoming)
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
