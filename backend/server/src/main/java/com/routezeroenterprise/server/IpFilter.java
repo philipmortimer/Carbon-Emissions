@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+//@Component
 public class IpFilter implements Filter, HandlerInterceptor {
 
     private final List<String> allowedIpAddresses;
