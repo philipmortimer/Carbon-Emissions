@@ -11,6 +11,15 @@ import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart
 //data
 import {getPolicies} from "../../data/policies.js";
 
+const refreshPolicies = (policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e) => {
+    const savedCO2eBuilder = [];
+    policies.map(pol => {
+        savedCO2eBuilder.push(pol.effect.getCO2eSaved([predictJourneys, () => {}], [predictEmissions, setPredictEmissions]));
+        return pol;
+    });
+    setSavedCO2e(savedCO2eBuilder);
+}
+
 export const View = (props) => {
 
     // PairArray<BarName, Number>
@@ -26,7 +35,7 @@ export const View = (props) => {
 
     useEffect(() => {
         document.title = "Graphs | RouteZero"
-        if(props.file !== null) {
+        if(props.file !== null && predictJourneys.length === 0) {
 
             journeyBars(props.file)
             .then((pairs) => {
@@ -46,15 +55,13 @@ export const View = (props) => {
                 return pairs;
             })
             .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
-                const savedCO2eBuilder = [];
-                policies.map(pol => {
-                    savedCO2eBuilder.push(pol.effect.getCO2eSaved([predictJourneyBars(props.response), () => {}], [pairs, setPredictEmissions]));
-                    return pol;
-                });
-                setSavedCO2e(savedCO2eBuilder);
+                refreshPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
             });
+        }else if(props.file === null){ // will eventually be used to refresh CO2e savings on other policy changes
+            refreshPolicies(policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e);
         }
-    }, [props.setFile, props.file, props.response]);
+
+    }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions]);
     
     return(<>
             {/* <p>{JSON.stringify(props.response)}</p> */}
