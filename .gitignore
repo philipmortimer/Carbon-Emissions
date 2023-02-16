@@ -1,2 +1,3 @@
 api_key.json
-.vscode
+.idea/*
+/*.idea/*
