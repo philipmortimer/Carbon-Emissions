@@ -52,7 +52,7 @@ export const tallyList = (xs) => {
  
 //gets only the distinct items of a list
 export const listToSet = (xs) => { 
-    return [... new Set(xs)]
+    return [...new Set(xs)];
 }
 
 export const mapToPairs = (keys, tally) => {
@@ -65,7 +65,16 @@ export const mapToPairs = (keys, tally) => {
 }
 
 export const getTransportsCSV = (text) => {
-    return text.split(/[\r\n]/).slice(1).map(x => x.split(',').at(-1));
+    /* Converts text into transports using the following transformations:
+    - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
+    - Slices the nought element as element 0 is just the field headings
+    - Splits the record by comma and accesses the transport method (last element of record)
+    */
+    return (() => { 
+        const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1));
+        t.pop();
+        return t;
+    })();
 }
 
 export const journeyBars = (csvBlob) => {
@@ -93,9 +102,9 @@ export const emissionBars = (csvBlob, response, fieldName) => {
             return x;
         }); //fresh map
         transports.map((x, i) => {
-            co2Tally[x] += response.predictions[i][fieldName];
+            co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i][fieldName]; //handles undefined 
             return x;
-        })
+        });
         const pairs = mapToPairs(uniqueTransports, co2Tally);
         
         return transform(pairs, 10);
@@ -115,7 +124,7 @@ export const transform = (xs, lowerCutoff) => {
             return [x[0], -1];
         }
     });
-    const xsFilter = xsMap.filter(x => x[1] != -1); //removes those set to be removed
+    const xsFilter = xsMap.filter(x => x[1] !== -1); //removes those set to be removed
     return xsFilter;
 }
 
@@ -127,13 +136,15 @@ export const predictJourneyBars = (response) => {
             const transport = alternative.transport.type;
             transportSet.add(transport);
             if(transportTally[transport] === undefined) {
-                transportTally[transport] = alternative.probability;
+                transportTally[transport] = 0;
             }else{
                 transportTally[transport] += alternative.probability;
             }
+            return alternative; //warning about void arrow function mitigated; no longer mutates predict.alternatives
         });
+        return predict; //warning about void arrow function mitigated; no longer mutates response.predictions
     });
-    const transportList = new Array(... transportSet);
+    const transportList = new Array(...transportSet);
     const pairs = mapToPairs(transportList, transportTally);
 
     return transform(pairs, 0.5);

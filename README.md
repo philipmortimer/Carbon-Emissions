@@ -4,8 +4,12 @@
 - [Starting our app](#startup-guides)
 - [Starting our frontend](#starting-our-frontend)
 - [Starting our backend](#starting-our-backend)
+- [Docker Images](#docker-images)
 - [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
+- [Ethics](#ethics)
+- [License](#license)
+- [Documentation](#documentation)
 - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
 ----
@@ -19,6 +23,28 @@ This will have two main components:
 - Front-end created in React
 - A backend API in SpringBoot to interface with RouteZero's API
 
+### Repository Structure
+
+```
+├── backend
+│   ├── README.md
+│   ├── server
+│   └── server.iml
+├── docs
+│   ├── ETHICS.md
+│   └── stakeholders-and-user-stories.txt
+├── frontend
+│   ├── package-lock.json
+│   └── route-zero-enterprise
+├── LICENSE.md
+└── README.md
+
+```
+## Requirements
+- [Docker](https://www.docker.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Maven](https://maven.apache.org/download.cgi)
+
 ## Startup guides
 
 
@@ -30,7 +56,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**.
+Before you can run any of the below, please run ``npm install`` in **this directory**. 
 
 ### Available Scripts
 
@@ -73,35 +99,9 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-### Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-#### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-#### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-#### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-#### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
 #### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-#### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+To do: insert deployment instructions
 
 ## Starting our Backend
 
@@ -122,6 +122,41 @@ Using IntelliJ's builtin terminal:
 Note that the server will run on port 8080 by default.
 To change that, change the value of `server.port` in the *application.properties* file in **./server/src/main/resources**
 
+## Docker Images
+
+### For the Frontend
+
+The ``docker compose`` instructions are **depricated** as there was no need for a multistage build.
+
+To generate and run just the frontend image, observe the following steps: 
+- start the docker desktop app
+- find ``frontend/route-zero-enterprise/``
+- select a name for the image, here ``<docker_username>/frontend:latest`` is used
+- run ``docker build --tag <docker_username>/frontend:latest . && docker run -p 3000:3000 <docker_username>/frontend:latest``
+
+If no errors were thrown, visitng ``localhost:3000`` brings you to the production build of our React app served by NGINX.
+
+Note this site will not function beyond the landing page as without the backend running it is not able to make requests to RouteZero's API.
+
+### For the Backend
+
+To generate and run just the backend image, observe the following steps:
+- start the docker desktop app
+- find ``backend/server/``
+- select a name for the image, here ``<docker_username>/backend:latest`` is used
+- run ``docker build --tag <docker_username>/backend:latest . && docker run -p 8080:8080 <docker_username>/backend:latest``
+
+If no errors were thrown, the backend is now running and bound to port ``8080``. To test this, you may, for example, start the frontend via ``npm run start`` and notice that the full app works. 
+
+### For the whole app
+
+To generate and run the whole application, observe the following steps: 
+- start the docker desktop app
+- find ``/``, the root of the project 
+- select a name for the image, here ``<docker_username>/fullstack:latest`` is used
+- run ``docker build --tag elliotmb/fullstack_app:latest . && docker run -p 3000:3000 -p 8080:8080 elliotmb/fullstack_app:latest ``
+
+Visit ``localhost:3000`` to use the full app. 
 
 ## Concepts and planning
 ### Early design diagrams
@@ -150,6 +185,17 @@ Many large businesses (1000+ employees) have dedicated sustainability teams and 
 **Conflict resolution**
 Large organisations (250+ employees) usually have separate teams for sustainability and procurement/travel management, each with separate KPIs - sustainability teams focus on trying to cut emissions, while procurement try to drive down business running costs. This may lead to conflict when these goals are opposed, e.g. adopting a more expensive procedure to cut emissions. In this case, the tool helps enterprises find carbon cutting measures, while minimising costs.
 
+
+## Ethics
+No data is being collected as part of this project
+[See more...](/docs/ETHICS.md)
+
+## License
+This project uses the MIT License. Please refer to the link below for more information.
+[See more...](/LICENSE.md)
+
+## Documentation
+Find the javadocs here. (upcoming)
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
