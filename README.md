@@ -106,6 +106,7 @@ To do: insert deployment instructions
 ## Starting our Backend
 
 ### Getting the server running
+Before booting up the server, make sure to include the api key in the api_key.json file in ``/resources``.
 
 ### Terminal
 On your terminal:
