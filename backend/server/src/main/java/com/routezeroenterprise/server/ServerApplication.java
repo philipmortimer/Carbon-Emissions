@@ -12,7 +12,7 @@ public class ServerApplication {
 
 	/**
 	 * Main method used to run server.
-	 * @param args Default system arguments vector.
+	 * @param args Default system arguments array.
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
