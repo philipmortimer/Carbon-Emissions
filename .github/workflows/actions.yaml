@@ -23,7 +23,7 @@ jobs:
       - name: Set up API key file
         run: |
           touch backend/server/src/main/resources/api_key.json
-          printf "{\n  \"apiKey\": \"%s\"\n}" $secrets.API_KEY > backend/server/src/main/resources/api_key.json
+          printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
       - name: Test Build
         run: |
           mvn clean install -f backend/server
