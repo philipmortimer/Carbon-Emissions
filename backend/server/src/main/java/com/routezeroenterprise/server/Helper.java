@@ -111,7 +111,7 @@ public class Helper {
             return new Properties(emissionsEndpoint, frontendAddress);
 
         } catch (IOException e){
-            // Failure to load the properties is a non-recoverable error
+            // Failure to load the properties is a non-recoverable error.
             throw new RuntimeException(e);
         }
     }
