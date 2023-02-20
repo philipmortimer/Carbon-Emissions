@@ -164,6 +164,9 @@ Visit ``localhost:3000`` to use the full app.
 Pull our docker image from this repository's container reposotiory: 
 - ``docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest``
 
+Run our docker image as a container:
+- ``docker run -p 3000:3000 -p 8080:8080 2022-route_zero_carbon_savings:latest``
+
 ## Concepts and planning
 ### Early design diagrams
 ![image](https://user-images.githubusercontent.com/45922387/201781191-0ab142ed-e5b4-4942-87ea-2bc93bbc2091.png)

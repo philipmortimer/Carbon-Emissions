@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main, dev, feature-*]
 
+
 jobs:
   spring-app-ci:
     name: Spring App CI
