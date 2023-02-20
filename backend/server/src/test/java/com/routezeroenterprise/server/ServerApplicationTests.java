@@ -16,9 +16,9 @@ class ServerApplicationTests {
 	/**
 	 * Tests that context loads. Not yet implemented.
 	 */
-//	@Test
-//	@Disabled("Not implemented yet")
-//	void contextLoads() {
-//	}
+	@Test
+	@Disabled("Not implemented yet")
+	void contextLoads() {
+	}
 
 }
