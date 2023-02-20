@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: 2022-route_zero_carbon_savings:latest
+  IMAGE_NAME: 2022-route_zero_carbon_savings
 
 jobs:
   build-and-push-image:
