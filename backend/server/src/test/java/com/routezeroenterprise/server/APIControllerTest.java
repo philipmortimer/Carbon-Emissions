@@ -21,22 +21,22 @@ public class APIControllerTest {
 	@Autowired
 	private MockMvc mvc;
 
-//	@Test
-//	@Disabled("CD cannot be created with failing tests (temporary; Elliot 17/02/23)")
-//	public void getHello() throws Exception {
-//
-//		mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(request().asyncStarted())
-//				.andExpect(status().isOk())
-//				.andExpect(content().string(equalTo("{\"response\":\"Hello, World\"}")));
-//	}
-//
-//    @Test
-//	@Disabled("CD cannot be created with failing tests (temporary; Elliot 17/02/23)")
-//	public void getProperties() throws Exception {
-//		mvc.perform(MockMvcRequestBuilders.get("/properties").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk())
-//				.andExpect(content().string(equalTo("{\"emissionsEndpoint\":\"https://predict-qzzieui6kq-ew.a.run.app\",\"frontendAddress\":\"localhost:3000\"}")));
-//	}
+	@Test
+	@Disabled("CD cannot be created with failing tests (temporary; Elliot 17/02/23)")
+	public void getHello() throws Exception {
+
+		mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
+				.andExpect(request().asyncStarted())
+				.andExpect(status().isOk())
+				.andExpect(content().string(equalTo("{\"response\":\"Hello, World\"}")));
+	}
+
+    @Test
+	@Disabled("CD cannot be created with failing tests (temporary; Elliot 17/02/23)")
+	public void getProperties() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/properties").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string(equalTo("{\"emissionsEndpoint\":\"https://predict-qzzieui6kq-ew.a.run.app\",\"frontendAddress\":\"localhost:3000\"}")));
+	}
 
 }
