@@ -1,4 +1,4 @@
-name: Push image to EC2
+name: Push image to my EC2
 
 on:
   pull_request:
