@@ -73,7 +73,7 @@ export const View = (props) => {
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>
-                    <div className="center-grid">
+                    <div className="center-grid2">
                         <div className="inner">
                         <div className="cell">
                             <h2>Before</h2>

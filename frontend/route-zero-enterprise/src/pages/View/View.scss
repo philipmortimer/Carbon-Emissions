@@ -3,7 +3,13 @@ $span_width: 0.75rem;
 $span_height: 0.35rem;
 
 .center-grid {
+  background-color: white;
+  border-radius: 15px;
   margin: 0 auto;
+  padding: 10px;
+}
+
+.center-grid2 {
   background-color: white;
   border-radius: 15px;
   padding: 5px;
@@ -17,13 +23,13 @@ $span_height: 0.35rem;
   display: grid;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
   .inner {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 1100px){
+@media (max-width: 1200px){
   .inner {
     grid-template-columns: 1fr;
   }
@@ -31,7 +37,7 @@ $span_height: 0.35rem;
 
 @media (min-width: 800px) { 
   .outer{
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr;
   }
 }
 
@@ -39,6 +45,19 @@ $span_height: 0.35rem;
   .outer{
     grid-template-columns: 1fr;
   }
+}
+
+@media (max-width: 500px){
+  .center-grid {
+    padding: 0px;
+  }
+  .cell{
+    margin: 0px;
+  }
+}
+
+h1{
+  padding: 10px;
 }
 
 #h2 {
@@ -49,10 +68,10 @@ $span_height: 0.35rem;
 }
 
 .cell {
-  display: grid;
-  margin: 5px;
+  display:grid;
   border-radius: 15px;
   padding: 5px;
+  margin: 0 auto;
 }
 
 .Chart {
@@ -60,15 +79,29 @@ $span_height: 0.35rem;
   height: 18rem;
   margin: 5px;
   padding: 5px;
-  max-width: 500px;
+  width: 400px;
 }
 
 .policy{
 
+  min-width: 200px;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 5px;
+
+  .form-check-input {
+    display: inline-flex;
+  }
+
+  .policyOption {
+    display:inline-flex;
+  }
+
   .aligner{
-    display: absolute;
+    display: inline-flex;
     float: right;
   }
+
 
   span{
     background-color: white;
@@ -78,7 +111,9 @@ $span_height: 0.35rem;
     color: $rz-green;
     border-style: solid;
     border-width: 0.15rem;
+    margin: 10px;
   }
+
   span.true{
     background-color: $rz_green;
     color: white;
