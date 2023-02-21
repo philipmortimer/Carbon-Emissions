@@ -49,7 +49,7 @@ export const PolicySelector = ({policies, setPolicies, journeysState, emissionsS
                         policyOption.effect.revert(journeysState, emissionsState);
                     }
                 }}/>
-                <div className="policyOption">{policyOption.name}</div>
+                {policyOption.name}
                 <KiloTonBubble setPolicies={setPolicies} policyOption={policyOption} journeysState={journeysState} emissionsState={emissionsState} savedCO2e={savedCO2e[i]}/>
             </label>
         )
