@@ -23,13 +23,13 @@ $span_height: 0.35rem;
   display: grid;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1230px) {
   .inner {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 1200px){
+@media (max-width: 1230px){
   .inner {
     grid-template-columns: 1fr;
   }
@@ -70,7 +70,7 @@ h1{
 .cell {
   display:grid;
   border-radius: 15px;
-  padding: 5px;
+  padding: 0.5rem;
   margin: 0 auto;
 }
 
@@ -84,24 +84,46 @@ h1{
 
 .policy{
 
+  .list-group-item{
+    display: grid;
+    grid-template-columns: 1.5rem 1fr 0fr;
+    height: 3.5rem;
+    padding: 1rem 0 1rem 0.5rem;
+  }
+
+  @media screen and (max-width: 1040px) and (min-width: 800px){
+    .list-group-item{
+      height: 3.5rem;
+      padding: 1rem 0 1rem 0.5rem;
+    }
+
+    p{
+      margin-top: -0.75rem;
+    }
+  }
+
+  @media screen and (max-width: 1345px) and (min-width: 1230px) {
+    .list-group-item{
+      height: 3.5rem;
+      padding: 1rem 0 1rem 0.5rem;
+    }
+
+    p{
+      margin-top: -0.75rem;
+    }
+  }
+
   min-width: 200px;
-  max-width: 350px;
   margin: 0 auto;
-  padding: 5px;
 
   .form-check-input {
-    display: inline-flex;
+    margin-top: 0.2rem;
+    width: 1rem;
   }
 
   .policyOption {
     display:inline-flex;
   }
-
-  .aligner{
-    display: inline-flex;
-    float: right;
-  }
-
 
   span{
     background-color: white;
