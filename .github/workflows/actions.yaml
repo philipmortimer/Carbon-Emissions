@@ -1,4 +1,4 @@
-name: Spring Application CI
+name: Whole Application Test Push Deploy
 
 on:
   pull_request:
