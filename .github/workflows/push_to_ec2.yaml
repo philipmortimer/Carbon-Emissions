@@ -28,7 +28,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            tmux kill-server &&\
+            tmux kill-server ;\
             tmux &&\
             sudo -S systemctl start docker <<< ${{ secrets.EC2_SUDO_PASSWORD }} &&\
             echo ${{ secrets.ELLIOT_GITHUB_TOKEN }} | sudo docker login ghcr.io -u elliot-mb --password-stdin &&\
