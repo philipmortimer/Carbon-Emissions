@@ -89,7 +89,7 @@ jobs:
       - name: Execute commands on EC2 over ssh 
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: "44.205.217.6"
+          host: "34.226.134.137"
           username: "ec2-user"
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
