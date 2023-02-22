@@ -18,6 +18,12 @@ jobs:
           touch backend/server/src/main/resources/api_key.json
           printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
 
+      - name: Show me the file system
+        run: |
+          sudo apt update
+          sudo apt install tree
+          tree 
+
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
         env:
