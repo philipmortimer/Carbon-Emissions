@@ -26,6 +26,6 @@ jobs:
           REMOTE_HOST: "44.205.217.6"
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/rze"
-          SCRIPT_AFTER: |
-            tmux && sudo systemctl start docker && cd ~/rze && sudo docker build -t elliotmb/rze /home/ec2-user/rze && sudo docker run -p 80:3000 -p 8080:8080 elliotmb/rze 
+          # SCRIPT_AFTER: |
+          #   tmux && sudo systemctl start docker && cd ~/rze && sudo docker build -t elliotmb/rze /home/ec2-user/rze && sudo docker run -p 80:3000 -p 8080:8080 elliotmb/rze 
 

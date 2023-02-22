@@ -18,7 +18,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      # COPIES actions.yaml
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17.0.2'
+          distribution: 'adopt'
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.4
+        with:
+          maven-version: 3.8.6
+      # END COPY actions.yaml
       - name: Set up API key file
         run: |
           touch backend/server/src/main/resources/api_key.json
