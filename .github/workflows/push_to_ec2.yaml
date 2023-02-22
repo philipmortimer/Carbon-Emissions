@@ -13,6 +13,11 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
+      - name: Set up API key file
+        run: |
+          touch backend/server/src/main/resources/api_key.json
+          printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
+
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
         env:
@@ -22,5 +27,5 @@ jobs:
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/rze"
           SCRIPT_AFTER: |
-            sudo systemctl start docker && cd ~/rze && sudo docker build -t elliotmb/rze /home/ec2-user/rze && sudo docker run -p 80:3000 -p 8080:8080 elliotmb/rze 
+            tmux && sudo systemctl start docker && cd ~/rze && sudo docker build -t elliotmb/rze /home/ec2-user/rze && sudo docker run -p 80:3000 -p 8080:8080 elliotmb/rze 
 
