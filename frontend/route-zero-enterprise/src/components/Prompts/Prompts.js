@@ -18,9 +18,9 @@ export const PromptSchemaCSV = (props) => {
                 CSV Schema
             </Button>
 
-            <Modal show={shown} onHide={handleClose} className="csv-modal">
-                <Modal.Header closeButton>
-                    <Modal.Title>CSV Schema</Modal.Title>
+            <Modal show={shown} onHide={handleClose} className="csv-modal" size="lg">
+                <Modal.Header closeButton >
+                    <Modal.Title >CSV Schema</Modal.Title>
                 </Modal.Header>
                     <Modal.Body className="csv-schema body">
                         <h3>Line format</h3>
