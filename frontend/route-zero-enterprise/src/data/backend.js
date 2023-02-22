@@ -12,5 +12,4 @@ const develop = {
     endpoint: "/get_predictions"
 };
 
-//endpoint exposed 
 export const exposedEndpoints = deployed ? deploy : develop;
