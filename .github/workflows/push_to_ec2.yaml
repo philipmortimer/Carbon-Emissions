@@ -29,7 +29,8 @@ jobs:
           port: 22
           script: |
             touch blank_session &&\
-            "echo this is a dummy session; only serves to start the tmux server" > blank_session &&\
+            echo "#!/usr/bin/env bash" > blank_session &&\
+            echo "echo this is a dummy session; if this is running at the end of this script something has gone wrong" >> blank_session &&\
             chmod 700 blank_session &&\  
             tmux new-session -d -s "dummy_session" ./blank_session &&
             tmux kill-server &&\ 
