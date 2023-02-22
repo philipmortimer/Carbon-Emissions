@@ -28,7 +28,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            tmux new-session -d -s "dummy_session" "echo this is shut down immediately" &&
+            tmux new-session -d "dummy_session" &&
             tmux kill-server &&\ 
             touch pull_and_run &&\
             echo "#!/usr/bin/env bash" > pull_and_run &&\
