@@ -18,14 +18,39 @@ jobs:
           touch backend/server/src/main/resources/api_key.json
           printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
 
-      - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SOURCE: "./"
-          REMOTE_HOST: "44.205.217.6"
-          REMOTE_USER: "ec2-user"
-          TARGET: "/home/ec2-user/rze"
-          # SCRIPT_AFTER: |
-          #   tmux && sudo systemctl start docker && cd ~/rze && sudo docker build -t elliotmb/rze /home/ec2-user/rze && sudo docker run -p 80:3000 -p 8080:8080 elliotmb/rze 
+      # attempt to use my own script instead
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: "44.205.217.6"
+          username: "ec2-user"
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            tmux kill-server &&\
+            tmux &&\
+            sudo -S systemctl start docker <<< ${{ secrets.EC2_SUDO_PASSWORD }} &&\
+            echo ${{ secrets.ELLIOT_GITHUB_TOKEN }} | sudo docker login ghcr.io -u elliot-mb --password-stdin &&\
+            sudo docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest &&\
+            sudo docker run -p 80:3000 -p 8080:8080 ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest
+
+          # script: |
+          # stops all tmux panes/previous deployments
+          # starts a new tmux pane
+          # starts the docker daemon 
+          # logs in as me (Elliot) in order to use the PAT of someone with access to our ghcr
+          # pulls the image from the ghcr
+          # runs the image with the correct port configuration (tested to work)
+
+      # - name: Deploy to my EC2 instance
+      #   uses: easingthemes/ssh-deploy@main
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+      #     SOURCE: "./"
+      #     REMOTE_HOST: "44.205.217.6"
+      #     REMOTE_USER: "ec2-user"
+      #     TARGET: "/home/ec2-user/rze"
+      #     # SCRIPT_AFTER: |
+      #     #   tmux && sudo systemctl start docker && cd ~/rze && sudo docker build -t elliotmb/rze /home/ec2-user/rze && sudo docker run -p 80:3000 -p 8080:8080 elliotmb/rze 
 
