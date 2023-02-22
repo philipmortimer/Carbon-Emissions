@@ -61,7 +61,7 @@ public class ServerCSVTests {
      * @return The file contents
      * @throws RuntimeException A runtime exception is thrown if the file can't be loaded
      */
-    private static String loadTextFileTest(String path) throws RuntimeException{
+    static String loadTextFileTest(String path) throws RuntimeException{
         try{
             String contents = Helper.loadFileAsText(path);
             return contents;
