@@ -39,9 +39,12 @@ jobs:
 
       - name: Show me the file system
         run: |
-          sudo apt update
-          sudo apt install tree
-          tree  
+          $(sudo apt update)
+          sudo apt install tree && tree
+
+      - name: Show me the api key
+        run: | 
+          cat backend/server/src/main/resources/api_key.json
         
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
