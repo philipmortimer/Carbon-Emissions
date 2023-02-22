@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "TO RUN THIS YOU MUST HAVE A GITHUB PERSONAL ACCESS TOKEN"
+# echo "TO RUN THIS YOU MUST HAVE A GITHUB PERSONAL ACCESS TOKEN"
 
 systemctl start docker 
 docker build -t rze . &&\
