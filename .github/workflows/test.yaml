@@ -31,3 +31,4 @@ jobs:
       - name: Delete API key file
         run: |
           rm backend/server/src/main/resources/api_key.json
+
