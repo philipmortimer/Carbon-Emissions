@@ -1,0 +1,90 @@
+name: CD Push and Deploy to AWS
+
+# if this is failing in the final job (aws-push-to-ec2) please let elliot-mb know
+# this could be due to the EC2 instance being down un/expectedly, so its good for me to know :) 
+
+on:
+  pull_request:
+    branches: ['dev', 'main', 'feature-*']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: spe-uob/2022-route_zero_carbon_savings
+
+jobs:
+
+  # why are there no explicit test jobs here? 
+  # 
+  # tests are run in test.yaml, and they are run in **at least as many** contexts as this script.
+  # furthermore, this script contains testing for the backend; the dockerfile will only build if the backend tests throw no errors.
+  
+  docker-push-to-github:
+    needs: spring-app-ci
+    name: Create and publish a Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # COPIES actions.yaml
+      - name: Set up API key file
+        run: |
+          touch backend/server/src/main/resources/api_key.json
+          printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
+       # END COPY actions.yaml
+       
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: elliot-mb
+          password: ${{ secrets.ELLIOT_GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with: 
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        run: |
+          chmod 700 ./push_to_ghcr && ./push_to_ghcr
+
+  aws-push-to-ec2:
+    needs: [spring-app-ci, docker-push-to-github]
+    name: Push to EC2 Instance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Set up API key file
+        run: |
+          touch backend/server/src/main/resources/api_key.json
+          printf "{\n  \"apiKey\": \"%s\"\n}" ${{secrets.API_KEY}} > backend/server/src/main/resources/api_key.json
+
+      - name: Execute commands on EC2 over ssh 
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: "34.226.134.137"
+          username: "ec2-user"
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            tmux new-session -d "dummy_session" &&
+            tmux kill-server &&\ 
+            touch pull_and_run &&\
+            echo "#!/usr/bin/env bash" > pull_and_run &&\
+            echo "sudo -S systemctl start docker <<< ${{ secrets.EC2_SUDO_PASSWORD }} && echo ${{ secrets.ELLIOT_GITHUB_TOKEN }} | sudo docker login ghcr.io -u elliot-mb --password-stdin && sudo docker rmi -f ghcr.io/spe-uob/2022-route_zero_carbon_savings && sudo docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest && sudo docker run -p 80:3000 -p 8080:8080 ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest" >> pull_and_run &&\
+            chmod 700 pull_and_run &&\
+            tmux new-session -d -s "rze_server_session" ./pull_and_run &&\
+            tmux ls
+
+
+
+ 

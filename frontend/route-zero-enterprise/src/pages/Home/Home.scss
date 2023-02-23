@@ -1,6 +1,13 @@
 .custom-container{
-    margin-top: 28vh;
+    margin-top: 0;
     //padding: 0 4rem 0 4rem;
+}
+
+.centre-grid{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 8.3rem);
 }
 
 .buttons{

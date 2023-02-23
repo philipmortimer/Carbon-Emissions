@@ -82,34 +82,18 @@ public class Helper {
 
     /**
      * Loads the API key.
-     * @return The API key. If the API key file can't be found, an error message is displayed
-     * and Optional.empty() is returned.
+     * @return The API key.
+     * @throws RuntimeException If reading the api_key.json file fails, a runtime exception is thrown.
      */
-    static Optional<String> getApiKey(){
+    static String getApiKey() throws RuntimeException{
         String apiKeyAsText = null;
         try {
             apiKeyAsText = loadFileAsText("src/main/resources/api_key.json");
         } catch (IOException e) {
-            // TODO Implement a better solution (see comment below)
-            /* Failure to load the API key is a non-recoverable error
-            We should throw a runtime exception and stop the application.
-            However, our GitHub automatically runs the Unit tests. As we don't
-            upload our API key to GitHub and as we require the APIController to load the key
-            as a static variable (at the time of writing), this leads all unit tests to automatically fail
-            on GitHub. Hence, we print an error message instead.
-            However, correct programming practice dictates that this catch block should read "
-            throw new RuntimeException(e);". Instead it reads as follows below
-            */
-            System.err.println("Error retrieving API key. You MUST stop the backend" +
-                    " immediately and restart, ensuring that the API key file is accessible. A runtime exception" +
-                    " should be thrown here. However, this would mess up GitHub automated tests" +
-                    " which don't have access to the API key. So unless, this log is being displayed in a GitHub" +
-                    " automated test, RESTART AND FIX THE ISSUE. Error details : " + e.getMessage());
-            e.printStackTrace();
-            return Optional.empty();
+            throw new RuntimeException(e);
         }
         JsonObject jsonObject = new Gson().fromJson(apiKeyAsText, JsonObject.class);
-        return Optional.of(jsonObject.get("apiKey").toString());
+        return jsonObject.get("apiKey").toString();
     }
 
     /**
@@ -127,7 +111,7 @@ public class Helper {
             return new Properties(emissionsEndpoint, frontendAddress);
 
         } catch (IOException e){
-            // Failure to load the properties is a non-recoverable error
+            // Failure to load the properties is a non-recoverable error.
             throw new RuntimeException(e);
         }
     }
