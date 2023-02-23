@@ -1,7 +1,8 @@
 #!/bin/sh
 
-echo "TO RUN THIS YOU MUST HAVE A GITHUB PERSONAL ACCESS TOKEN"
+# echo "TO RUN THIS YOU MUST HAVE A GITHUB PERSONAL ACCESS TOKEN"
 
-docker build -t rze .
-docker tag rze ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest
+systemctl start docker 
+docker build -t rze . &&\
+docker tag rze ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest &&\
 docker push ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest
