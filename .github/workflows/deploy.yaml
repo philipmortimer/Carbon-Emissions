@@ -2,7 +2,7 @@ name: CD Push and Deploy to AWS
 
 on:
   pull_request:
-    branches: ['main', 'dev']
+    branches: ['main']
 
 # if this is failing in the final job (aws-push-to-ec2) please let elliot-mb know
 # this could be due to the EC2 instance being down un/expectedly, so its good for me to know :) 
