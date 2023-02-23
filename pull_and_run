@@ -1,0 +1,7 @@
+#!/bin/sh
+
+sudo -S systemctl start docker <<< *** &&\
+echo *** | sudo docker login ghcr.io -u elliot-mb --***-stdin &&\
+sudo docker rmi -f ghcr.io/spe-uob/2022-route_zero_carbon_savings &&\
+sudo docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest &&\
+sudo docker run -p 80:3000 -p 8080:8080 ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest
