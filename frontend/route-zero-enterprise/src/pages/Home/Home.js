@@ -16,7 +16,7 @@ export const Home = (props) => {
     return(   
         <div className="centre-grid">
             <div className="custom-container">
-                <h1>Want to know your potential carbon savings?</h1>
+                <h1>Do you want to know your potential carbon savings?</h1>
                 <div className="csv-prompt">
                     <h3>Simply upload your travel expense or milage data as a CSV file</h3>
                     <PromptSchemaCSV className="homepage-csv-schema"/>
