@@ -5,6 +5,7 @@
 - [Starting our frontend](#starting-our-frontend)
 - [Starting our backend](#starting-our-backend)
 - [Docker Images](#docker-images)
+- [GHCR](#ghcr)
 - [Concept and planning](#concepts-and-planning)
 - [User journeys](#user-journeys)
 - [Ethics](#ethics)
@@ -152,11 +153,19 @@ If no errors were thrown, the backend is now running and bound to port ``8080``.
 
 To generate and run the whole application, observe the following steps: 
 - start the docker desktop app
-- find ``/``, the root of the project 
+- find the root of the project 
 - select a name for the image, here ``<docker_username>/fullstack:latest`` is used
-- run ``docker build --tag elliotmb/fullstack_app:latest . && docker run -p 3000:3000 -p 8080:8080 elliotmb/fullstack_app:latest ``
+- run ``docker build --tag <docker_username>/fullstack:latest . && docker run -p 3000:3000 -p 8080:8080 <docker_username>/fullstack:latest``
 
 Visit ``localhost:3000`` to use the full app. 
+
+## GHCR
+
+Pull our docker image from this repository's container reposotiory: 
+- ``docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest``
+
+Run our docker image as a container:
+- ``docker run -p 3000:3000 -p 8080:8080 2022-route_zero_carbon_savings:latest``
 
 ## Concepts and planning
 ### Early design diagrams

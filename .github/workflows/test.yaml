@@ -1,8 +1,8 @@
-name: Spring Application CI
+name: Test
 
 on:
   pull_request:
-    branches: [main, dev, feature-*]
+    branches: ['dev', 'main', 'feature-*']
 
 jobs:
   spring-app-ci:
