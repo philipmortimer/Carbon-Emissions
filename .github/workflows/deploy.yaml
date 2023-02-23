@@ -5,7 +5,7 @@ name: CD Push and Deploy to AWS
 
 on:
   pull_request:
-    branches: ['main']
+    branches: ['dev', 'main']
 
 env:
   REGISTRY: ghcr.io
