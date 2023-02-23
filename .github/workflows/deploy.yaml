@@ -1,11 +1,12 @@
 name: CD Push and Deploy to AWS
 
-# if this is failing in the final job (aws-push-to-ec2) please let elliot-mb know
-# this could be due to the EC2 instance being down un/expectedly, so its good for me to know :) 
-
 on:
   pull_request:
     branches: ['main', 'dev']
+
+# if this is failing in the final job (aws-push-to-ec2) please let elliot-mb know
+# this could be due to the EC2 instance being down un/expectedly, so its good for me to know :) 
+
 
 env:
   REGISTRY: ghcr.io
@@ -19,7 +20,6 @@ jobs:
   # furthermore, this script contains testing for the backend; the dockerfile will only build if the backend tests throw no errors.
   
   docker-push-to-github:
-    needs: spring-app-ci
     name: Create and publish a Docker image
     runs-on: ubuntu-latest
     permissions:
@@ -55,7 +55,7 @@ jobs:
           chmod 700 ./push_to_ghcr && ./push_to_ghcr
 
   aws-push-to-ec2:
-    needs: [spring-app-ci, docker-push-to-github]
+    needs: docker-push-to-github
     name: Push to EC2 Instance
     runs-on: ubuntu-latest
 
