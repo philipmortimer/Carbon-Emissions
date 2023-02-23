@@ -55,7 +55,7 @@ jobs:
   #         chmod 700 ./push_to_ghcr && ./push_to_ghcr
 
   aws-push-to-ec2:
-    needs: docker-push-to-github
+    # needs: docker-push-to-github
     name: Push to EC2 Instance
     runs-on: ubuntu-latest
 
