@@ -40,13 +40,4 @@ public class APIController {
         return ResponseEntity.ok()
                 .body(fs.upload(csv).getResponse()); //will delegate call to required method
     }
-
-    /**
-     * Displays the API properties.
-     * @return API properties (currently, the emissions endpoint and the frontend address).
-     */
-    @GetMapping("/properties")
-    public Helper.Properties props(){
-        return PROPS;
-    }
 }
