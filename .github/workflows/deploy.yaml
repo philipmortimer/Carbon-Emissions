@@ -77,8 +77,9 @@ jobs:
           port: 22
           script: |
             sudo -S systemctl start docker <<< ${{ secrets.EC2_SUDO_PASSWORD }} && \
-            sudo docker system prune && \
-            sudo docker kill $(sudo docker ps -q) && echo "killed all docker containers" && \
+            sudo docker system prune <<< "y" && \
+            sudo docker stop $(sudo docker ps -a -q) && echo "stop all containers" && \
+            sudo docker rm $(sudo docker ps -a -q) && echo "remove all containers" && \
             sudo docker rmi $(sudo docker images -a -q) && echo "removed all docker images" && \
             tmux new-session -d "dummy_session" && \
             tmux kill-server && \ 
