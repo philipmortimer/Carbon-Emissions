@@ -1,7 +1,7 @@
-const deployed = true;
+const deployed = false;
 
 const deploy = {
-    ip: "http://44.205.217.6",
+    ip: "http://34.226.134.137",
     port: 8080,
     endpoint: "/get_predictions" 
 }
@@ -12,5 +12,4 @@ const develop = {
     endpoint: "/get_predictions"
 };
 
-//endpoint exposed 
 export const exposedEndpoints = deployed ? deploy : develop;

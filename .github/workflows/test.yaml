@@ -1,8 +1,8 @@
-name: Spring Application CI
+name: Test
 
 on:
   pull_request:
-    branches: [main, dev, feature-*]
+    branches: ['dev', 'main', 'feature-*']
 
 jobs:
   spring-app-ci:
@@ -31,3 +31,4 @@ jobs:
       - name: Delete API key file
         run: |
           rm backend/server/src/main/resources/api_key.json
+
