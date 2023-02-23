@@ -76,18 +76,18 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            tmux new-session -d "dummy_session" &&\
-            tmux kill-server &&\ 
-            touch pull_and_run &&\
-            echo "#!/usr/bin/env bash" > pull_and_run &&\
-            echo "sudo -S systemctl start docker <<< ${{ secrets.EC2_SUDO_PASSWORD }} &&\
-            echo ${{ secrets.ELLIOT_GITHUB_TOKEN }} | sudo docker login ghcr.io -u elliot-mb --password-stdin &&\
-            sudo docker rmi -f ghcr.io/spe-uob/2022-route_zero_carbon_savings &&\
-            sudo docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest &&\
-            sudo docker run -p 80:3000 -p 8080:8080 ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest" >> pull_and_run &&\
-            cat pull_and_run &&\
-            chmod 700 pull_and_run &&\
-            tmux new-session -d -s "rze_server_session" ./pull_and_run &&\
+            tmux new-session -d "dummy_session" && \
+            tmux kill-server && \ 
+            touch pull_and_run && \
+            echo "#!/usr/bin/env bash" > pull_and_run && \
+            echo "sudo -S systemctl start docker <<< ${{ secrets.EC2_SUDO_PASSWORD }} && \
+            echo ${{ secrets.ELLIOT_GITHUB_TOKEN }} | sudo docker login ghcr.io -u elliot-mb --password-stdin && \
+            sudo docker rmi -f ghcr.io/spe-uob/2022-route_zero_carbon_savings && \
+            sudo docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest && \
+            sudo docker run -p 80:3000 -p 8080:8080 ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest" >> pull_and_run && \
+            cat pull_and_run && \
+            chmod 700 pull_and_run && \
+            tmux new-session -d -s "rze_server_session" ./pull_and_run && \
             tmux ls
 
 
