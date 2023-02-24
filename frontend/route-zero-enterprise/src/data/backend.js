@@ -1,4 +1,4 @@
-const deployed = false;
+const deployed = true;
 
 const deploy = {
     ip: "http://34.226.134.137",
