@@ -13,19 +13,28 @@ describe("File upload tests", () => {
         // Tests that file does not change
         expect(defProps.file).toEqual(null);
     });
-    test("", () => {
-        const defProps = getDefaultPropsHome();
-        // Renders component
-        render( getHomeTestComponent(defProps) );
-        // Tests that file does not change
-        expect(defProps.file).toEqual(null);
-    });
 });
 
 describe("Home page aesthetics", () => {
     test("Home page title", () => {
+        render(getHomeTestComponent(getDefaultPropsHome()));
         expect(global.window.document.title).toBe('Upload Travel Data | RouteZero');
     });
+    test("Default text", () => {
+        render(getHomeTestComponent(getDefaultPropsHome()));
+        // Checks that exactly one of each of the following default text items exists
+        expect(screen.getAllByText("Do you want to know your potential carbon savings?").length).toBe(1);
+        expect(screen.getAllByText("Simply upload your travel expense or milage data as a CSV file").length).toBe(1);
+        expect(screen.getAllByText("Please select a file").length).toBe(1);
+        expect(screen.getAllByText("CSV Schema").length).toBe(1);
+        expect(screen.getAllByText("Upload").length).toBe(1);
+        expect(screen.getAllByText("See predictions").length).toBe(1);
+    });
+    test("Default enabled status of buttons", () => {
+        render(getHomeTestComponent(getDefaultPropsHome()));
+        // Checks that the default state of buttons being enabled / disbaled is correct
+        expect(screen.getAllByText("CSV Schema")[0].disabled).toBe(false);
+    })
 });
 
 /**
