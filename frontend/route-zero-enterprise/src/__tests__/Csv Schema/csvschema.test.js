@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts';
 import userEvent from '@testing-library/user-event'
+import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom'
 
 describe("CSV Scheme Component Tests", () => {
@@ -13,11 +14,69 @@ describe("CSV Scheme Component Tests", () => {
         expect(screen.queryByText("origin,destination,distanceKm,departureTime,arrivalTime,transport")).not.toBeInTheDocument();
     });
     test("CSV Scheme displays correct transport options", () => {
+        render(<PromptSchemaCSV />);
+        userEvent.click(screen.getAllByText("CSV Schema")[0]);
+        // Clicks button to open schema
+        act(() => {
+            userEvent.click(screen.getAllByText("View transport options")[0]);
+        });
+        // Tests that all essential schema info is present.
+        testSchemaInfoPresent();
+        // Tests that drop down view of travel options is displayed
+        expect(screen.getAllByText("a journey taken by foot;").length).toBe(1);
+        expect(screen.getAllByText("foot").length).toBe(1);
 
+        expect(screen.getAllByText("a journey by bicycle;").length).toBe(1);
+        expect(screen.getAllByText("bike").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by electric scooter;").length).toBe(1);
+        expect(screen.getAllByText("electricScooter").length).toBe(1);
+
+        expect(screen.getAllByText("a journey driven in a petrol car;").length).toBe(1);
+        expect(screen.getAllByText("petrolCar").length).toBe(1);
+
+        expect(screen.getAllByText("a journey driven in a diesel car;").length).toBe(1);
+        expect(screen.getAllByText("dieselCar").length).toBe(1);
+
+        expect(screen.getAllByText("a journey driven in a hybrid car;").length).toBe(1);
+        expect(screen.getAllByText("hybridCar").length).toBe(1);
+
+        expect(screen.getAllByText("a journey driven in an electric car;").length).toBe(1);
+        expect(screen.getAllByText("electricCar").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by taxi;").length).toBe(1);
+        expect(screen.getAllByText("taxi").length).toBe(1);
+
+        expect(screen.getAllByText("a journey driven by bus;").length).toBe(1);
+        expect(screen.getAllByText("bus").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by coach;").length).toBe(1);
+        expect(screen.getAllByText("coach").length).toBe(1);
+
+        expect(screen.getAllByText("a journey on the Eurostar;").length).toBe(1);
+        expect(screen.getAllByText("eurostar").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by light-rail;").length).toBe(1);
+        expect(screen.getAllByText("lightRail").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by tram;").length).toBe(1);
+        expect(screen.getAllByText("tram").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by subway;").length).toBe(1);
+        expect(screen.getAllByText("subway").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by plane;").length).toBe(1);
+        expect(screen.getAllByText("flight").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by plane;").length).toBe(1);
+        expect(screen.getAllByText("flight").length).toBe(1);
+
+        expect(screen.getAllByText("a journey by ferry;").length).toBe(1);
+        expect(screen.getAllByText("ferry").length).toBe(1);
     });
     test("CSV Schema displayed when opened", () => {
         render(<PromptSchemaCSV />);
-        // Clicks button to open schema
+        // Clicks button to open schema and transport options
         userEvent.click(screen.getAllByText("CSV Schema")[0]);
         testSchemaInfoPresent();
         // Checks that transport options are not displayed by default.
