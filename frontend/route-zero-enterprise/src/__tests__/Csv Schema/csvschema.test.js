@@ -4,18 +4,22 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 
 describe("CSV Scheme Component Tests", () => {
+    test("CSV Schema properly configured when button has not been pressed to open it", () => {
+        render(<PromptSchemaCSV />);
+        // Ensures button exists but no other info is visible
+        expect(screen.getAllByText("CSV Schema").length).toBe(1);
+        expect(screen.getAllByText("CSV Schema")[0].disabled).toBe(false);
+        // Tests that line of schema info is not visible
+        expect(screen.queryByText("origin,destination,distanceKm,departureTime,arrivalTime,transport")).not.toBeInTheDocument();
+    });
+    test("CSV Scheme displays correct transport options", () => {
+
+    });
     test("CSV Schema displayed when opened", () => {
         render(<PromptSchemaCSV />);
         // Clicks button to open schema
         userEvent.click(screen.getAllByText("CSV Schema")[0]);
-        // Ensures text content is correctly displayed
-        expect(screen.getAllByText("CSV Schema").length).toBe(2); // One for button, one for box title
-        expect(screen.getAllByText("Line format").length).toBe(1);
-        expect(screen.getAllByText("transport").length).toBe(1);
-        expect(screen.getAllByText("Please format each line of your CSV as follows").length).toBe(1);
-        expect(screen.getAllByText("origin,destination,distanceKm,departureTime,arrivalTime,transport").length).toBe(1);
-        expect(screen.getAllByText("View transport options").length).toBe(1);
-        expect(screen.getAllByText("Close").length).toBe(1);
+        testSchemaInfoPresent();
         // Checks that transport options are not displayed by default.
         expect(screen.queryByText("a journey taken by foot;")).not.toBeInTheDocument();
         expect(screen.queryByText("foot")).not.toBeInTheDocument();
@@ -69,3 +73,17 @@ describe("CSV Scheme Component Tests", () => {
         expect(screen.queryByText("ferry")).not.toBeInTheDocument();
     });
 });
+
+/**
+ * Tests that general schema text is visible
+ */
+function testSchemaInfoPresent() {
+    // Ensures text content is correctly displayed
+    expect(screen.getAllByText("CSV Schema").length).toBe(2); // One for button, one for box title
+    expect(screen.getAllByText("Line format").length).toBe(1);
+    expect(screen.getAllByText("transport").length).toBe(1);
+    expect(screen.getAllByText("Please format each line of your CSV as follows").length).toBe(1);
+    expect(screen.getAllByText("origin,destination,distanceKm,departureTime,arrivalTime,transport").length).toBe(1);
+    expect(screen.getAllByText("View transport options").length).toBe(1);
+    expect(screen.getAllByText("Close").length).toBe(1);
+}
