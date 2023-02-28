@@ -39,7 +39,7 @@ export const PromptSchemaCSV = (props) => {
                             <Dropdown.Item><p>a journey driven by bus; <code>{travelKind.bus}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey by coach; <code>{travelKind.coach}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey on the Eurostar; <code>{travelKind.eurostar}</code></p></Dropdown.Item>
-                            <Dropdown.Item><p>a journey light-rail; <code>{travelKind.lightRail}</code></p></Dropdown.Item>
+                            <Dropdown.Item><p>a journey by light-rail; <code>{travelKind.lightRail}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey by tram; <code>{travelKind.tram}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey by subway; <code>{travelKind.subway}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey by plane; <code>{travelKind.flight}</code></p></Dropdown.Item>

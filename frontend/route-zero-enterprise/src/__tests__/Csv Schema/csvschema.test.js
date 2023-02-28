@@ -38,10 +38,34 @@ describe("CSV Scheme Component Tests", () => {
         expect(screen.queryByText("a journey driven in an electric car;")).not.toBeInTheDocument();
         expect(screen.queryByText("electricCar")).not.toBeInTheDocument();
 
-        userEvent.click(screen.getAllByText("View transport options")[0]);
+        expect(screen.queryByText("a journey by taxi;")).not.toBeInTheDocument();
+        expect(screen.queryByText("taxi")).not.toBeInTheDocument();
 
-        expect(screen.getAllByText("a journey driven in an electric car;").length).toBe(1);
-        expect(screen.getAllByText("electricCar").length).toBe(1);
+        expect(screen.queryByText("a journey driven by bus;")).not.toBeInTheDocument();
+        expect(screen.queryByText("bus")).not.toBeInTheDocument();
 
+        expect(screen.queryByText("a journey by coach;")).not.toBeInTheDocument();
+        expect(screen.queryByText("coach")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey on the Eurostar;")).not.toBeInTheDocument();
+        expect(screen.queryByText("eurostar")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey by light-rail;")).not.toBeInTheDocument();
+        expect(screen.queryByText("lightRail")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey by tram;")).not.toBeInTheDocument();
+        expect(screen.queryByText("tram")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey by subway;")).not.toBeInTheDocument();
+        expect(screen.queryByText("subway")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey by plane;")).not.toBeInTheDocument();
+        expect(screen.queryByText("flight")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey by plane;")).not.toBeInTheDocument();
+        expect(screen.queryByText("flight")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey by ferry;")).not.toBeInTheDocument();
+        expect(screen.queryByText("ferry")).not.toBeInTheDocument();
     });
 });
