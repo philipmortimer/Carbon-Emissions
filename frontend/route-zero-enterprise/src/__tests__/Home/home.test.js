@@ -6,12 +6,25 @@ import '@testing-library/jest-dom'
 
 
 describe("File upload tests", () => {
-    test("Tests that file is null when no actions have been performed", () => {
+    test("File is null when no actions have been performed", () => {
         const defProps = getDefaultPropsHome();
         // Renders component
         render( getHomeTestComponent(defProps) );
         // Tests that file does not change
         expect(defProps.file).toEqual(null);
+    });
+    test("", () => {
+        const defProps = getDefaultPropsHome();
+        // Renders component
+        render( getHomeTestComponent(defProps) );
+        // Tests that file does not change
+        expect(defProps.file).toEqual(null);
+    });
+});
+
+describe("Home page aesthetics", () => {
+    test("Home page title", () => {
+        expect(global.window.document.title).toBe('Upload Travel Data | RouteZero');
     });
 });
 
