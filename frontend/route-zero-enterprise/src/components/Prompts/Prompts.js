@@ -31,7 +31,7 @@ export const PromptSchemaCSV = (props) => {
                             <Dropdown.Item><p>a journey taken by foot; <code>{travelKind.foot}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey by bicycle; <code>{travelKind.bike}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey by electric scooter; <code>{travelKind.electricScooter}</code></p></Dropdown.Item>
-                            <Dropdown.Item><p>a journey driven in a peterol car; <code>{travelKind.petrolCar}</code></p></Dropdown.Item>
+                            <Dropdown.Item><p>a journey driven in a petrol car; <code>{travelKind.petrolCar}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey driven in a diesel car; <code>{travelKind.dieselCar}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey driven in a hybrid car; <code>{travelKind.hybridCar}</code></p></Dropdown.Item>
                             <Dropdown.Item><p>a journey driven in an electric car; </p> <code>{travelKind.electricCar}</code></Dropdown.Item>
