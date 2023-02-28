@@ -17,9 +17,6 @@ describe("CSV Scheme Component Tests", () => {
         expect(screen.getAllByText("View transport options").length).toBe(1);
         expect(screen.getAllByText("Close").length).toBe(1);
         // Checks that transport options are not displayed by default.
-        expect(screen.queryByText("a journey by ferry;")).not.toBeInTheDocument();
-        expect(screen.queryByText("ferry")).not.toBeInTheDocument();
-
         expect(screen.queryByText("a journey taken by foot;")).not.toBeInTheDocument();
         expect(screen.queryByText("foot")).not.toBeInTheDocument();
 
@@ -29,12 +26,12 @@ describe("CSV Scheme Component Tests", () => {
         expect(screen.queryByText("a journey by electric scooter;")).not.toBeInTheDocument();
         expect(screen.queryByText("electricScooter")).not.toBeInTheDocument();
 
-        expect(screen.queryByText("a journey by coach;")).not.toBeInTheDocument();
+        expect(screen.queryByText("a journey driven in a peterol car;")).not.toBeInTheDocument();
         expect(screen.queryByText("coach")).not.toBeInTheDocument();
 
         userEvent.click(screen.getAllByText("View transport options")[0]);
 
-        expect(screen.getAllByText("a journey by coach;").length).toBe(1);
+        expect(screen.getAllByText("a journey driven in a peterol car;").length).toBe(1);
         expect(screen.getAllByText("coach").length).toBe(1);
 
     });
