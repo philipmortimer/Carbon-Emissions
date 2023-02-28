@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts';
 import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils';
@@ -13,12 +13,13 @@ describe("CSV Scheme Component Tests", () => {
         // Tests that line of schema info is not visible
         expect(screen.queryByText("origin,destination,distanceKm,departureTime,arrivalTime,transport")).not.toBeInTheDocument();
     });
-    test("CSV Scheme displays correct transport options", () => {
+    test("CSV Scheme displays correct transport options", async () => {
         render(<PromptSchemaCSV />);
         userEvent.click(screen.getAllByText("CSV Schema")[0]);
-        // Clicks button to open schema
-        act(() => {
-            userEvent.click(screen.getAllByText("View transport options")[0]);
+        userEvent.click(screen.getAllByText("View transport options")[0]);
+        // Waits for state to update
+        await waitFor(() => {
+            expect(screen.getByText("a journey taken by foot;")).toBeInTheDocument();
         });
         // Tests that all essential schema info is present.
         testSchemaInfoPresent();
