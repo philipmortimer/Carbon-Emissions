@@ -26,13 +26,22 @@ describe("CSV Scheme Component Tests", () => {
         expect(screen.queryByText("a journey by electric scooter;")).not.toBeInTheDocument();
         expect(screen.queryByText("electricScooter")).not.toBeInTheDocument();
 
-        expect(screen.queryByText("a journey driven in a peterol car;")).not.toBeInTheDocument();
-        expect(screen.queryByText("coach")).not.toBeInTheDocument();
+        expect(screen.queryByText("a journey driven in a petrol car;")).not.toBeInTheDocument();
+        expect(screen.queryByText("petrolCar")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey driven in a diesel car;")).not.toBeInTheDocument();
+        expect(screen.queryByText("dieselCar")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey driven in a hybrid car;")).not.toBeInTheDocument();
+        expect(screen.queryByText("hybridCar")).not.toBeInTheDocument();
+
+        expect(screen.queryByText("a journey driven in an electric car;")).not.toBeInTheDocument();
+        expect(screen.queryByText("electricCar")).not.toBeInTheDocument();
 
         userEvent.click(screen.getAllByText("View transport options")[0]);
 
-        expect(screen.getAllByText("a journey driven in a peterol car;").length).toBe(1);
-        expect(screen.getAllByText("coach").length).toBe(1);
+        expect(screen.getAllByText("a journey driven in an electric car;").length).toBe(1);
+        expect(screen.getAllByText("electricCar").length).toBe(1);
 
     });
 });
