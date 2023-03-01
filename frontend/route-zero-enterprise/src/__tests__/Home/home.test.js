@@ -59,11 +59,22 @@ function getHomeTestComponent(testProps) {
  */
 function getDefaultPropsHome() {
     // Sets up props of Home
-    let file = null;
-    const setFile = (f) => { file = f; };
-    let response = null;
-    const setResponse = (r) => { response = r; };
-    let validity = "no_file";
-    const setValidity = (v) => { validity = v; };
-    return {file, setFile, response, setResponse, validity, setValidity};
+    let props = {
+        file: null,
+        response: null,
+        validity: "no_file",
+        setFile(f) {
+            this.file = f;
+        },
+        setValidity(v) {
+            this.validity = v;
+        },
+        setResponse(r) {
+            this.response = r;
+        }
+    }
+    props.setFile = props.setFile.bind(props);
+    props.setValidity = props.setValidity.bind(props);
+    props.setResponse = props.setResponse.bind(props);
+    return props;
 }
