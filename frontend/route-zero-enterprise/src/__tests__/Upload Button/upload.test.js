@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from "react-router-dom";
 import '@testing-library/jest-dom'
 
+
+
 describe("Tests upload component", () => {
     test("Tests upload component when no file has been uploaded", () => {
         const upProps = getDefaultPropsUpload();
@@ -13,19 +15,19 @@ describe("Tests upload component", () => {
         expect(upProps.validity).toEqual("no_file");
         // Test button exists and state
         expect(screen.getByText("Upload").disabled).toBe(false);
+        expect(upProps.setFileCalls).toBe(0);
     });
     test("Test upload of a csv file", async () => {
         const upProps = getDefaultPropsUpload();
         render(getUploadComp(upProps));
         // Uploads file
         const file = new File(['hello'], 'hello.csv', { type: 'text/csv' });
-        console.log(upProps.validity);
         await waitFor(() => {
             userEvent.click(screen.getByText("Upload"));
             userEvent.upload(global.window.document.getElementById("file-input"), file);
         });
-        console.log("After");
-        console.log(upProps.validity);
+        // Asserts that file was uploaded
+        expect(upProps.setFileCalls).toBe(1);
     });
 });
 
@@ -47,9 +49,19 @@ function getUploadComp(props) {
  */
 function getDefaultPropsUpload() {
     // Sets up props of Upload
-    let file = null;
-    const setFile = (f) => { file = f; };
-    let validity = "no_file";
-    const setValidity = (v) => { validity = v; };
-    return {file, setFile, validity, setValidity};
+    let props = {        
+        file: null,
+        setFileCalls: 0,
+        validity: "no_file",
+        setFile(f) {
+            this.file = f;
+            this.setFileCalls++;
+        },
+        setValidity(v) {
+            this.validity = v;
+        }
+    };
+    props.setFile = props.setFile.bind(props);
+    props.setValidity = props.setValidity.bind(props);
+    return props;
 }
