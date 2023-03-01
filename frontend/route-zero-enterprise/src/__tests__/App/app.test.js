@@ -16,6 +16,8 @@ describe("File upload tests", () => {
     render(<App />);
     const uploadBtn = getUploadButton("Upload");
     expect(uploadBtn.disabled).toBe(false);
+    expect(screen.getAllByText("Please select a file").length).toBe(1);
+    expect(screen.getByText("See predictions").disabled).toBe(true); // Can't upload no file to API
   });
   test("Tests that file upload changes upload button name", async () => {
     render(<App />);
@@ -28,6 +30,8 @@ describe("File upload tests", () => {
     });
     // Tests that button name changes to file content
     expect(getUploadButton("helloworlds.csv").disabled).toBe(false);
+    expect(screen.getAllByText("CSV file selected").length).toBe(1);
+    expect(screen.getByText("See predictions").disabled).toBe(false);
   });
   test("Test that file upload for long file names have name truncated", async() => {
     render(<App />);
@@ -40,9 +44,22 @@ describe("File upload tests", () => {
     });
     // Tests that button name changes to file content
     expect(getUploadButton("helloworlds1.cs...").disabled).toBe(false);
+    expect(screen.getAllByText("CSV file selected").length).toBe(1);
+    expect(screen.getByText("See predictions").disabled).toBe(false);
   });
-  test("File that don't end in .csv can't be uploaded", async () => {
-    
+  test("File that don't end in .csv can't be used for prediction", async () => {
+    render(<App />);
+    const uploadBtn = getUploadButton("Upload");
+    // Uploads file
+    const file = new File(['hello'], 'helloworlds.txt', { type: 'text/csv' });
+    await waitFor(() => {
+      userEvent.click(uploadBtn);
+      userEvent.upload(global.window.document.getElementById("file-input"), file);
+    });
+    // Tests that button name changes to file content
+    expect(screen.getByText("helloworlds.txt")).toBeInTheDocument();
+    expect(screen.getByText("You must select a CSV file")).toBeInTheDocument();
+    expect(screen.getByText("See predictions").disabled).toBe(true);
   });
 });
 
