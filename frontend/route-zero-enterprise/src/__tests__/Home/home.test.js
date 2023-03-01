@@ -12,6 +12,8 @@ describe("File upload tests", () => {
         render( getHomeTestComponent(defProps) );
         // Tests that file does not change
         expect(defProps.file).toEqual(null);
+        expect(defProps.setFileCalls).toBe(0);
+        expect(screen.getByText("Upload")).toBeInTheDocument();
     });
 });
 
@@ -63,8 +65,10 @@ function getDefaultPropsHome() {
         file: null,
         response: null,
         validity: "no_file",
+        setFileCalls: 0,
         setFile(f) {
             this.file = f;
+            this.setFileCalls++;
         },
         setValidity(v) {
             this.validity = v;
