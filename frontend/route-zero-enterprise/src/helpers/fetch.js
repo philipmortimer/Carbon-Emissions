@@ -20,7 +20,6 @@ export const fetchPOST = async (url, data) => { //temporarily, this function onl
     };
 
     //console.log(request);
-
     return fetch(url, request)
     .then((raw) => {
         return raw.json()
