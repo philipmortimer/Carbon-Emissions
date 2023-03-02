@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts';
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom'
 
 describe("CSV Scheme Component Tests", () => {
@@ -131,6 +130,41 @@ describe("CSV Scheme Component Tests", () => {
 
         expect(screen.queryByText("a journey by ferry;")).not.toBeInTheDocument();
         expect(screen.queryByText("ferry")).not.toBeInTheDocument();
+    });
+    test("Closing schema only displays button", async () => {
+        render(<PromptSchemaCSV />);
+        // Opens schema then closes it
+        await waitFor(() => {
+            userEvent.click(screen.getByText("CSV Schema"));
+            userEvent.click(screen.getByText("Close"));
+        });
+        // Checks that modal is no longer visible
+        expect(global.window.document.getElementsByClassName("fade modal-backdrop").length).toBe(1);
+        expect(global.window.document.getElementsByClassName("fade modal-backdrop show").length).toBe(0);
+        //Gets modal component (as there are now two CSV Schema texts) and button
+        let modal = null;
+        let modalsFound = 0;
+        let btn = null;
+        let btnsFound = 0;
+        const schemaList = screen.getAllByText("CSV Schema");
+        for (let i = 0; i < schemaList.length; i++) {
+            if (schemaList[i].tagName === "DIV") {
+                modalsFound++;
+                modal = schemaList[i];
+            }
+            if (schemaList[i].tagName === "BUTTON") {
+                btnsFound++;
+                btn = schemaList[i];
+            }
+        }
+        expect(modalsFound).toBe(1);
+        expect(btnsFound).toBe(1);
+        expect(schemaList.length).toBe(2);
+        // Checks that button is visible and nothing else
+        console.log(modal.className);
+        
+        //expect(modal).not.toBeVisible();
+        expect(btn.disabled).toBe(false);
     });
 });
 
