@@ -11,7 +11,7 @@ import "./SeePredictions.scss";
 import { InvalidFileModal } from "../InvalidFileModal/InvalidFileModal.js";
 
 function checkValidity(state, action){
-    
+    // TODO: Note this code here causes a console warning. This needs to be fixed in future!
     if(action.f !== null){
         if(action.f.name.split('.')[1] !== 'csv'){
             action.setV("invalid_extension");
