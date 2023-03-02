@@ -114,7 +114,9 @@ const POLICIES_BASE =
     },
     {
         name: "Replace all ICEs with EVs",
-        effect: new SimpleEffect((jState, eState) => {
+        effect: NO_EFFECT
+        /* // COMMENTED THIS OUT AS IT'S FULL OF ERRORS
+        new SimpleEffect((jState, eState) => {
                 const journeys = jState[0];
                 const emissions = eState[0];
 
@@ -148,7 +150,7 @@ const POLICIES_BASE =
                 newEmissions[emissionsDieselBar][1] = 0; //no longer emitters
 
                 return [newJourneys, newEmissions];
-            })
+            })*/
     },
     {
         name: "Train routes <300mi",

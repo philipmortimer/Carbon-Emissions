@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import { act } from "react-dom/test-utils";
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import App from '../../App';
@@ -78,7 +79,6 @@ describe("File Upload predictions retrieval tests", () => {
     const textCont = "origin,destination,distanceKm,departureTime,arrivalTime,transport" +
       "\nPaddington,Bristol Parkway,179.08,2022-10-14T17:48:00.000Z,2022-10-14T19:01:00.000Z,trainMisspelt";
     const file = getCsvFile('invalidTransportType.csv', textCont);
-    file.text();
     render(<App />);
     const btn = getUploadButton("Upload");
     await waitFor(() => {
@@ -102,6 +102,50 @@ describe("File Upload predictions retrieval tests", () => {
     });
     expect(screen.getByText("See predictions").disabled).toBe(true);
     expect(screen.getByText("You must select a correctly formatted file")).toBeInTheDocument();
+    // remove the mock to ensure tests are completely isolated
+    global.fetch.mockRestore();
+  });
+  test("Valid CSV file allows user to go to view section", async () => {
+    // Mocks fetch response to return a semi random JSON
+    const apiResponse = {
+      id: "id",
+      predictions: [
+        {currentCarbonKgCo2e:7.952942888820001,newCarbonKgCo2e:7.952942888820001,alternatives: [
+          {transport: {type :"train"},
+          probability:1,
+          carbonKgCo2e: 7.952942888820001}
+        ],
+        emissionsSavingPercentage: 0}],
+      warnings: []
+    };
+    jest.spyOn(global, "fetch").mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(apiResponse)
+      })
+    );
+    // Uploads file
+    const textCont = "origin,destination,distanceKm,departureTime,arrivalTime,transport" +
+      "\nPaddington,Bristol Parkway,179.08,2022-10-14T17:48:00.000Z,2022-10-14T19:01:00.000Z,train";
+    const file = getCsvFile('valid.csv', textCont);
+    render(<App />);
+    const btn = getUploadButton("Upload");
+    // Uploads file
+    await waitFor(() => {
+      userEvent.click(btn);
+      userEvent.upload(global.window.document.getElementById("file-input"), file);
+    });
+    // Test that valid csv file status registered
+    const seePredBtn = screen.getByText("See predictions");
+    expect(screen.getByText("CSV file selected")).toBeInTheDocument();
+    expect(seePredBtn.disabled).toBe(false);
+    // Takes user to view tab
+    await waitFor(() => {
+      userEvent.click(seePredBtn);
+      expect(screen.getByText("Visualisation")).toBeInTheDocument();
+    });
+    // Tests that some basic elements of view tab are present
+    expect(screen.queryByText("Visualisation")).toBeInTheDocument();
+    expect(screen.queryByText("No domestic flights")).toBeInTheDocument();
     // remove the mock to ensure tests are completely isolated
     global.fetch.mockRestore();
   });
