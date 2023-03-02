@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import { act } from "react-dom/test-utils";
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
@@ -65,6 +65,10 @@ describe("File upload tests", () => {
 });
 
 describe("File Upload predictions retrieval tests", () => {
+  beforeEach(cleanup);
+  afterEach(() => {
+    global.fetch.mockRestore();
+  });
   test("Invalid file (via backend determination) displays an error message", async () => {
     // Mocks fetch response for given invalid file
     const invalidMessage = {
@@ -102,20 +106,51 @@ describe("File Upload predictions retrieval tests", () => {
     });
     expect(screen.getByText("See predictions").disabled).toBe(true);
     expect(screen.getByText("You must select a correctly formatted file")).toBeInTheDocument();
-    // remove the mock to ensure tests are completely isolated
-    global.fetch.mockRestore();
+  });
+  test("Communication error when sending file to backend handled correctly", async () => {
+    // Fetch throws error
+    const errMsg = "Fetch fake error";
+    jest.spyOn(global, "fetch").mockImplementation(() =>
+      Promise.resolve({
+        json: () => { throw new Error(errMsg); }
+      })
+    );
+    const al = jest.fn();
+    jest.spyOn(global, "alert").mockImplementation(al);
+    // Uploads file
+    const textCont = "origin,destination,distanceKm,departureTime,arrivalTime,transport" +
+      "\nPaddington,Bristol Parkway,179.08,2022-10-14T17:48:00.000Z,2022-10-14T19:01:00.000Z,train";
+    const file = getCsvFile('valid.csv', textCont);
+    render(<App />);
+    const btn = getUploadButton("Upload");
+    // Uploads file
+    await waitFor(() => {
+      userEvent.click(btn);
+      userEvent.upload(global.window.document.getElementById("file-input"), file);
+      userEvent.click(screen.getByText("See predictions"));
+    });
+    // Checks that alert has been called
+    await waitFor(() => {
+      expect(al).toHaveBeenCalledTimes(1);
+    });
+    // Restores alert function 
+    global.alert.mockRestore();
   });
   test("Valid CSV file allows user to go to view section", async () => {
     // Mocks fetch response to return a semi random JSON
     const apiResponse = {
       id: "id",
       predictions: [
-        {currentCarbonKgCo2e:7.952942888820001,newCarbonKgCo2e:7.952942888820001,alternatives: [
-          {transport: {type :"train"},
-          probability:1,
-          carbonKgCo2e: 7.952942888820001}
-        ],
-        emissionsSavingPercentage: 0}],
+        {
+          currentCarbonKgCo2e: 7.952942888820001, newCarbonKgCo2e: 7.952942888820001, alternatives: [
+            {
+              transport: { type: "train" },
+              probability: 1,
+              carbonKgCo2e: 7.952942888820001
+            }
+          ],
+          emissionsSavingPercentage: 0
+        }],
       warnings: []
     };
     jest.spyOn(global, "fetch").mockImplementation(() =>
@@ -146,8 +181,6 @@ describe("File Upload predictions retrieval tests", () => {
     // Tests that some basic elements of view tab are present
     expect(screen.queryByText("Visualisation")).toBeInTheDocument();
     expect(screen.queryByText("No domestic flights")).toBeInTheDocument();
-    // remove the mock to ensure tests are completely isolated
-    global.fetch.mockRestore();
   });
 });
 
