@@ -4,7 +4,7 @@ import '@testing-library/jest-dom'
 import { InvalidFileModal } from '../../components/InvalidFileModal/InvalidFileModal';
 
 describe("Aesthetic tests invalid file modal", () => {
-    test("Test modal displays correctly for chosen error message", async () => {
+    test("Test modal displays correctly for chosen error message", () => {
         const msg = "testMessage here";
         render(<InvalidFileModal show={true} msg={msg} />);
         // Test that invalid file modal appears
@@ -15,5 +15,11 @@ describe("Aesthetic tests invalid file modal", () => {
             " An error message is provided below to help identify the issue.")).toBeInTheDocument();
         expect(screen.getByText(msg)).toBeInTheDocument();
         expect(screen.getByText("Close")).toBeInTheDocument();
+    });
+    test("Hidden modal does not render", () => {
+        const msg = "testMessage here";
+        render(<InvalidFileModal show={false} msg={msg} />);
+        // Test that invalid file modal appears
+        expect(screen.queryByText("Invalid CSV File")).not.toBeInTheDocument();
     });
 });
