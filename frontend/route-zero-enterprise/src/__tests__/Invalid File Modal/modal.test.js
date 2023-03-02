@@ -22,4 +22,16 @@ describe("Aesthetic tests invalid file modal", () => {
         // Test that invalid file modal appears
         expect(screen.queryByText("Invalid CSV File")).not.toBeInTheDocument();
     });
+    test("Closing modal calls onHide function", async () => {
+        const msg = "testMessage here";
+        let callCounter ={calls: 0, incCalls: function() {this.calls++;}};
+        callCounter.incCalls = callCounter.incCalls.bind(callCounter);
+        render(<InvalidFileModal show={true} msg={msg} onHide={callCounter.incCalls}/>);
+        expect(callCounter.calls).toBe(0);
+        // Closes modal
+        await waitFor(() => {
+            userEvent.click(screen.getByText("Close"));
+        });
+        expect(callCounter.calls).toBe(1);
+    });
 });
