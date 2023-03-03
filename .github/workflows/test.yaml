@@ -5,19 +5,23 @@ on:
     branches: ['dev', 'main', 'feature-*']
 
 jobs:
-  test-react-app:
-    runs-on: ubuntu-latest
+  test:
+
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - name: checkout code
-        uses: actions/checkout@v3
-      - name: install packages
-        run: npm i
-      - name: run tests
-        run: CI=true npm run test
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
   spring-app-ci:
     name: Spring App CI
     runs-on: ubuntu-latest
