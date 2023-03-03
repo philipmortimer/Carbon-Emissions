@@ -1,5 +1,4 @@
 import { render, screen, waitFor, cleanup } from '@testing-library/react'
-import { act } from "react-dom/test-utils";
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import App from '../../App';
