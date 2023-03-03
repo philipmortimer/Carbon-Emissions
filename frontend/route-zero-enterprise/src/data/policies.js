@@ -67,7 +67,11 @@ class Effect {
 
 
 //Placeholder, returns a new effect that does nothing
-const NO_EFFECT = (() => {return new Effect(()=>{return [[], []]})})();
+//const NO_EFFECT = (() => {return new Effect(()=>{return [[], []]})})();
+
+class NoEffect extends Effect {
+
+}
 
 //A class to be used for all simple effects, ensures they are only accessing the current prediction data. Consistency of scope. 
 class SimpleEffect extends Effect {
@@ -78,7 +82,13 @@ class SimpleEffect extends Effect {
     //wraps effects in a context of just taking two arguments
     //journeysState and emissionsState are array-setter pairs
     apply(journeysState, emissionsState){
+
         this.revertState = [journeysState[0], emissionsState[0]]; //saves the current state before changing it, so we can change things back when we uncheck
+        //assert we have data
+        if(this.revertState[0].length === 0 || this.revertState[1].length === 0){
+            return;
+        }
+
         const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
         //assigns new values to bars
         (journeysState[1])(newJourneys);
@@ -106,11 +116,11 @@ const POLICIES_BASE =
 [
     {
         name: "No domestic flights",
-        effect: NO_EFFECT // will do something to the data
+        effect: new NoEffect() // will do something to the data
     },
     {
         name: "Economy-class flights",
-        effect: NO_EFFECT
+        effect: new NoEffect()
     },
     {
         name: "Replace all ICEs with EVs",
@@ -152,23 +162,23 @@ const POLICIES_BASE =
     },
     {
         name: "Train routes <300mi",
-        effect: NO_EFFECT
+        effect: new NoEffect()
     },
     {
         name: "Coach routes for <3hrs",
-        effect: NO_EFFECT
+        effect: new NoEffect()
     },
     {
         name: "Replace personal vehicles with taxis",
-        effect: NO_EFFECT
+        effect: new NoEffect()
     },
     {
         name: "Electric scooters forbidden",
-        effect: NO_EFFECT
+        effect: new NoEffect()
     },
     {
         name: "No personal ICE vehicles",
-        effect: NO_EFFECT
+        effect: new NoEffect()
     }
 ]
 

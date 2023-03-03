@@ -14,7 +14,7 @@ export const Home = (props) => {
 
 
     return(   
-        <div className="centre-grid">
+        <div className="middle-grid">
             <div className="custom-container">
                 <h1>Do you want to know your potential carbon savings?</h1>
                 <div className="csv-prompt">

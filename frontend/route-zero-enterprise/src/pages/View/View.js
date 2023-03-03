@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom"; 
 
 //components
 import "./View.scss";
@@ -14,6 +15,7 @@ import {getPolicies} from "../../data/policies.js";
 const refreshPolicies = (policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e) => {
     const savedCO2eBuilder = [];
     policies.map(pol => {
+                                                    // synthetic setter vvvvvvvv                      
         savedCO2eBuilder.push(pol.effect.getCO2eSaved([predictJourneys, () => {}], [predictEmissions, setPredictEmissions]));
         return pol;
     });
@@ -35,7 +37,9 @@ export const View = (props) => {
 
     useEffect(() => {
         document.title = "Graphs | RouteZero"
-        if(props.file !== null && predictJourneys.length === 0) {
+        if(props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
+
+            console.log("SET UP GRAPHS");
 
             journeyBars(props.file)
             .then((pairs) => {
@@ -57,14 +61,19 @@ export const View = (props) => {
             .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
                 refreshPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
             });
-        }else if(props.file === null){ // will eventually be used to refresh CO2e savings on other policy changes
-            refreshPolicies(policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e);
         }
 
     }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions]);
     
     return(<>
-            {/* <p>{JSON.stringify(props.response)}</p> */}
+            {props.file === undefined || props.file === null
+            ? 
+            <div className="middle-grid">
+                <h1>Error</h1>
+                <h3>Could not display predictions</h3>
+                <p>There was an error displaying your predictions. Your data is not loaded, please <Link to="/">provide a CSV</Link></p>
+            </div>
+            : 
             <div className="center-grid">
                 <div className="outer">
                 <div className="cell">
@@ -98,7 +107,7 @@ export const View = (props) => {
                 </div>
                 </div>
             </div>
-
+            }
         </>
     )
 }
