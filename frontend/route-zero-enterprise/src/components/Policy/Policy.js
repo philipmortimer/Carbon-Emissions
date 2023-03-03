@@ -19,7 +19,7 @@ policies =
 
 this object will get mutated here, provided a setter setPolicies which will update each policy field as a callback of the bootstrap 'form-check-input'
 */
-export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState, savedCO2e, setSavedCO2e}) => {
+export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState, savedCO2e, setSavedCO2e, refreshWrapper}) => {
 
     useEffect(() => {
         
@@ -48,6 +48,7 @@ export const PolicySelector = ({policies, setPolicies, journeysState, emissionsS
                     }else{
                         policyOption.effect.revert(journeysState, emissionsState);
                     }
+                    //refreshWrapper();
                 }}/>
                 <p>{policyOption.name}</p>
                 <KiloTonBubble setPolicies={setPolicies} policyOption={policyOption} journeysState={journeysState} emissionsState={emissionsState} savedCO2e={savedCO2e[i]}/>

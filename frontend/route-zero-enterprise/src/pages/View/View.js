@@ -61,7 +61,7 @@ export const View = (props) => {
             });
         }
 
-    }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions]);
+    }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions, refreshPolicies]);
     
     return(<>
             {props.file === undefined || props.file === null
@@ -76,7 +76,13 @@ export const View = (props) => {
                 <div className="outer">
                 <div className="cell">
                     {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
-                    <PolicySelector policies={policies} setPolicies={setPolicies} journeysState={[predictJourneys, setPredictJourneys]} emissionsState={[predictEmissions, setPredictEmissions]} savedCO2e={savedCO2e}/>
+                    <PolicySelector 
+                    policies={policies} 
+                    setPolicies={setPolicies} 
+                    journeysState={[predictJourneys, setPredictJourneys]} 
+                    emissionsState={[predictEmissions, setPredictEmissions]} 
+                    savedCO2e={savedCO2e} 
+                    refreshWrapper={() => {refreshPolicies(policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e)}}/> 
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>

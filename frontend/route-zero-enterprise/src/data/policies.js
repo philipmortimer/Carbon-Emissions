@@ -71,6 +71,11 @@ class Effect {
         return copy.reduce((subTot, bar) => subTot + bar[1], 0);
     }
 
+    //handles any index of indices being -1, just adds nothing
+    static tallyBarsOnIndices(bars, indices){
+        return indices.reduce((total, index) => index === -1 ? total : bars[index][1], 0);
+    }
+
     // increases the number of predicted journeys of each bar proportionally s.t. they sum to x more journeys in total
     // pass in oldJourneys
     static extrapolateJourneys(journeyBars, totalIncrease){
@@ -154,32 +159,33 @@ const POLICIES_BASE =
     {
         name: "Replace all ICEs with EVs",
         effect: new SimpleEffect((jState, eState) => {
-                const journeys = jState[0];
-                const emissions = eState[0];
+            const journeys = jState[0];
+            const emissions = eState[0];
 
-                //Swap all ICE journeys with EVs
+            //Swap all ICE journeys with EVs
 
-                //indices of all interesting bars
-                const [journeyEVBar, journeyPetrolBar, journeyDieselBar] = Effect.searchBarsOnNames(journeys, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
-                const iceBars = [journeyPetrolBar, journeyDieselBar];
+            //indices of all interesting bars
+            const [journeyEVBar, journeyPetrolBar, journeyDieselBar] = Effect.searchBarsOnNames(journeys, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
+            const iceBars = [journeyPetrolBar, journeyDieselBar];
 
-                let newJourneys = Effect.copyBars(journeys); //a mutable copy of journeys
+            let newJourneys = Effect.copyBars(journeys); //a mutable copy of journeys
 
-                //add extra journeys to electricCars from diesel or petrol 
-                iceBars.map((position) => {
-                    if(position !== -1){ //if it was found by Effect.searchBarsOnNames
-                        newJourneys[journeyEVBar][1] += journeys[position][1];
-                        newJourneys[position][1] = 0;
-                    }
-                    return position;
-                });
+            //add extra journeys to electricCars from diesel or petrol 
+            iceBars.map((position) => {
+                if(position !== -1){ //if it was found by Effect.searchBarsOnNames
+                    newJourneys[journeyEVBar][1] += journeys[position][1];
+                    newJourneys[position][1] = 0;
+                }
+                return position;
+            });
 
-                const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
-                
-                newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0; //clamp this to zero, as it is not a journey
+            const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
+            
+            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0; //clamp this to zero, as it is not in journeys
+            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0; //clamp this to zero, as it is not in journeys
 
-                return [newJourneys, newEmissions];
-            })
+            return [newJourneys, newEmissions];
+        })
     },
     {
         name: "Train routes <300mi",
@@ -206,8 +212,8 @@ const POLICIES_BASE =
             const journeys = jState[0];
             const emissions = eState[0];
 
-            const index = Effect.searchBarsOnNames(journeys,travelKind.electricScooter);
-            const scooterJourneys = journeys[index][1];
+            const [index] = Effect.searchBarsOnNames(journeys,travelKind.electricScooter);
+            const scooterJourneys = Effect.tallyBarsOnIndices(journeys, [index]);
 
             let newJourneys = Effect.copyBars(journeys);
             newJourneys[index][1] = 0;
@@ -220,7 +226,31 @@ const POLICIES_BASE =
     },
     {
         name: "No personal ICE vehicles",
-        effect: new NoEffect()
+        /**
+         * Total the number of ICE journeys taken in personal vehicles as x
+         * Set those bars in newJourneys to 0
+         * Extrapolate x more journeys
+         * Interpolate emissions
+         * Clamp any personal ICE emitters which are not represented in journeys to zero
+         */
+        effect: new SimpleEffect((jState, eState) => {
+            const journeys = jState[0];
+            const emissions = eState[0];
+
+            const [petrolIndex, dieselIndex] = Effect.searchBarsOnNames(journeys, travelKind.petrolCar, travelKind.dieselCar);
+            const ICEJourneys = Effect.tallyBarsOnIndices(journeys, [petrolIndex, dieselIndex]);
+
+            let newJourneys = Effect.copyBars(journeys);
+            [petrolIndex, dieselIndex].map(index => index !== -1 ? newJourneys[index][1] = 0 : {});
+            newJourneys = Effect.extrapolateJourneys(newJourneys, ICEJourneys);
+
+            const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
+
+            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0;
+            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0;
+
+            return [newJourneys, newEmissions]; 
+        })  
     }
 ]
 
