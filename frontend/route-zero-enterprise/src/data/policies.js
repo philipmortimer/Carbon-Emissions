@@ -25,6 +25,8 @@ class Effect {
         this.revertState = []; //the state we write when we uncheck a policy change, pair of journeys and emission bars
     }
     
+    static NOT_FOUND_CLAMP = 0;
+
     apply(){}
 
     revert(){}
@@ -85,8 +87,10 @@ class Effect {
             factors[bar[0]] = journeyBarsNew[i][1] / bar[1];  //find by what proportion a bar has increased by 
             return bar;
         });
-        console.log(factors);
-        return emissionBars.map((bar) => [bar[0], bar[1] * factors[bar[0]]]); //increase by name, not index
+        return emissionBars.map((bar) => {
+            const f = factors[bar[0]] === undefined ? Effect.NOT_FOUND_CLAMP : factors[bar[0]]; //if a travel type is not included in journeys, it is not to be interpolated on 
+            return [bar[0], bar[1] * f];
+        }); //increase by name, not index
     }
 }
 
@@ -130,9 +134,6 @@ class SimpleEffect extends Effect {
 
         //effect will mutate copies
         const newEmissions = this.effect(journeysState, emissionsState)[1];
-
-        console.log(`getCO2eSaved`);
-        console.log(newEmissions);
 
         //measure the change in the emissionsCopy
         return Effect.sumCO2e(emissionsState[0]) - Effect.sumCO2e(newEmissions);
@@ -192,7 +193,18 @@ const POLICIES_BASE =
     },
     {
         name: "Electric scooters forbidden",
-        effect: new NoEffect()
+        /**
+         * Find out how many electric scooters there are
+         * Store that number x
+         * Set electric scooter journeys to 0
+         * Extrapolate journeys by x
+         * Interpolate emissions
+         */
+        effect: new SimpleEffect((jState, eState) => {
+            const journeys = jState[0];
+            const emissions = eState[0];
+
+        })
     },
     {
         name: "No personal ICE vehicles",
