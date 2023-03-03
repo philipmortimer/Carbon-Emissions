@@ -39,8 +39,6 @@ export const View = (props) => {
         document.title = "Graphs | RouteZero"
         if(props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
 
-            console.log("SET UP GRAPHS");
-
             journeyBars(props.file)
             .then((pairs) => {
                 setBeforeJourneys(pairs);

@@ -63,6 +63,33 @@ class Effect {
     static copyBars(src){
         return JSON.parse(JSON.stringify(src));
     }
+
+    static totalBars(bars){
+        const copy = Effect.copyBars(bars);
+        return copy.reduce((subTot, bar) => subTot + bar[1], 0);
+    }
+
+    // increases the number of predicted journeys of each bar proportionally s.t. they sum to x more journeys in total
+    // pass in oldJourneys
+    static extrapolateJourneys(journeyBars, totalIncrease){
+        const total = Effect.totalBars(journeyBars);
+        const factr = (totalIncrease + total) / total;
+        return journeyBars.map(bar => [bar[0], bar[1] * factr]);
+    }
+
+    // pass in oldEmissions
+    static interpolateEmissions(emissionBars, journeyBarsOld, journeyBarsNew){
+        const factors = {}; //map string->number
+        if(emissionBars.length !== journeyBarsOld.length) {
+            throw Error(`Error:Policies:Effect:extrapolateEmissions:emissions_journeys_inequal_width_${emissionBars.length}!=${journeyBarsOld.length}`);
+        }
+        const copyJourneyBarsOld = Effect.copyBars(journeyBarsOld);
+        copyJourneyBarsOld.map((bar, i) => {
+            factors[bar[0]] = journeyBarsNew[i][1] / bar[1];  //find by what proportion a bar has increased by 
+            return bar;
+        });
+        return emissionBars.map((bar) => [bar[0], bar[1] * factors[bar[0]]]); //increase by name, not index
+    }
 }
 
 
@@ -144,18 +171,8 @@ const POLICIES_BASE =
                     }
                     return position;
                 });
-
-                //remove ICE emissions, scale EV emissions by extrapolation
-                const factorEV = newJourneys[journeyEVBar][1] / journeys[journeyEVBar][1];
-
-                let newEmissions = Effect.copyBars(emissions); //a mutable copy of emissions
-
-                const [emissionsEVBar, emissionsPetrolBar, emissionsDieselBar] = Effect.searchBarsOnNames(emissions, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
-
-                const EVBar = newEmissions[emissionsEVBar];
-                EVBar[1] = EVBar[1] * factorEV; //extrapolate the increase in ev journeys
-                newEmissions[emissionsPetrolBar][1] = 0; //no longer emitters
-                newEmissions[emissionsDieselBar][1] = 0; //no longer emitters
+                
+                let newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
                 return [newJourneys, newEmissions];
             })

@@ -89,6 +89,9 @@ export const journeyBars = (csvBlob) => {
     });
 }
 
+const EMISSION_LOWER_LIM = 0;
+const JOURNEY_LOWER_LIM = 0.5;
+
 //maps transport methods in CSV to records in the response
 export const emissionBars = (csvBlob, response, fieldName) => {
     return csvBlob
@@ -107,7 +110,7 @@ export const emissionBars = (csvBlob, response, fieldName) => {
         });
         const pairs = mapToPairs(uniqueTransports, co2Tally);
         
-        return transform(pairs, 10);
+        return transform(pairs, EMISSION_LOWER_LIM);
     });
 }
 
@@ -147,5 +150,5 @@ export const predictJourneyBars = (response) => {
     const transportList = new Array(...transportSet);
     const pairs = mapToPairs(transportList, transportTally);
 
-    return transform(pairs, 0.5);
+    return transform(pairs, JOURNEY_LOWER_LIM);
 }
