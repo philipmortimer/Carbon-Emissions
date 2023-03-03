@@ -25,7 +25,7 @@ class Effect {
         this.revertState = []; //the state we write when we uncheck a policy change, pair of journeys and emission bars
     }
     
-    static NOT_FOUND_CLAMP = 0;
+    static NOT_FOUND_CLAMP = 1;
 
     apply(){}
 
@@ -174,7 +174,9 @@ const POLICIES_BASE =
                     return position;
                 });
 
-                let newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
+                const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
+                
+                newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0; //clamp this to zero, as it is not a journey
 
                 return [newJourneys, newEmissions];
             })
@@ -204,6 +206,16 @@ const POLICIES_BASE =
             const journeys = jState[0];
             const emissions = eState[0];
 
+            const index = Effect.searchBarsOnNames(journeys,travelKind.electricScooter);
+            const scooterJourneys = journeys[index][1];
+
+            let newJourneys = Effect.copyBars(journeys);
+            newJourneys[index][1] = 0;
+            newJourneys = Effect.extrapolateJourneys(newJourneys, scooterJourneys);
+
+            const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
+
+            return [newJourneys, newEmissions];
         })
     },
     {
