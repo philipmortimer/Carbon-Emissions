@@ -79,15 +79,13 @@ class Effect {
 
     // pass in oldEmissions
     static interpolateEmissions(emissionBars, journeyBarsOld, journeyBarsNew){
-        const factors = {}; //map string->number
-        if(emissionBars.length !== journeyBarsOld.length) {
-            throw Error(`Error:Policies:Effect:extrapolateEmissions:emissions_journeys_inequal_width_${emissionBars.length}!=${journeyBarsOld.length}`);
-        }
+        const factors = {}; //map string->number, always at least as many factors as emission bars
         const copyJourneyBarsOld = Effect.copyBars(journeyBarsOld);
         copyJourneyBarsOld.map((bar, i) => {
             factors[bar[0]] = journeyBarsNew[i][1] / bar[1];  //find by what proportion a bar has increased by 
             return bar;
         });
+        console.log(factors);
         return emissionBars.map((bar) => [bar[0], bar[1] * factors[bar[0]]]); //increase by name, not index
     }
 }
@@ -133,6 +131,9 @@ class SimpleEffect extends Effect {
         //effect will mutate copies
         const newEmissions = this.effect(journeysState, emissionsState)[1];
 
+        console.log(`getCO2eSaved`);
+        console.log(newEmissions);
+
         //measure the change in the emissionsCopy
         return Effect.sumCO2e(emissionsState[0]) - Effect.sumCO2e(newEmissions);
     }
@@ -171,7 +172,7 @@ const POLICIES_BASE =
                     }
                     return position;
                 });
-                
+
                 let newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
                 return [newJourneys, newEmissions];
