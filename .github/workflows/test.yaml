@@ -8,7 +8,7 @@ jobs:
   test-react-app:
     runs-on: ubuntu-latest
     steps:
-       - name: Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
