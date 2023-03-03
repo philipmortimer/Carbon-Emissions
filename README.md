@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="https://enterprise.routezero.world/static/media/routezero.e760ac773e0cf56e3c20e228ee964ebb.svg" alt="rze_logo" width="400px"/>
+</p>
+
 # Route Zero Enterprise Carbon Savings Prediction
 
 Visit our Continuously Delivered (on merge with main) deployment at [34.226.134.137](http://34.226.134.137).
