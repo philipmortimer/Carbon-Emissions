@@ -51,12 +51,7 @@ This will have two main components:
 
 ## Startup guides
 
-
-## Starting our Frontend
-
-### Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Starting our Frontend
 
 ### Installing dependancies (prerequisite)
 
@@ -86,9 +81,9 @@ Testing feature to-be implemented.
 
 Builds the app for production to the `build` folder.\
 
-#### Deployment
+### Deployment
 
-To do: insert deployment instructions
+The frontend is running with NGINX. To deploy the app yourself, please see [Docker Images](#docker-images).
 
 ## Starting our Backend
 
@@ -112,8 +107,6 @@ To change that, change the value of `server.port` in the *application.properties
 ## Docker Images
 
 ### For the Frontend
-
-The ``docker compose`` instructions are **depricated** as there was no need for a multistage build.
 
 To generate and run just the frontend image, observe the following steps: 
 - start the docker desktop app
