@@ -5,6 +5,15 @@ on:
     branches: ['dev', 'main', 'feature-*']
 
 jobs:
+  test-react-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: install packages
+        run: npm ci
+      - name: run tests
+        run: CI=true npm run test
   spring-app-ci:
     name: Spring App CI
     runs-on: ubuntu-latest
