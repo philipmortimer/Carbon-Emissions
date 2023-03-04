@@ -56,7 +56,7 @@ public class Helper {
         connection.setRequestProperty("Accept", "application/json");
         connection.setDoOutput(true);
         connection.setConnectTimeout(15000); // 15 seconds to establish connection to RZ server
-        connection.setReadTimeout(20000); // 20 seconds to recieve response from R2 Server
+        connection.setReadTimeout(20000); // 20 seconds to recieve response from RZ Server
         OutputStream outStream = connection.getOutputStream();
         byte[] payload = j.getBytes(StandardCharsets.UTF_8);
         outStream.write(payload, 0, payload.length);
