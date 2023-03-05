@@ -71,9 +71,6 @@ public class ServerCSVTests {
         }
     }
 
-    // tests fs.upload()
-    // TODO Implement more tests
-
     /**
      * <b>VALID CSV TEST</b><br/>
      * Tests that no error is thrown if a valid CSV file is passed.
