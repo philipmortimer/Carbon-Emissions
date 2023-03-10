@@ -59,9 +59,10 @@ export const View = (props) => {
             .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
                 refreshPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
             });
+
         }
 
-    }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions, refreshPolicies]);
+    }, [props.setFile, props.file, props.response, policies, setPredictJourneys, setPredictEmissions, refreshPolicies]);
     
     return(<>
             {props.file === undefined || props.file === null

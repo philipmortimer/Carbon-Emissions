@@ -89,8 +89,8 @@ export const journeyBars = (csvBlob) => {
     });
 }
 
-const EMISSION_LOWER_LIM = 10;
-const JOURNEY_LOWER_LIM = 0.5;
+const EMISSION_LOWER_LIM = 0;
+const JOURNEY_LOWER_LIM = 0;
 
 //maps transport methods in CSV to records in the response
 export const emissionBars = (csvBlob, response, fieldName) => {
@@ -118,27 +118,30 @@ export const emissionBars = (csvBlob, response, fieldName) => {
 export const transform = (xs, lowerCutoff) => {
 
     const xsMap = xs.map(x => {
-        let xTransform = x[1];
-        //optional data transformations
+        let xTransform = x[1]; //[0] -> name, [1] -> value
+         //optional data transformations
         //xTransform = Math.round(xTransform);
-        if (xTransform > lowerCutoff) {
+        if (xTransform >= lowerCutoff) {
             return [x[0], xTransform];
         }else{
             return [x[0], -1];
         }
     });
     const xsFilter = xsMap.filter(x => x[1] !== -1); //removes those set to be removed
+    console.log(xsFilter);
     return xsFilter;
 }
 
 export const predictJourneyBars = (response) => {
+    console.log(response);
+
     const transportSet = new Set();
     const transportTally = {};
     response.predictions.map(predict => {
         predict.alternatives.map(alternative => {
             const transport = alternative.transport.type;
             transportSet.add(transport);
-            if(transportTally[transport] === undefined) {
+            if(transportTally[transport] === undefined) { //when we create a new tally, there wont be an entry
                 transportTally[transport] = 0;
             }else{
                 transportTally[transport] += alternative.probability;
@@ -149,6 +152,8 @@ export const predictJourneyBars = (response) => {
     });
     const transportList = new Array(...transportSet);
     const pairs = mapToPairs(transportList, transportTally);
+
+    //console.log(transportTally);
 
     return transform(pairs, JOURNEY_LOWER_LIM);
 }
