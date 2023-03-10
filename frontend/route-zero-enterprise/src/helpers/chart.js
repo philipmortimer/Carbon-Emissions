@@ -128,13 +128,10 @@ export const transform = (xs, lowerCutoff) => {
         }
     });
     const xsFilter = xsMap.filter(x => x[1] !== -1); //removes those set to be removed
-    console.log(xsFilter);
     return xsFilter;
 }
 
 export const predictJourneyBars = (response) => {
-    console.log(response);
-
     const transportSet = new Set();
     const transportTally = {};
     response.predictions.map(predict => {
