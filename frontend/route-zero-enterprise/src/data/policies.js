@@ -1,6 +1,6 @@
 import {travelKind} from "../data/travelkind";
 
-const INCLUDE_EFFECTS = false;
+const INCLUDE_EFFECTS = true;
 
 // policies is an object containing all selectable options
 /* 
@@ -168,15 +168,16 @@ const POLICIES_BASE =
             //Swap all ICE journeys with EVs
 
             //indices of all interesting bars
-            const [journeyEVBar, journeyPetrolBar, journeyDieselBar] = Effect.searchBarsOnNames(journeys, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
-            const iceBars = [journeyPetrolBar, journeyDieselBar];
+            const [journeyEVIndex, journeyPetrolIndex, journeyDieselIndex] = Effect.searchBarsOnNames(journeys, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
+            const [emissionEVIndex, emissionPetrolIndex, emissionDieselIndex] = Effect.searchBarsOnNames(emissions, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
+            const iceBars = [journeyPetrolIndex, journeyDieselIndex];
 
             let newJourneys = Effect.copyBars(journeys); //a mutable copy of journeys
 
             //add extra journeys to electricCars from diesel or petrol 
             iceBars.map((position) => {
                 if(position !== -1){ //if it was found by Effect.searchBarsOnNames
-                    newJourneys[journeyEVBar][1] += journeys[position][1];
+                    newJourneys[journeyEVIndex][1] += journeys[position][1];
                     newJourneys[position][1] = 0;
                 }
                 return position;
@@ -184,8 +185,8 @@ const POLICIES_BASE =
 
             const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
             
-            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0; //clamp this to zero, as it is not in journeys
-            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0; //clamp this to zero, as it is not in journeys
+            if(emissionDieselIndex !== -1) newEmissions[emissionDieselIndex][1] = 0; //clamp this to zero if found
+            if(emissionPetrolIndex !== -1) newEmissions[emissionPetrolIndex][1] = 0; //clamp this to zero if found
 
             return [newJourneys, newEmissions];
         })
@@ -219,8 +220,10 @@ const POLICIES_BASE =
             const scooterJourneys = Effect.tallyBarsOnIndices(journeys, [index]);
 
             let newJourneys = Effect.copyBars(journeys);
-            newJourneys[index][1] = 0;
-            newJourneys = Effect.extrapolateJourneys(newJourneys, scooterJourneys);
+            if(index !== -1) {
+                newJourneys[index][1] = 0;
+                newJourneys = Effect.extrapolateJourneys(newJourneys, scooterJourneys);
+            }
 
             const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
@@ -240,17 +243,21 @@ const POLICIES_BASE =
             const journeys = jState[0];
             const emissions = eState[0];
 
-            const [petrolIndex, dieselIndex] = Effect.searchBarsOnNames(journeys, travelKind.petrolCar, travelKind.dieselCar);
-            const ICEJourneys = Effect.tallyBarsOnIndices(journeys, [petrolIndex, dieselIndex]);
+            const [journeyPetrolIndex, journeyDieselIndex] = Effect.searchBarsOnNames(journeys, travelKind.petrolCar, travelKind.dieselCar);
+            const [emissionPetrolIndex, emissionDieselIndex] = Effect.searchBarsOnNames(emissions, travelKind.petrolCar, travelKind.dieselCar);
+            const ICEJourneys = Effect.tallyBarsOnIndices(journeys, [journeyPetrolIndex, journeyDieselIndex]); //can be 0
 
             let newJourneys = Effect.copyBars(journeys);
-            [petrolIndex, dieselIndex].map(index => index !== -1 ? newJourneys[index][1] = 0 : {});
-            newJourneys = Effect.extrapolateJourneys(newJourneys, ICEJourneys);
+            if(ICEJourneys > 0){
+                [journeyPetrolIndex, journeyDieselIndex].map(index => index !== -1 ? newJourneys[index][1] = 0 : {});
+                newJourneys = Effect.extrapolateJourneys(newJourneys, ICEJourneys);
+    
+            }
 
             const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
-            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0;
-            newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0;
+            emissionPetrolIndex !== -1 ? newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0 : {};
+            emissionDieselIndex !== -1 ? newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0 : {};
 
             return [newJourneys, newEmissions]; 
         })  
