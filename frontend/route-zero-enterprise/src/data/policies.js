@@ -29,11 +29,7 @@ class Effect {
     
     static NOT_FOUND_FACTOR = 1; //preserves original emission (see SimpleEffect.interpolateEmissions)
 
-    static revertStack = []; //allows us to uncheck policy options in any order we like 
-
     apply(){}
-
-    revert(journeysState, emissionsState){}
 
     getCO2eSaved(){ return 0; }
 
@@ -110,10 +106,6 @@ class Effect {
     }
 }
 
-
-//Placeholder, returns a new effect that does nothing
-//const NO_EFFECT = (() => {return new Effect(()=>{return [[], []]})})();
-
 class NoEffect extends Effect {
 
 }
@@ -131,35 +123,17 @@ class SimpleEffect extends Effect {
     //journeysState and emissionsState are array-setter pairs
     apply(journeysState, emissionsState){
 
-        Effect.revertStack.push([journeysState[0], emissionsState[0]]); //saves the current state before changing it, so we can change things back when we uncheck
-
         const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
         //assigns new values to bars
         (journeysState[1])(newJourneys);
         (emissionsState[1])(newEmissions);
     }
 
-    revert(journeysState, emissionsState){
-        if(Effect.revertStack.length <= 0){
-            throw Error("Cannot retreive graphs from empty stack.");
-        }else{
-            const revertStackTop = Effect.revertStack.pop();
-            (journeysState[1])(revertStackTop[0]);
-            (emissionsState[1])(revertStackTop[1]);
-        }
-    }
-
     //Returns the change in emissions a simple effect gives
     getCO2eSaved(journeysState, emissionsState){
 
-        //effect will mutate copies
         const newEmissions = this.effect(journeysState, emissionsState)[1];
-        console.log(`________${this.name}_________`);
-        console.log(emissionsState[0]);
-        console.log("->");
-        console.log(newEmissions);
 
-        //measure the change in the emissionsCopy
         return Effect.sumCO2e(emissionsState[0]) - Effect.sumCO2e(newEmissions);
     }
 }

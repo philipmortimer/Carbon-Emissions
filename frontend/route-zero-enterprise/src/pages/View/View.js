@@ -12,14 +12,9 @@ import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart
 //data
 import {getPolicies} from "../../data/policies.js";
 
-const refreshPolicies = (policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e) => {
-    const savedCO2eBuilder = [];
-    policies.map(pol => {
-                                                    // synthetic setter vvvvvvvv                      
-        savedCO2eBuilder.push(pol.effect.getCO2eSaved([predictJourneys, () => {}], [predictEmissions, setPredictEmissions]));
-        return pol;
-    });
-    setSavedCO2e(savedCO2eBuilder);
+const setupPolicies = (policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e) => {
+    setSavedCO2e(policies.map(pol => pol.effect.getCO2eSaved([predictJourneys, () => {}], [predictEmissions, setPredictEmissions])));
+
 }
 
 export const View = (props) => {
@@ -32,6 +27,9 @@ export const View = (props) => {
 
     const [policies, setPolicies] = useState(getPolicies());
     const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
+
+    const [mPredJourn, setMPredJourn] = useState(undefined);
+    const [mPredEmiss, setMPredEmiss] = useState(undefined);
 
     //console.log(policies);
 
@@ -54,15 +52,19 @@ export const View = (props) => {
             emissionBars(props.file, props.response, "newCarbonKgCo2e")
             .then((pairs) => {
                 setPredictEmissions(pairs);
+
+                if(mPredJourn === undefined) { setMPredJourn(predictJourneys); }
+                if(mPredEmiss === undefined) { setMPredEmiss(predictEmissions); }
+
                 return pairs;
             })
             .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
-                refreshPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
+                setupPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
             });
 
         }
 
-    }, [props.setFile, props.file, props.response, policies, setPredictJourneys, setPredictEmissions, refreshPolicies]);
+    }, [props.setFile, props.file, props.response, setPredictJourneys, setPredictEmissions, setupPolicies]);
     
     return(<>
             {props.file === undefined || props.file === null
@@ -78,12 +80,13 @@ export const View = (props) => {
                 <div className="cell">
                     {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
                     <PolicySelector 
+                    masterPredict={[mPredJourn, mPredEmiss]}
                     policies={policies} 
                     setPolicies={setPolicies} 
                     journeysState={[predictJourneys, setPredictJourneys]} 
-                    emissionsState={[predictEmissions, setPredictEmissions]} 
-                    savedCO2e={savedCO2e} 
-                    refreshWrapper={() => {refreshPolicies(policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e)}}/> 
+                    emissionsState={[predictEmissions, setPredictEmissions]}
+                    savedCO2e={savedCO2e}
+                    setSavedCO2e={setSavedCO2e}/> 
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>
