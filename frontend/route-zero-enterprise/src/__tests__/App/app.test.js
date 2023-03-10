@@ -191,7 +191,7 @@ describe('File Upload predictions retrieval tests', () => {
  * @param {string} text file content
  * @returns The file
  */
-function getCsvFile (name, text) {
+export function getCsvFile (name, text) {
   const file = {
     name,
     text: () => Promise.resolve(text)
