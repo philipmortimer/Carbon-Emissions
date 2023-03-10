@@ -105,6 +105,7 @@ export const emissionBars = (csvBlob, response, fieldName) => {
             return x;
         }); //fresh map
         transports.map((x, i) => {
+            //console.log(x);
             co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i][fieldName]; //handles undefined 
             return x;
         });
@@ -127,6 +128,7 @@ export const transform = (xs, lowerCutoff) => {
             return [x[0], -1];
         }
     });
+
     const xsFilter = xsMap.filter(x => x[1] !== -1); //removes those set to be removed
     return xsFilter;
 }
@@ -148,9 +150,6 @@ export const predictJourneyBars = (response) => {
         return predict; //warning about void arrow function mitigated; no longer mutates response.predictions
     });
     const transportList = new Array(...transportSet);
-    const pairs = mapToPairs(transportList, transportTally);
-
-    //console.log(transportTally);
-
+    const pairs = mapToPairs(transportList, transportTally);   
     return transform(pairs, JOURNEY_LOWER_LIM);
 }

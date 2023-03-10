@@ -25,20 +25,21 @@ this object will get mutated here, provided a setter setPolicies which will upda
 class Effect {
     constructor(effect){
         this.effect = effect;
-        this.revertState = []; //the state we write when we uncheck a policy change, pair of journeys and emission bars
     }
     
-    static NOT_FOUND_CLAMP = 1;
+    static NOT_FOUND_FACTOR = 1; //preserves original emission (see SimpleEffect.interpolateEmissions)
+
+    static revertStack = []; //allows us to uncheck policy options in any order we like 
 
     apply(){}
 
-    revert(){}
+    revert(journeysState, emissionsState){}
 
     getCO2eSaved(){ return 0; }
 
     //takes a list of bars (pairs of [name, num]), make sure you dont pass in a [bar, setter] pair ([[name, num], setter])
     static sumCO2e(emissions){
-          
+        
         const sum = emissions.reduce((x, y) => x + y[1], 0);
         return sum;
     }
@@ -46,7 +47,7 @@ class Effect {
     //arguments: any bars (pairs of [name, value]), variadic array of strings
     //returns  : array of indices for all names
     static searchBarsOnNames(bars, ...names){
-        if(names.length === 0) { return [-1]; }
+        if(names.length === 0) { throw Error("searchBarsOnNames cannot be called with no names to search for"); }
 
         //indices corresponds 1:1 with names
         const indices = []; //names.map(n => {indices.push(-1); return n}); 
@@ -90,13 +91,20 @@ class Effect {
     // pass in oldEmissions
     static interpolateEmissions(emissionBars, journeyBarsOld, journeyBarsNew){
         const factors = {}; //map string->number, always at least as many factors as emission bars
-        const copyJourneyBarsOld = Effect.copyBars(journeyBarsOld);
-        copyJourneyBarsOld.map((bar, i) => {
-            factors[bar[0]] = journeyBarsNew[i][1] / bar[1];  //find by what proportion a bar has increased by 
-            return bar;
+
+        journeyBarsOld.map((bar, i) => { 
+            const barName = bar[0];
+            const barVal  = bar[1];
+            if(barVal === 0) {
+                factors[barName] = undefined; //avoids what would otherwise be a division by 0
+            }else{
+                factors[bar[0]] = journeyBarsNew[i][1] / barVal;  //find by what proportion a bar has increased by 
+            }
         });
+
         return emissionBars.map((bar) => {
-            const f = factors[bar[0]] === undefined ? Effect.NOT_FOUND_CLAMP : factors[bar[0]]; //if a travel type is not included in journeys, it is not to be interpolated on 
+            const barName = bar[0];
+            const f = factors[barName] === undefined ? Effect.NOT_FOUND_FACTOR : factors[barName]; //if a travel type is not included in journeys, it is not to be interpolated on 
             return [bar[0], bar[1] * f];
         }); //increase by name, not index
     }
@@ -113,18 +121,17 @@ class NoEffect extends Effect {
 //A class to be used for all simple effects, ensures they are only accessing the current prediction data. Consistency of scope. 
 class SimpleEffect extends Effect {
 
-    //constructor(effect){super(effect)}
+    constructor(effect, name){
+        super(effect);
+        this.name = name;
+    }
 
     //mutates journeys and/or emissions and returns nothing
     //wraps effects in a context of just taking two arguments
     //journeysState and emissionsState are array-setter pairs
     apply(journeysState, emissionsState){
 
-        this.revertState = [journeysState[0], emissionsState[0]]; //saves the current state before changing it, so we can change things back when we uncheck
-        //assert we have data
-        if(this.revertState[0].length === 0 || this.revertState[1].length === 0){
-            return;
-        }
+        Effect.revertStack.push([journeysState[0], emissionsState[0]]); //saves the current state before changing it, so we can change things back when we uncheck
 
         const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
         //assigns new values to bars
@@ -133,8 +140,13 @@ class SimpleEffect extends Effect {
     }
 
     revert(journeysState, emissionsState){
-        (journeysState[1])(this.revertState[0]);
-        (emissionsState[1])(this.revertState[1]);
+        if(Effect.revertStack.length <= 0){
+            throw Error("Cannot retreive graphs from empty stack.");
+        }else{
+            const revertStackTop = Effect.revertStack.pop();
+            (journeysState[1])(revertStackTop[0]);
+            (emissionsState[1])(revertStackTop[1]);
+        }
     }
 
     //Returns the change in emissions a simple effect gives
@@ -142,6 +154,10 @@ class SimpleEffect extends Effect {
 
         //effect will mutate copies
         const newEmissions = this.effect(journeysState, emissionsState)[1];
+        console.log(`________${this.name}_________`);
+        console.log(emissionsState[0]);
+        console.log("->");
+        console.log(newEmissions);
 
         //measure the change in the emissionsCopy
         return Effect.sumCO2e(emissionsState[0]) - Effect.sumCO2e(newEmissions);
@@ -189,7 +205,7 @@ const POLICIES_BASE =
             if(emissionPetrolIndex !== -1) newEmissions[emissionPetrolIndex][1] = 0; //clamp this to zero if found
 
             return [newJourneys, newEmissions];
-        })
+        }, "ice_ev")
     },
     {
         name: "Train routes <300mi",
@@ -228,7 +244,7 @@ const POLICIES_BASE =
             const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
             return [newJourneys, newEmissions];
-        })
+        }, "no_scooters")
     },
     {
         name: "No personal ICE vehicles",
@@ -248,19 +264,16 @@ const POLICIES_BASE =
             const ICEJourneys = Effect.tallyBarsOnIndices(journeys, [journeyPetrolIndex, journeyDieselIndex]); //can be 0
 
             let newJourneys = Effect.copyBars(journeys);
-            if(ICEJourneys > 0){
-                [journeyPetrolIndex, journeyDieselIndex].map(index => index !== -1 ? newJourneys[index][1] = 0 : {});
-                newJourneys = Effect.extrapolateJourneys(newJourneys, ICEJourneys);
-    
-            }
+            [journeyPetrolIndex, journeyDieselIndex].map(index => index !== -1 ? newJourneys[index][1] = 0 : {});
+            newJourneys = Effect.extrapolateJourneys(newJourneys, ICEJourneys);
 
             const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
-            if(emissionPetrolIndex !== -1) newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0;
-            if(emissionDieselIndex !== -1) newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0;
+            if(emissionPetrolIndex !== -1) newEmissions[emissionPetrolIndex][1] = 0;
+            if(emissionDieselIndex !== -1) newEmissions[emissionDieselIndex][1] = 0;
 
             return [newJourneys, newEmissions]; 
-        })  
+        }, "no_ice")  
     }
 ]
 
