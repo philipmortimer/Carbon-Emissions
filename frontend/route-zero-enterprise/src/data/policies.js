@@ -256,8 +256,8 @@ const POLICIES_BASE =
 
             const newEmissions = Effect.interpolateEmissions(emissions, journeys, newJourneys);
 
-            emissionPetrolIndex !== -1 ? newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0 : {};
-            emissionDieselIndex !== -1 ? newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0 : {};
+            if(emissionPetrolIndex !== -1) newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.dieselCar)][1] = 0;
+            if(emissionDieselIndex !== -1) newEmissions[Effect.searchBarsOnNames(newEmissions, travelKind.petrolCar)][1] = 0;
 
             return [newJourneys, newEmissions]; 
         })  
