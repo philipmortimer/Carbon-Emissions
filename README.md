@@ -44,7 +44,7 @@ This will have two main components:
 ## Requirements
 - [Docker](https://www.docker.com/)
 - [Node.js](https://nodejs.org/en/)
-- [Maven](https://maven.apache.org/download.cgi)
+- [Maven v3.8.6](https://maven.apache.org/docs/3.8.6/release-notes.html)
 
 ## Startup guides
 
