@@ -1,4 +1,7 @@
 import {travelKind} from "../data/travelkind";
+
+const INCLUDE_EFFECTS = false;
+
 // policies is an object containing all selectable options
 /* 
 it may look something like this
@@ -260,7 +263,7 @@ export const getPolicies = () => {
         policiesCopy.push(
             {
                 name: x.name,
-                effect: x.effect,
+                effect: INCLUDE_EFFECTS ? x.effect : new NoEffect(), //if you would like to disable effects, please set INCLUDE_EFFECTS false
                 selected: false
             }
         )
