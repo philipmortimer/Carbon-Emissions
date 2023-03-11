@@ -4,18 +4,13 @@ import {Link} from "react-router-dom";
 //components
 import "./View.scss";
 import {BarChart} from "../../components/Chart/Chart.js";
-import {PolicySelector} from "../../components/Policy/Policy.js";
+import {PolicySelector} from "../../components/Policy/PolicySelector.js";
 
 //helpers
 import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart.js";
 
 //data
 import {getPolicies} from "../../data/policies.js";
-
-const setupPolicies = (policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e) => {
-    setSavedCO2e(policies.map(pol => pol.effect.getCO2eSaved([predictJourneys, () => {}], [predictEmissions, setPredictEmissions])));
-
-}
 
 export const View = (props) => {
 
@@ -25,16 +20,14 @@ export const View = (props) => {
     const [predictJourneys, setPredictJourneys] = useState([]);
     const [predictEmissions, setPredictEmissions] = useState([]);
 
-    const [policies, setPolicies] = useState(getPolicies());
-    const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
 
-    const [mPredJourn, setMPredJourn] = useState(undefined);
-    const [mPredEmiss, setMPredEmiss] = useState(undefined);
+    
+    const [policies, setPolicies] = useState(getPolicies());
+    // const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
 
     //console.log(policies);
 
-    useEffect(() => {
-        document.title = "Graphs | RouteZero"
+    const resetGraphs = () => {
         if(props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
 
             journeyBars(props.file)
@@ -53,18 +46,17 @@ export const View = (props) => {
             .then((pairs) => {
                 setPredictEmissions(pairs);
 
-                if(mPredJourn === undefined) { setMPredJourn(predictJourneys); }
-                if(mPredEmiss === undefined) { setMPredEmiss(predictEmissions); }
-
-                return pairs;
-            })
-            .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
-                setupPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
+            return pairs;
             });
-
         }
+    }
 
-    }, [props.setFile, props.file, props.response, setPredictJourneys, setPredictEmissions, setupPolicies]);
+    useEffect(() => {
+        document.title = "Graphs | RouteZero"
+
+        resetGraphs();
+
+    }, [props.setFile, props.file, policies, props.response, setPredictJourneys, setPredictEmissions]);
     
     return(<>
             {props.file === undefined || props.file === null
@@ -80,13 +72,13 @@ export const View = (props) => {
                 <div className="cell">
                     {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
                     <PolicySelector 
-                    masterPredict={[mPredJourn, mPredEmiss]}
                     policies={policies} 
                     setPolicies={setPolicies} 
                     journeysState={[predictJourneys, setPredictJourneys]} 
-                    emissionsState={[predictEmissions, setPredictEmissions]}
-                    savedCO2e={savedCO2e}
-                    setSavedCO2e={setSavedCO2e}/> 
+                    emissionsState={[predictEmissions, setPredictEmissions]}/>
+                   { // savedCO2e={savedCO2e}
+                    // setSavedCO2e={setSavedCO2e}/> 
+                   }
                 </div>
                 <div className="cell">
                     <h1>Visualisation</h1>
