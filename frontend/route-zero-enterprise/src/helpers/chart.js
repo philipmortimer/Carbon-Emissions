@@ -39,6 +39,9 @@ CO2e -> tally up probability weighted CO2e across every travel record, allocate 
 
 */
 
+const EMISSION_LOWER_LIM = 10; //10
+const JOURNEY_LOWER_LIM = 0.1; //0.1
+
 export const tallyList = (xs) => {
     const tally = {}; //empty map
     xs.map(x => {
@@ -89,8 +92,6 @@ export const journeyBars = (csvBlob) => {
     });
 }
 
-const EMISSION_LOWER_LIM = 0;
-const JOURNEY_LOWER_LIM = 0;
 
 //maps transport methods in CSV to records in the response
 export const emissionBars = (csvBlob, response, fieldName) => {
