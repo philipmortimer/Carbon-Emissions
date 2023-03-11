@@ -44,7 +44,7 @@ This will have two main components:
 ## Requirements
 - [Docker](https://www.docker.com/)
 - [Node.js](https://nodejs.org/en/)
-- [Maven](https://maven.apache.org/download.cgi)
+- [Maven v3.8.6](https://maven.apache.org/docs/3.8.6/release-notes.html)
 
 ## Startup guides
 
@@ -57,7 +57,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**. 
+Before you can run any of the below, please run ``npm install`` in **this directory**.
 
 ### Available Scripts
 
@@ -79,26 +79,6 @@ If you're testing the frontend with a locally hosted backend, to avoid CORS issu
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-#### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-#### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 #### Deployment
 
@@ -129,7 +109,7 @@ To change that, change the value of `server.port` in the *application.properties
 
 The ``docker compose`` instructions are **depricated** as there was no need for a multistage build.
 
-To generate and run just the frontend image, observe the following steps: 
+To generate and run just the frontend image, observe the following steps:
 - start the docker desktop app
 - find ``frontend/route-zero-enterprise/``
 - select a name for the image, here ``<docker_username>/frontend:latest`` is used
@@ -147,21 +127,21 @@ To generate and run just the backend image, observe the following steps:
 - select a name for the image, here ``<docker_username>/backend:latest`` is used
 - run ``docker build --tag <docker_username>/backend:latest . && docker run -p 8080:8080 <docker_username>/backend:latest``
 
-If no errors were thrown, the backend is now running and bound to port ``8080``. To test this, you may, for example, start the frontend via ``npm run start`` and notice that the full app works. 
+If no errors were thrown, the backend is now running and bound to port ``8080``. To test this, you may, for example, start the frontend via ``npm run start`` and notice that the full app works.
 
 ### For the whole app
 
-To generate and run the whole application, observe the following steps: 
+To generate and run the whole application, observe the following steps:
 - start the docker desktop app
-- find the root of the project 
+- find the root of the project
 - select a name for the image, here ``<docker_username>/fullstack:latest`` is used
 - run ``docker build --tag <docker_username>/fullstack:latest . && docker run -p 3000:3000 -p 8080:8080 <docker_username>/fullstack:latest``
 
-Visit ``localhost:3000`` to use the full app. 
+Visit ``localhost:3000`` to use the full app.
 
 ## GHCR
 
-Pull our docker image from this repository's container reposotiory: 
+Pull our docker image from this repository's container reposotiory:
 - ``docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest``
 
 Run our docker image as a container:
