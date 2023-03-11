@@ -61,7 +61,7 @@ export const BarChart = ({chartId,  header, bars}) => {
 
     return (
         <>
-            <span className="chart-overlay">{ bars.length === 0
+            <span className="chart-overlay">{ bars === undefined || bars.length === 0
             ? "Sorry, not enough data"
             : "" }</span>
             <canvas id={chartId}/>

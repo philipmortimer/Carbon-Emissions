@@ -20,9 +20,9 @@ export const View = (props) => {
     const [predictJourneys, setPredictJourneys] = useState([]);
     const [predictEmissions, setPredictEmissions] = useState([]);
 
-
+    const [originalPredict, setOriginalPredict] = useState({});
     
-    const [policies, setPolicies] = useState(getPolicies());
+    const [policies, setPolicies] = useState([]);
     // const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
 
     //console.log(policies);
@@ -43,10 +43,17 @@ export const View = (props) => {
             setPredictJourneys(predictJourneyBars(props.response));
 
             emissionBars(props.file, props.response, "newCarbonKgCo2e")
+            .then((pairs) => { 
+                setPredictEmissions(pairs)
+                return pairs;
+             })
             .then((pairs) => {
-                setPredictEmissions(pairs);
-
-            return pairs;
+                //final setup
+                setOriginalPredict({
+                    journeys: predictJourneyBars(props.response),
+                    emissions: pairs
+                });
+                setPolicies(getPolicies());
             });
         }
     }
@@ -56,7 +63,7 @@ export const View = (props) => {
 
         resetGraphs();
 
-    }, [props.setFile, props.file, policies, props.response, setPredictJourneys, setPredictEmissions]);
+    }, [props.setFile, props.file, props.response]);
     
     return(<>
             {props.file === undefined || props.file === null
@@ -75,7 +82,8 @@ export const View = (props) => {
                     policies={policies} 
                     setPolicies={setPolicies} 
                     journeysState={[predictJourneys, setPredictJourneys]} 
-                    emissionsState={[predictEmissions, setPredictEmissions]}/>
+                    emissionsState={[predictEmissions, setPredictEmissions]}
+                    originalPredict={originalPredict}/>
                    { // savedCO2e={savedCO2e}
                     // setSavedCO2e={setSavedCO2e}/> 
                    }

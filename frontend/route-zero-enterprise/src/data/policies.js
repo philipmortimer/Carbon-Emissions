@@ -29,7 +29,7 @@ class Effect {
     
     static NOT_FOUND_FACTOR = 1; //preserves original emission (see SimpleEffect.interpolateEmissions)
 
-    apply(){}
+    applyEffect(){}
 
     getCO2eSaved(){ return 0; }
 
@@ -72,8 +72,16 @@ class Effect {
     }
 
     //handles any index of indices being -1, just adds nothing
-    static tallyBarsOnIndices(bars, indices){
-        return indices.reduce((total, index) => index === -1 ? total : bars[index][1], 0);
+    static tallyBarsOnIndices(bars, ...indices){
+        if(indices.length === 0) { throw Error("tallyBarsOnIndices cannot be called with no names to search for"); }
+        let val = 0;
+        for(let i = 0; i < indices.length; i++){
+            const index = indices[i];
+            if(index >= 0 && index < bars.length){
+                val += bars[index][1];
+            }
+        }
+        return val;
     }
 
     // increases the number of predicted journeys of each bar proportionally s.t. they sum to x more journeys in total
@@ -121,7 +129,7 @@ class SimpleEffect extends Effect {
     //mutates journeys and/or emissions and returns nothing
     //wraps effects in a context of just taking two arguments
     //journeysState and emissionsState are array-setter pairs
-    apply(journeysState, emissionsState){
+    applyEffect(journeysState, emissionsState){
 
         const [newJourneys, newEmissions] = this.effect(journeysState, emissionsState);
         //assigns new values to bars
@@ -207,7 +215,7 @@ const POLICIES_BASE =
             const emissions = eState[0];
 
             const [index] = Effect.searchBarsOnNames(journeys,travelKind.electricScooter);
-            const scooterJourneys = Effect.tallyBarsOnIndices(journeys, [index]);
+            const scooterJourneys = Effect.tallyBarsOnIndices(journeys, index);
 
             let newJourneys = Effect.copyBars(journeys);
             if(index !== -1) {
@@ -235,7 +243,7 @@ const POLICIES_BASE =
 
             const [journeyPetrolIndex, journeyDieselIndex] = Effect.searchBarsOnNames(journeys, travelKind.petrolCar, travelKind.dieselCar);
             const [emissionPetrolIndex, emissionDieselIndex] = Effect.searchBarsOnNames(emissions, travelKind.petrolCar, travelKind.dieselCar);
-            const ICEJourneys = Effect.tallyBarsOnIndices(journeys, [journeyPetrolIndex, journeyDieselIndex]); //can be 0
+            const ICEJourneys = Effect.tallyBarsOnIndices(journeys, journeyPetrolIndex, journeyDieselIndex); //can be 0
 
             let newJourneys = Effect.copyBars(journeys);
             [journeyPetrolIndex, journeyDieselIndex].map(index => index !== -1 ? newJourneys[index][1] = 0 : {});
