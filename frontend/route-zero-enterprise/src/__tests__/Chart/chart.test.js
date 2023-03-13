@@ -62,3 +62,31 @@ describe("List to set tests", () => {
         expect(set).toEqual(['car', 'train', 'foot', 'bike', 'chopper']);          
     })
 })
+
+describe("Map to pairs tests", () => {
+    test("Empty inputs", () => {
+        const keys = []
+        const tallys = []
+        const pairs = mapToPairs(keys, tallys)
+        expect(pairs).toStrictEqual([])
+    })
+    test("Single key", () => {
+        const keys = ['train']
+        const tallys = {'train': 100}
+        const pairs = mapToPairs(keys, tallys)
+        console.log(pairs)
+        expect(pairs).toStrictEqual([['train', 100]])        
+    })
+    test("Large number of keys", () => {
+        const keys = ['train', 'car', 'foot', 'bike', 'scooter']
+        const tallys = {
+            'train': 12,
+            'car': 5,
+            'bike': 11023,
+            'foot': 117,
+            'scooter': 1
+        }
+        const pairs = mapToPairs(keys, tallys)
+        expect(pairs).toEqual([['train', 12], ['car', 5], ['foot', 117], ['bike', 11023], ['scooter', 1]])       
+    })
+})
