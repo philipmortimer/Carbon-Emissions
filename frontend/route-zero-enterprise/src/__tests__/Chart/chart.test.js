@@ -1,7 +1,7 @@
 // These tests test functions from chart.js which perform data manipulation to generate the graph values.
 import '@testing-library/jest-dom'
 import {
-    tallyList, listToSet, mapToPairs, getTransportsCSV, journeyBars, emissionBars,
+    tallyList, listToSet, mapToPairs, getTransportsCSV, journeyBars, emissionBarsBefore,
     transform, predictJourneyBars
 } from '../../helpers/chart'
 import { emptyFile, simpleFile, exampleFile } from '../View/view.test'
@@ -234,17 +234,17 @@ describe("Predict journey bar tests", () => {
     })
 })
 
-describe("Emissions bar test", () => {
+describe("Emissions bar before test", () => {
     test("Empty file current emissions", async () => {
         let ems = undefined
-        await emissionBars(emptyFile.file, emptyFile.apiResponse, 'currentCarbonKgCo2e')
+        await emissionBarsBefore(emptyFile.file, emptyFile.apiResponse)
             .then((pairs) => ems = pairs)
         expect(ems !== undefined).toBe(true)
         expect(ems).toEqual([])
     })
     test("Simple file current emissions", async () => {
         let ems = undefined
-        await emissionBars(simpleFile.file, simpleFile.apiResponse, 'currentCarbonKgCo2e')
+        await emissionBarsBefore(simpleFile.file, simpleFile.apiResponse)
             .then((pairs) => ems = pairs)
         expect(ems !== undefined).toBe(true)
         // Note this list SHOULD be empty as 
@@ -253,7 +253,7 @@ describe("Emissions bar test", () => {
     })
     test("Example file current emissions", async () => {
         let ems = undefined
-        await emissionBars(exampleFile.file, exampleFile.apiResponse, 'currentCarbonKgCo2e')
+        await emissionBarsBefore(exampleFile.file, exampleFile.apiResponse)
             .then((pairs) => ems = pairs)
         expect(ems !== undefined).toBe(true)
         // Calculations compared to 2dp

@@ -86,7 +86,7 @@ export const journeyBars = (csvBlob) => {
 }
 
 // maps transport methods in CSV to records in the response
-export const emissionBars = (csvBlob, response, fieldName) => {
+export const emissionBarsBefore = (csvBlob, response) => {
   return csvBlob
     .text()
     .then((text) => {
@@ -98,10 +98,38 @@ export const emissionBars = (csvBlob, response, fieldName) => {
         return x
       }) // fresh map
       transports.map((x, i) => {
-        co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i][fieldName] // handles undefined
+        co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i]['currentCarbonKgCo2e'] // handles undefined
         return x
       })
       const pairs = mapToPairs(uniqueTransports, co2Tally)
+      return transform(pairs, 10)
+    })
+}
+
+// Calculates updated emissions for each transport method by multiplying probability of it occuring
+// with the emissions it would induce
+export const emissionBarsAfter = (csvBlob, response) => {
+  return csvBlob
+    .text()
+    .then((text) => {
+      // Fills map of transportType, totalPredictedEmissions
+      let transEmissionMap = new Map()
+      for (let journeyIndex = 0; journeyIndex < response.predictions.length; journeyIndex++) {
+        const jounrey = response.predictions[journeyIndex]
+        for (let altIndex = 0; altIndex < jounrey.alternatives.length; altIndex++) {
+          const alternative = jounrey.alternatives[altIndex]
+          const type = alternative.transport.type
+          // If journey has no registered emissions yet, puts it in the map
+          if (!transEmissionMap.has(type)) {
+            transEmissionMap.set(type, 0)
+          }
+          // New emission is probability of transport being taken * emissions from said journey
+          transEmissionMap.set(type, 
+            transEmissionMap.get(type) + (alternative.probability * alternative.carbonKgCo2e))
+        }
+      }
+      // Converts map to pair array
+      const pairs = Array.from(transEmissionMap)
       return transform(pairs, 10)
     })
 }
