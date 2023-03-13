@@ -25,6 +25,7 @@ export const View = (props) => {
   const [beforeJourneys, setBeforeJourneys] = useState([])
   const [beforeEmissions, setBeforeEmissions] = useState([])
   const [predictJourneys, setPredictJourneys] = useState([])
+  const [predictJourneysCalculated, setPredictJourneysCalculated] = useState(false)
   const [predictEmissions, setPredictEmissions] = useState([])
 
   const [policies, setPolicies] = useState(getPolicies())
@@ -34,7 +35,8 @@ export const View = (props) => {
 
   useEffect(() => {
     document.title = 'Graphs | RouteZero'
-    if (props.file !== null && predictJourneys.length === 0) {
+    if (props.file !== null && !predictJourneysCalculated/*predictJourneys.length === 0*/) {
+      setPredictJourneysCalculated(true)
       journeyBars(props.file)
         .then((pairs) => {
           setBeforeJourneys(pairs)
@@ -58,7 +60,7 @@ export const View = (props) => {
     } else if (props.file === null) { // will eventually be used to refresh CO2e savings on other policy changes
       refreshPolicies(policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e)
     }
-  }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions])
+  }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions, predictJourneysCalculated])
 
   return (
     <>
