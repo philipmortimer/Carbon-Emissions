@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom'
 import {
     tallyList, listToSet, mapToPairs, getTransportsCSV, journeyBars, emissionBarsBefore,
-    transform, predictJourneyBars
+    transform, predictJourneyBars, emissionBarsAfter
 } from '../../helpers/chart'
 import { emptyFile, simpleFile, exampleFile } from '../View/view.test'
 
@@ -267,6 +267,58 @@ describe("Emissions bar before test", () => {
             ['electricCar', 12.43]
         ]
         testTwoArraysSame2dp(expected, ems)
+    })
+})
+
+describe("Emissions bar after test", () => {
+    test("Empty file test", async () => {
+        let ems = undefined
+        await emissionBarsAfter(emptyFile.file, emptyFile.apiResponse)
+            .then((pairs) => ems = pairs)
+        expect(ems !== undefined).toBe(true)
+        expect(ems).toEqual([])        
+    })
+    test("Simple file test", async () => {
+        let ems = undefined
+        await emissionBarsAfter(simpleFile.file, simpleFile.apiResponse)
+            .then((pairs) => ems = pairs)
+        expect(ems !== undefined).toBe(true)
+        expect(ems).toEqual([])            
+    })
+    test("Example file test", async () => {
+        let ems = undefined
+        await emissionBarsAfter(exampleFile.file, exampleFile.apiResponse)
+            .then((pairs) => ems = pairs)
+        expect(ems !== undefined).toBe(true)
+        /* Note this would be the full list if the transform did not exist (rounded to 2dp):
+        [
+            ['train', 262.85],
+            ['foot', 0.00],
+            ['bike', 0.00],
+            ['electricScooter', 3.60],
+            ['electricCar', 88.89],
+            ['bus', 3.37],
+            ['coach', 51.14],
+            ['petrolCar', 179.44],
+            ['flight', 361.35],
+            ['taxi', 74.65],
+            ['eurostar', 8.28],
+            ['subway', 1.26],
+            ['tram', 0.48],
+            ['dieselCar', 11.43]
+        ]
+        */
+        // Calculations compared to 2dp
+        const expected = [
+            ['train', 262.85],
+            ['electricCar', 88.89],
+            ['coach', 51.14],
+            ['petrolCar', 179.44],
+            ['flight', 361.35],
+            ['taxi', 74.65],
+            ['dieselCar', 11.43]
+        ]
+        testTwoArraysSame2dp(expected, ems)        
     })
 })
 
