@@ -198,3 +198,43 @@ describe("Transform Tests" ,() => {
         expect(transformed).toEqual([['train', -4], ['bike', -1], ['taxi', 0], ['scooter', 10]])  
     })
 })
+
+describe("Predict journey bar tests", () => {
+    test("Empty file", () => {
+        const predBars = predictJourneyBars(emptyFile.apiResponse)
+        expect(predBars).toEqual([])
+    })
+    test("Simple file", () => {
+        const predBars = predictJourneyBars(simpleFile.apiResponse)
+        expect(predBars).toEqual([['train', 1]])        
+    })
+    test("Example file", () => {
+        const predBars = predictJourneyBars(exampleFile.apiResponse)
+        /* Note that floating point errors mean we need to round the number to 2dp to make comparison easy.
+        Diesel is also on the list however, given that transform has a cutoff of point of 0.5, this removes
+        dieselCar from this list which has a value of 0.19999999999999996
+        */
+        const expectedBars = [
+            ['train', 19.90],
+            ['foot', 25.30],
+            ['bike', 2.10],
+            ['electricScooter', 1.55],
+            ['electricCar', 3.90],
+            ['bus', 2.4],
+            ['coach', 4],
+            ['petrolCar', 1.9],
+            ['flight', 1.75],
+            ['taxi', 4],
+            ['eurostar', 4],
+            ['subway', 4],
+            ['tram', 1]
+        ]
+        // Tests that two arrays are the same to 2dp
+        expect(expectedBars.length).toBe(predBars.length)
+        for (let i = 0; i < expectedBars.length; i++) {
+            expect(predBars[i].length).toBe(2)
+            expect(expectedBars[i][0]).toBe(predBars[i][0])
+            expect(expectedBars[i][1].toFixed(2) === predBars[i][1].toFixed(2)).toBe(true)
+        }        
+    })
+})
