@@ -122,8 +122,7 @@ describe("Get Transport CSV test", () => {
         expect(text === undefined).toBe(false)
         // Tests extraction of transport types
         const transports = getTransportsCSV(text)
-        console.log(transports)
-        expect(transports).toStrictEqual([
+        expect(transports).toEqual([
             'train', 'foot', 'train', 'bus', 'foot', 'flight', 'foot', 'train', 'foot',
             'train', 'petrolCar', 'eurostar', 'petrolCar', 'foot', 'train', 'foot', 'eurostar',
             'subway', 'foot', 'taxi', 'flight', 'taxi', 'foot', 'train', 'foot', 'eurostar', 'foot',
@@ -133,6 +132,36 @@ describe("Get Transport CSV test", () => {
             'flight', 'foot', 'train', 'petrolCar', 'electricCar', 'electricCar', 'train', 'foot', 'train',
             'train', 'foot', 'train', 'petrolCar', 'coach', 'train', 'foot', 'subway', 'foot', 'eurostar',
             'coach', 'foot', 'bus'
+        ])
+    })
+})
+
+describe("Journet Bars test", () => {
+    test("Empty file", async () => {
+        const pairs = await journeyBars(emptyFile.file)
+        expect(pairs).toEqual([])
+    })
+    test("Simple File", async () => {
+        const pairs = await journeyBars(simpleFile.file)
+        expect(pairs).toEqual([['train', 1]])
+    })
+    test("Example File", async () => {
+        const pairs = await journeyBars(exampleFile.file)
+        expect(pairs).toEqual([
+            ['train', 14],
+            ['foot', 24],
+            ['bus', 4],
+            ['flight', 7],
+            ['petrolCar', 6],
+            ['eurostar', 4],
+            ['subway', 4],
+            ['taxi', 4],
+            ['bike', 1],
+            ['tram', 1],
+            ['dieselCar', 1],
+            ['coach', 3],
+            ['electricScooter', 1],
+            ['electricCar', 2]
         ])
     })
 })
