@@ -1,27 +1,28 @@
 import React, { useEffect } from 'react'
 import Chart from 'chart.js/auto'
+import { travelKind } from '../../data/travelkind.js';
 
 export const BarChart = ({ chartId, header, bars }) => {
   useEffect(() => {
     const ctx = document.getElementById(chartId)
     if (bars !== undefined) {
       const labels = bars.map(x => x[0]).map(x => x === "foot" ? "Foot" : 
-        x === "bike" ? "Bike" :
-        x === "electricScooter" ? "Electric scooter" :
-        x === "petrolCar" ? "Petrol car" :
-        x === "dieselCar" ? "Diesel car" :
-        x === "hybridCar" ? "Hybrid car" :
-        x === "electricCar" ? "Electric car" :
-        x === "taxi" ? "Taxi" :
-        x === "bus" ? "Bus":
-        x === "coach" ? "Coach":
-        x === "train" ? "Train":
-        x === "eurostar" ? "Eurostar":
-        x === "lightRail" ? "Light rail":
-        x === "tram" ? "Tram":
-        x === "subway" ? "Subway":
-        x === "flight" ? "Flight":
-        x === "ferry" ? "Ferry" : x)
+        x === travelKind.bike ? "Bike" :
+        x === travelKind.electricScooter ? "Electric scooter" :
+        x === travelKind.petrolCar ? "Petrol car" :
+        x === travelKind.dieselCar ? "Diesel car" :
+        x === travelKind.hybridCar ? "Hybrid car" :
+        x === travelKind.electricCar ? "Electric car" :
+        x === travelKind.taxi ? "Taxi" :
+        x === travelKind.bus ? "Bus":
+        x === travelKind.coach ? "Coach":
+        x === travelKind.train ? "Train":
+        x === travelKind.eurostar ? "Eurostar":
+        x === travelKind.lightRail ? "Light rail":
+        x === travelKind.tram ? "Tram":
+        x === travelKind.subway ? "Subway":
+        x === travelKind.flight ? "Flight":
+        x === travelKind.ferry ? "Ferry" : x)
       const values = bars.map(x => x[1])
 
       const myChart = new Chart(ctx, {
