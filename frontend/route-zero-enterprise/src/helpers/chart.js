@@ -68,12 +68,9 @@ export const getTransportsCSV = (text) => {
     - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
     - Slices the nought element as element 0 is just the field headings
     - Splits the record by comma and accesses the transport method (last element of record)
-    */
-  return (() => {
-    const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
-    t.pop()
-    return t
-  })()
+  */
+  const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
+  return t
 }
 
 export const journeyBars = (csvBlob) => {
@@ -105,7 +102,6 @@ export const emissionBars = (csvBlob, response, fieldName) => {
         return x
       })
       const pairs = mapToPairs(uniqueTransports, co2Tally)
-
       return transform(pairs, 10)
     })
 }
@@ -134,7 +130,7 @@ export const predictJourneyBars = (response) => {
       const transport = alternative.transport.type
       transportSet.add(transport)
       if (transportTally[transport] === undefined) {
-        transportTally[transport] = 0
+        transportTally[transport] = alternative.probability
       } else {
         transportTally[transport] += alternative.probability
       }
