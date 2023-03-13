@@ -6,7 +6,8 @@ export const BarChart = ({ chartId, header, bars }) => {
   useEffect(() => {
     const ctx = document.getElementById(chartId)
     if (bars !== undefined) {
-      const labels = bars.map(x => x[0]).map(x => x === "foot" ? "Foot" : 
+      const labels = bars.map(x => x[0]).map(x => 
+        x === travelKind.foot ? "Foot" : 
         x === travelKind.bike ? "Bike" :
         x === travelKind.electricScooter ? "Electric scooter" :
         x === travelKind.petrolCar ? "Petrol car" :
