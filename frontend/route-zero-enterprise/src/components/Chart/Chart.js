@@ -5,7 +5,23 @@ export const BarChart = ({ chartId, header, bars }) => {
   useEffect(() => {
     const ctx = document.getElementById(chartId)
     if (bars !== undefined) {
-      const labels = bars.map(x => x[0])
+      const labels = bars.map(x => x[0]).map(x => x === "foot" ? "Foot" : 
+        x === "bike" ? "Bike" :
+        x === "electricScooter" ? "Electric scooter" :
+        x === "petrolCar" ? "Petrol car" :
+        x === "dieselCar" ? "Diesel car" :
+        x === "hybridCar" ? "Hybrid car" :
+        x === "electricCar" ? "Electric car" :
+        x === "taxi" ? "Taxi" :
+        x === "bus" ? "Bus":
+        x === "coach" ? "Coach":
+        x === "train" ? "Train":
+        x === "eurostar" ? "Eurostar":
+        x === "lightRail" ? "Light rail":
+        x === "tram" ? "Tram":
+        x === "subway" ? "Subway":
+        x === "flight" ? "Flight":
+        x === "ferry" ? "Ferry" : x)
       const values = bars.map(x => x[1])
 
       const myChart = new Chart(ctx, {
