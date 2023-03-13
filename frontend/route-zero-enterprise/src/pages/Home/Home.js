@@ -5,7 +5,7 @@ import { PredictButton } from '../../components/SeePredictions/SeePredictions.js
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts.js'
 
 import './Home.scss'
-import Modal from './components/Modal/Modal'
+import HelpButton from '../../components/HelpButton/UploadHelpButton.js'
 
 export const Home = (props) => {
   useEffect(() => {
@@ -28,6 +28,7 @@ export const Home = (props) => {
                 <div className="buttons">
                     <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
                     <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
+                    <HelpButton/>
                 </div>
                 <>
                     <Modal />
