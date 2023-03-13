@@ -1,14 +1,14 @@
 .bar {
-    background-color:white;
-    border-radius: 20px;
+    background-color: white;
+    border-radius: 10px;
     width: 400px;
     padding: 5px;
-    margin: 30px;
+    margin-top: 30px;
 
     .progress{
 
-        background-color:lightgreen;
-        border-radius: 50;
+        background-color: lightgreen;
+        border-radius: 10;
         // transition-delay: 17.5ms;
         transition: 1 ease;
 
