@@ -21,7 +21,7 @@ export const BarChart = ({ chartId, header, bars }) => {
         x === "tram" ? "Tram":
         x === "subway" ? "Subway":
         x === "flight" ? "Flight":
-        x === "ferry" ? "Ferry" : "")
+        x === "ferry" ? "Ferry" : x)
       const values = bars.map(x => x[1])
 
       const myChart = new Chart(ctx, {
