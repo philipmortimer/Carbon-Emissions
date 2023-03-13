@@ -5,7 +5,7 @@ import { PredictButton } from '../../components/SeePredictions/SeePredictions.js
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts.js'
 
 import './Home.scss'
-import HelpButton from '../../components/HelpButton/UploadHelpButton.js'
+import HelpButton from '../../components/HelpButtons/UploadHelpButton.js'
 
 export const Home = (props) => {
   useEffect(() => {
