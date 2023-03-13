@@ -34,3 +34,31 @@ describe("Tally List Tests", () => {
         expect(JSON.stringify(map) === JSON.stringify(expectedMap)).toBe(true);             
     })
 })
+
+describe("List to set tests", () => {
+    test("Empty list produces empty set", () => {
+        const list = []
+        const set = listToSet(list)
+        expect(set).toEqual([]); 
+    })
+    test("List with no duplicates remains the same", () => {
+        const list = ['train', 'foot', 'bike']
+        const set = listToSet(list)
+        expect(set).toEqual(['train', 'foot', 'bike']);  
+    })
+    test("Singleton list remains constant", () => {
+        const list = ['train']
+        const set = listToSet(list)
+        expect(set).toEqual(['train']);          
+    })
+    test("List with all the same item consolidated down to one element", () => {
+        const list = ['train', 'train', 'train', 'train', 'train', 'train', 'train', 'train']
+        const set = listToSet(list)
+        expect(set).toEqual(['train']);  
+    })
+    test("List with large number of elements of different varieties", () => {
+        const list = ['car', 'train', 'train', 'car', 'foot', 'bike', 'bike', 'train', 'train', 'chopper']
+        const set = listToSet(list)    
+        expect(set).toEqual(['car', 'train', 'foot', 'bike', 'chopper']);          
+    })
+})
