@@ -166,36 +166,36 @@ describe("Journet Bars test", () => {
     })
 })
 
-describe("Transform Tests" ,() => {
+describe("Transform Tests", () => {
     test("Empty transform", () => {
         const list = []
-        const transformed =  transform(list, 1)
+        const transformed = transform(list, 1)
         expect(transformed).toEqual([])
     })
     test("Empty 2d transform", () => {
         const list = [[]]
-        const transformed =  transform(list, 1)
+        const transformed = transform(list, 1)
         expect(transformed).toEqual([])
     })
     test("One element below cutoff", () => {
         const list = [['train', 4]]
-        const transformed =  transform(list, 7)
-        expect(transformed).toEqual([])        
+        const transformed = transform(list, 7)
+        expect(transformed).toEqual([])
     })
     test("One element above cutoff", () => {
         const list = [['train', 12]]
-        const transformed =  transform(list, 6)
-        expect(transformed).toEqual([['train', 12]])          
+        const transformed = transform(list, 6)
+        expect(transformed).toEqual([['train', 12]])
     })
     test("Large example with edge cases", () => {
         const list = [['train', 12], ['foot', 11], ['car', 1000], ['bike', 0], ['taxi', 0], ['scooter', 10]]
-        const transformed =  transform(list, 11)
-        expect(transformed).toEqual([['train', 12], ['car', 1000]])  
+        const transformed = transform(list, 11)
+        expect(transformed).toEqual([['train', 12], ['car', 1000]])
     })
     test("Negative number support", () => {
         const list = [['train', -4], ['foot', -5], ['car', -6], ['bike', -1], ['taxi', 0], ['scooter', 10]]
-        const transformed =  transform(list, -5)
-        expect(transformed).toEqual([['train', -4], ['bike', -1], ['taxi', 0], ['scooter', 10]])  
+        const transformed = transform(list, -5)
+        expect(transformed).toEqual([['train', -4], ['bike', -1], ['taxi', 0], ['scooter', 10]])
     })
 })
 
@@ -206,7 +206,7 @@ describe("Predict journey bar tests", () => {
     })
     test("Simple file", () => {
         const predBars = predictJourneyBars(simpleFile.apiResponse)
-        expect(predBars).toEqual([['train', 1]])        
+        expect(predBars).toEqual([['train', 1]])
     })
     test("Example file", () => {
         const predBars = predictJourneyBars(exampleFile.apiResponse)
@@ -230,11 +230,56 @@ describe("Predict journey bar tests", () => {
             ['tram', 1]
         ]
         // Tests that two arrays are the same to 2dp
-        expect(expectedBars.length).toBe(predBars.length)
-        for (let i = 0; i < expectedBars.length; i++) {
-            expect(predBars[i].length).toBe(2)
-            expect(expectedBars[i][0]).toBe(predBars[i][0])
-            expect(expectedBars[i][1].toFixed(2) === predBars[i][1].toFixed(2)).toBe(true)
-        }        
+        testTwoArraysSame2dp(expectedBars, predBars)
     })
 })
+
+describe("Emissions bar test", () => {
+    test("Empty file current emissions", async () => {
+        let ems = undefined
+        await emissionBars(emptyFile.file, emptyFile.apiResponse, 'currentCarbonKgCo2e')
+            .then((pairs) => ems = pairs)
+        expect(ems !== undefined).toBe(true)
+        expect(ems).toEqual([])
+    })
+    test("Simple file current emissions", async () => {
+        let ems = undefined
+        await emissionBars(simpleFile.file, simpleFile.apiResponse, 'currentCarbonKgCo2e')
+            .then((pairs) => ems = pairs)
+        expect(ems !== undefined).toBe(true)
+        // Note this list SHOULD be empty as 
+        // 'train' emits less than 10 KgC02 and thus is removed
+        expect(ems).toEqual([])
+    })
+    test("Example file current emissions", async () => {
+        let ems = undefined
+        await emissionBars(exampleFile.file, exampleFile.apiResponse, 'currentCarbonKgCo2e')
+            .then((pairs) => ems = pairs)
+        expect(ems !== undefined).toBe(true)
+        // Calculations compared to 2dp
+        const expected = [
+            ['train', 142.99],
+            ['flight', 1445.41],
+            ['petrolCar', 316.08],
+            ['taxi', 17.41],
+            ['dieselCar', 57.17],
+            ['coach', 38.82],
+            ['electricCar', 12.43]
+        ]
+        testTwoArraysSame2dp(expected, ems)
+    })
+})
+
+/**
+ * Checks that two arrays are the same to 2dp with the first field being a string
+ * and the second being a real number
+ */
+function testTwoArraysSame2dp(arr1, arr2) {
+    expect(arr1.length).toBe(arr2.length)
+    for (let i = 0; i < arr2.length; i++) {
+        expect(arr2[i].length).toBe(2)
+        expect(arr1[i].length).toBe(2)
+        expect(arr1[i][0]).toBe(arr2[i][0])
+        expect(arr1[i][1].toFixed(2) === arr2[i][1].toFixed(2)).toBe(true)
+    }
+}
