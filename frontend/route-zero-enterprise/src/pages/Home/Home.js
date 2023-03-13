@@ -30,9 +30,6 @@ export const Home = (props) => {
                     <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
                     <HelpButton/>
                 </div>
-                <>
-                    <Modal />
-                </>
             </div>
         </div>    
     );
