@@ -19,6 +19,16 @@ describe("Policy Selector Aesthetics", () => {
     })
 })
 
+describe("General View Aesthetics", () => {
+  test("Graph and Labels present", () => {
+      render(viewComponent(exampleFile.file, exampleFile.apiResponse))
+      // Checks Visualisation title is present
+      expect(screen.queryByText("Visualisation")).toBeInTheDocument()
+      expect(screen.queryByText("Before")).toBeInTheDocument()
+      expect(screen.queryByText("After")).toBeInTheDocument()
+  })
+})
+
 /**
  * Returns the view component JSX
  * @param {*} file The input file 
@@ -34,6 +44,10 @@ function viewComponent(file, apiResponse) {
 // End of actual code - just CSV data now
 // ************************************************************************************************
 // Collection of files and corresponding API responses
+const emptyFile = {
+    file: getCsvFile("empty.csv", 'origin,destination,distanceKm,departureTime,arrivalTime,transport'),
+    apiResponse: {"id":"id","predictions":[],"warnings":[]}
+}
 const simpleFile = {
     file: getCsvFile("valid.csv", 'origin,destination,distanceKm,departureTime,arrivalTime,transport' +
     '\nPaddington,Bristol Parkway,179.08,2022-10-14T17:48:00.000Z,2022-10-14T19:01:00.000Z,train'),
