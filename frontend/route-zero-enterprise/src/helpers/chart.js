@@ -108,17 +108,7 @@ export const emissionBars = (csvBlob, response, fieldName) => {
 
 // takes lists of pairs [<field>, <data point for transforming>]
 export const transform = (xs, lowerCutoff) => {
-  const xsMap = xs.map(x => {
-    const xTransform = x[1]
-    // optional data transformations
-    // xTransform = Math.round(xTransform);
-    if (xTransform > lowerCutoff) {
-      return [x[0], xTransform]
-    } else {
-      return [x[0], -1]
-    }
-  })
-  const xsFilter = xsMap.filter(x => x[1] !== -1) // removes those set to be removed
+  const xsFilter = xs.filter(x => x[1] > lowerCutoff)
   return xsFilter
 }
 

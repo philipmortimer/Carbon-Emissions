@@ -165,3 +165,36 @@ describe("Journet Bars test", () => {
         ])
     })
 })
+
+describe("Transform Tests" ,() => {
+    test("Empty transform", () => {
+        const list = []
+        const transformed =  transform(list, 1)
+        expect(transformed).toEqual([])
+    })
+    test("Empty 2d transform", () => {
+        const list = [[]]
+        const transformed =  transform(list, 1)
+        expect(transformed).toEqual([])
+    })
+    test("One element below cutoff", () => {
+        const list = [['train', 4]]
+        const transformed =  transform(list, 7)
+        expect(transformed).toEqual([])        
+    })
+    test("One element above cutoff", () => {
+        const list = [['train', 12]]
+        const transformed =  transform(list, 6)
+        expect(transformed).toEqual([['train', 12]])          
+    })
+    test("Large example with edge cases", () => {
+        const list = [['train', 12], ['foot', 11], ['car', 1000], ['bike', 0], ['taxi', 0], ['scooter', 10]]
+        const transformed =  transform(list, 11)
+        expect(transformed).toEqual([['train', 12], ['car', 1000]])  
+    })
+    test("Negative number support", () => {
+        const list = [['train', -4], ['foot', -5], ['car', -6], ['bike', -1], ['taxi', 0], ['scooter', 10]]
+        const transformed =  transform(list, -5)
+        expect(transformed).toEqual([['train', -4], ['bike', -1], ['taxi', 0], ['scooter', 10]])  
+    })
+})
