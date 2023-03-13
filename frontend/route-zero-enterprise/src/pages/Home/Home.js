@@ -5,6 +5,7 @@ import { PredictButton } from '../../components/SeePredictions/SeePredictions.js
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts.js'
 
 import './Home.scss'
+import Modal from './components/Modal/Modal'
 
 export const Home = (props) => {
   useEffect(() => {
@@ -28,6 +29,9 @@ export const Home = (props) => {
                     <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
                     <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
                 </div>
+                <>
+                    <Modal />
+                </>
             </div>
         </div>    
     );
