@@ -57,6 +57,11 @@ export const BarChart = ({ chartId, header, bars }) => {
   // 01/26/23 chardID and header were added to mitigate 'react-hooks/exhaustive-deps' warning
 
   return (
-    <canvas data-testid={header} id={chartId} />
-  )
+      <>
+          <span className="chart-overlay">{ bars === undefined || bars.length === 0
+          ? "Sorry, not enough data"
+          : "" }</span>
+          <canvas data-testid={header} id={chartId}/>
+      </>
+  );
 }

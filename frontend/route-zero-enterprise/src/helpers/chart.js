@@ -39,6 +39,9 @@ CO2e -> tally up probability weighted CO2e across every travel record, allocate 
 
 */
 
+const EMISSION_LOWER_LIM = 10; //10
+const JOURNEY_LOWER_LIM = 0.1; //0.1
+
 export const tallyList = (xs) => {
   const tally = {} // empty map
   xs.map(x => {
@@ -102,7 +105,7 @@ export const emissionBarsBefore = (csvBlob, response) => {
         return x
       })
       const pairs = mapToPairs(uniqueTransports, co2Tally)
-      return transform(pairs, 10)
+      return transform(pairs, EMISSION_LOWER_LIM)
     })
 }
 
@@ -130,13 +133,13 @@ export const emissionBarsAfter = (csvBlob, response) => {
       }
       // Converts map to pair array
       const pairs = Array.from(transEmissionMap)
-      return transform(pairs, 10)
+      return transform(pairs, EMISSION_LOWER_LIM)
     })
 }
 
 // takes lists of pairs [<field>, <data point for transforming>]
 export const transform = (xs, lowerCutoff) => {
-  const xsFilter = xs.filter(x => x[1] > lowerCutoff)
+  const xsFilter = xs.filter(x => x[1] >= lowerCutoff)
   return xsFilter
 }
 
@@ -159,5 +162,5 @@ export const predictJourneyBars = (response) => {
   const transportList = new Array(...transportSet)
   const pairs = mapToPairs(transportList, transportTally)
 
-  return transform(pairs, 0.5)
+  return transform(pairs, JOURNEY_LOWER_LIM)
 }

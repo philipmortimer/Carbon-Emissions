@@ -190,12 +190,12 @@ describe("Transform Tests", () => {
     test("Large example with edge cases", () => {
         const list = [['train', 12], ['foot', 11], ['car', 1000], ['bike', 0], ['taxi', 0], ['scooter', 10]]
         const transformed = transform(list, 11)
-        expect(transformed).toEqual([['train', 12], ['car', 1000]])
+        expect(transformed).toEqual([['train', 12], ['foot', 11], ['car', 1000]])
     })
     test("Negative number support", () => {
         const list = [['train', -4], ['foot', -5], ['car', -6], ['bike', -1], ['taxi', 0], ['scooter', 10]]
         const transformed = transform(list, -5)
-        expect(transformed).toEqual([['train', -4], ['bike', -1], ['taxi', 0], ['scooter', 10]])
+        expect(transformed).toEqual([['train', -4], ['foot', -5],['bike', -1], ['taxi', 0], ['scooter', 10]])
     })
 })
 
@@ -210,10 +210,6 @@ describe("Predict journey bar tests", () => {
     })
     test("Example file", () => {
         const predBars = predictJourneyBars(exampleFile.apiResponse)
-        /* Note that floating point errors mean we need to round the number to 2dp to make comparison easy.
-        Diesel is also on the list however, given that transform has a cutoff of point of 0.5, this removes
-        dieselCar from this list which has a value of 0.19999999999999996
-        */
         const expectedBars = [
             ['train', 19.90],
             ['foot', 25.30],
@@ -227,7 +223,8 @@ describe("Predict journey bar tests", () => {
             ['taxi', 4],
             ['eurostar', 4],
             ['subway', 4],
-            ['tram', 1]
+            ['tram', 1],
+            ['dieselCar', 0.20]
         ]
         // Tests that two arrays are the same to 2dp
         testTwoArraysSame2dp(expectedBars, predBars)
