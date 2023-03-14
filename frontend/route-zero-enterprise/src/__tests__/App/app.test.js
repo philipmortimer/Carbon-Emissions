@@ -177,11 +177,10 @@ describe('File Upload predictions retrieval tests', () => {
     // Takes user to view tab
     await waitFor(() => {
       userEvent.click(seePredBtn)
+      // Tests that some basic elements of view tab are present
       expect(screen.getByText('Visualisation')).toBeInTheDocument()
+      expect(screen.queryByText('No domestic flights')).toBeInTheDocument()
     })
-    // Tests that some basic elements of view tab are present
-    expect(screen.queryByText('Visualisation')).toBeInTheDocument()
-    expect(screen.queryByText('No domestic flights')).toBeInTheDocument()
   })
 })
 

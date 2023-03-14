@@ -56,10 +56,6 @@ $span_height: 0.35rem;
   }
 }
 
-h1{
-  padding: 10px;
-}
-
 #h2 {
   padding: 15px;
   font-family: unset;
@@ -140,4 +136,12 @@ h1{
     background-color: $rz_green;
     color: white;
   }
+}
+
+.chart-overlay{
+  position:absolute;
+  margin-top: 8.0rem;
+  margin-left: 2.5rem;
+  color:rgb(156, 156, 156);
+  font-size: 2rem;
 }

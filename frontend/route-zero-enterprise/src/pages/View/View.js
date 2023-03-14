@@ -49,7 +49,7 @@ export const View = (props) => {
 
       setPredictJourneys(predictJourneyBars(props.response))
       
-      emissionBarsAfter(props.file, props.response, 'newCarbonKgCo2e')
+      emissionBarsAfter(props.file, props.response)
         .then((pairs) => {
           setPredictEmissions(pairs)
           return pairs
