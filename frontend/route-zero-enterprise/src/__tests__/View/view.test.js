@@ -4,9 +4,12 @@ import { View } from '../../pages/View/View'
 import { getCsvFile } from '../App/app.test'
 
 describe("Policy Selector Aesthetics", () => {
-    test("Policy Selector Categories all appear in view page", () => {
+    test("Policy Selector Categories all appear in view page", async () => {
         render(viewComponent(exampleFile.file, exampleFile.apiResponse))
         // Checks policy selection options all are present
+        await waitFor(() => {
+          expect(screen.queryByText("No domestic flights")).toBeInTheDocument()
+        })
         expect(screen.queryByText("No domestic flights")).toBeInTheDocument()
         expect(screen.queryByText("Economy-class flights")).toBeInTheDocument()
         expect(screen.queryByText("Replace all ICEs with EVs")).toBeInTheDocument()
