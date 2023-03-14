@@ -3,18 +3,17 @@ import React, { useEffect } from 'react'
 import { UploadButton } from '../../components/Upload/Upload.js'
 import { PredictButton } from '../../components/SeePredictions/SeePredictions.js'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts.js'
+import { ProgressBar } from '../../components/ProgressBar/ProgressBar.js'
 
 import './Home.scss'
 
+
 export const Home = (props) => {
-  useEffect(() => {
-    document.title = 'Upload Travel Data | RouteZero'
-  }, [])
 
     useEffect(() => {
         document.title = "Upload Travel Data | RouteZero"
     }, []);
-
+    
 
     return(   
         <div className="middle-grid">
@@ -26,8 +25,11 @@ export const Home = (props) => {
                 </div>
                 <div className="buttons">
                     <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
-                    <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
+                    <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse} loading={props.loading} setLoading={props.setLoading}/>
                 </div>
+            </div>
+            <div className="progress-bar">
+                    <ProgressBar loading={props.loading}/>
             </div>
         </div>    
     );
