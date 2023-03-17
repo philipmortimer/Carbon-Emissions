@@ -24,7 +24,7 @@ function OffCanvasExample({ name, ...props }) {
                     <p>By ticking the policies on the left of the screen in accordance with your needs, a visualisation of how much
                         carbon you could prevent from being released into the atmosphere will be displayed.
                     </p>
-                    <p>The green bubbles next to each policy represents the reduction in killo tonnes of carbon emissions. If this number is negative, it means more emissions.
+                    <p>The green bubbles next to each policy represents the reduction in kilotonnes of carbon emissions. If this number is negative, it means more emissions.
                     </p>
                 </Offcanvas.Body>
             </Offcanvas>
