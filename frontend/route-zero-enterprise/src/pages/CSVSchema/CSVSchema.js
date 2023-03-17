@@ -14,17 +14,18 @@ export const CSVSchema = (props) => {
             <h1>CSV Schema</h1>
             <br></br>
             <h2>Line format:</h2>
+            <p>Please format each line of your CSV as follows</p>
             <p>origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
-            <h3>Origin & Destination</h3>
+            <h4>Origin & Destination</h4>
             <p>These are the name of the source and destination of your travel journey. Please include the names</p>
-            <h3>Distance</h3>
+            <h4>Distance</h4>
             <p>This is the number of kilometers you travelled between source and destination.</p>
-            <h3>Arrival & Departure time</h3>
+            <h4>Arrival & Departure time</h4>
             <p>Please include the time in the following format yyyy-mm-ddThh:mm:ss.000Z, where yyyy stands for year,
                 mm stands for month, dd stands for day, hh stands for hour, mm stands for minutes and ss stands for 
                 seconds, e.g. 2022-10-14T17:48:00.000Z.
             </p>
-            <h3>Transport</h3>
+            <h4>Transport</h4>
             <p>To include the transport please pick one from the following dictionary:</p>
             <ul>
                 <Row>
