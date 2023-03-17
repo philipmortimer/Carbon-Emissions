@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -16,6 +17,8 @@ export const CSVSchema = (props) => {
             <h2>Line format:</h2>
             <p>Please format each line of your CSV as follows</p>
             <p>origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
+            <h2>Download example</h2>
+            <Button variant="primary">Download</Button>{' '}
             <h4>Origin & Destination</h4>
             <p>These are the name of the source and destination of your travel journey. Please include the names</p>
             <h4>Distance</h4>
