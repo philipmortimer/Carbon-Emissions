@@ -11,6 +11,7 @@ export const travelKind = {
   coach: 'coach',
   eurostar: 'eurostar',
   lightRail: 'lightRail',
+  train: 'train',
   tram: 'tram',
   subway: 'subway',
   flight: 'flight',

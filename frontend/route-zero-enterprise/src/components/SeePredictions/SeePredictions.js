@@ -10,6 +10,7 @@ import { exposedEndpoints } from '../../data/backend.js'
 import './SeePredictions.scss'
 import { InvalidFileModal } from '../InvalidFileModal/InvalidFileModal.js'
 
+
 function checkValidity (state, action) {
   // TODO: Note this code here causes a console warning. This needs to be fixed in future!
   if (action.f !== null) {
@@ -25,8 +26,8 @@ function checkValidity (state, action) {
 }
 
 export const PredictButton = (props) => {
-  const [loading, setLoading] = useState('loaded')
-
+  
+  
   const [, dispatch] = useReducer(checkValidity, {}) // react needs to know that we arent changing the checkValidity function
 
   const [modalErrorTxt, setModalErrorTxt] = useState('') // Text to show in modal
@@ -47,7 +48,7 @@ export const PredictButton = (props) => {
   }
 
   const loadThenPost = () => {
-    setLoading('loading')
+    props.setLoading('loading')
     props.file
       .text()
       .then((text) => fetchPOST(`${exposedEndpoints.ip}:${exposedEndpoints.port}${exposedEndpoints.endpoint}`, text))
@@ -58,17 +59,17 @@ export const PredictButton = (props) => {
           // Handles error coming from fetchPOST request (e.g. wifi issues or backend down etc)
           alert('An unexpected communication error occurred. Please try again.' +
                 '\nError details:\n' + err)
-          setLoading('loaded')
+          props.setLoading('loaded')
         } else if (json.error !== undefined) {
           // Handles case where backend has returned an error message (e.g. invalid CSV file provided)
           props.setValidity('invalid_by_backend_determination')
           setModalErrorTxt(json.error)
           setShowModal(true)
-          setLoading('loaded')
+          props.setLoading('loaded')
         } else {
           // Loads view after receiving response from backend (no errors)
           props.setResponse(json)
-          setLoading('loaded')
+          props.setLoading('loaded')
           navigate('/view')
         }
       })
@@ -80,7 +81,7 @@ export const PredictButton = (props) => {
 
   return (
     <>
-      {(props.validity === 'valid' && loading === 'loaded') ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
+      {(props.validity === 'valid' && props.loading === 'loaded') ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
       <p className='suggestion'>{getSuggestion(props.validity)}</p>
       <InvalidFileModal show={showModal} onHide={() => { setModalErrorTxt(''); setShowModal(false) }} msg={modalErrorTxt} />
     </>

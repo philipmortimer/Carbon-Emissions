@@ -7,7 +7,7 @@ import {BarChart} from "../../components/Chart/Chart.js";
 import {PolicySelector} from "../../components/Policy/PolicySelector.js";
 
 //helpers
-import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart.js";
+import {journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars} from "../../helpers/chart.js";
 
 //data
 import {getPolicies} from "../../data/policies.js";
@@ -35,14 +35,14 @@ export const View = (props) => {
                 setBeforeJourneys(pairs);
             });
 
-            emissionBars(props.file, props.response, "currentCarbonKgCo2e")
+            emissionBarsBefore(props.file, props.response)
             .then((pairs) => {
                 setBeforeEmissions(pairs);
             });
 
             setPredictJourneys(predictJourneyBars(props.response));
 
-            emissionBars(props.file, props.response, "newCarbonKgCo2e")
+            emissionBarsAfter(props.file, props.response)
             .then((pairs) => { 
                 setPredictEmissions(pairs)
                 return pairs;

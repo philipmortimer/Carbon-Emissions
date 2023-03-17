@@ -18,6 +18,7 @@ function App () {
   const [file, setFile] = useState(null) // current file
   const [response, setResponse] = useState(null) // JSON data returned from server
   const [validity, setValidity] = useState('no_file') // no upload
+  const [loading, setLoading] = useState('loaded')
 
   return (
     <>
@@ -25,9 +26,10 @@ function App () {
         <Hero response={response} />
         <Content child={
           <Routes>
-            <Route path='/' element={<Home file={file} setFile={setFile} validity={validity} setValidity={setValidity} setResponse={setResponse} />} />
-            <Route path='/view' element={<View file={file} setFile={setFile} response={response} />} />
+            <Route path='/' element={<Home file={file} setFile={setFile} validity={validity} setValidity={setValidity} setResponse={setResponse} loading={loading} setLoading={setLoading}/>} />
+            <Route path='/view' element={<View file={file} setFile={setFile} response={response} loading={loading} setLoading={setLoading} />} />
             <Route path='/schema' element={<CSVSchema/>}/>
+
           </Routes>
         }
         />
