@@ -1,11 +1,29 @@
 import React, { useEffect } from 'react'
 import Chart from 'chart.js/auto'
+import { travelKind } from '../../data/travelkind.js';
 
 export const BarChart = ({ chartId, header, bars }) => {
   useEffect(() => {
     const ctx = document.getElementById(chartId)
     if (bars !== undefined) {
-      const labels = bars.map(x => x[0])
+      const labels = bars.map(x => x[0]).map(x => 
+        x === travelKind.foot ? "Foot" : 
+        x === travelKind.bike ? "Bike" :
+        x === travelKind.electricScooter ? "Electric scooter" :
+        x === travelKind.petrolCar ? "Petrol car" :
+        x === travelKind.dieselCar ? "Diesel car" :
+        x === travelKind.hybridCar ? "Hybrid car" :
+        x === travelKind.electricCar ? "Electric car" :
+        x === travelKind.taxi ? "Taxi" :
+        x === travelKind.bus ? "Bus":
+        x === travelKind.coach ? "Coach":
+        x === travelKind.train ? "Train":
+        x === travelKind.eurostar ? "Eurostar":
+        x === travelKind.lightRail ? "Light rail":
+        x === travelKind.tram ? "Tram":
+        x === travelKind.subway ? "Subway":
+        x === travelKind.flight ? "Flight":
+        x === travelKind.ferry ? "Ferry" : x)
       const values = bars.map(x => x[1])
 
       const myChart = new Chart(ctx, {
@@ -61,9 +79,7 @@ export const BarChart = ({ chartId, header, bars }) => {
           <span className="chart-overlay">{ bars === undefined || bars.length === 0
           ? "Sorry, not enough data"
           : "" }</span>
-          <canvas id={chartId}/>
+          <canvas data-testid={header} id={chartId}/>
       </>
   );
-
 }
-
