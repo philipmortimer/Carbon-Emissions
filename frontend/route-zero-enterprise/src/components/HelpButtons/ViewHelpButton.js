@@ -21,8 +21,11 @@ function OffCanvasExample({ name, ...props }) {
                     <p>On this page you can visualise your journeys and current carbon emissions under the 'Before' section,
                         as well as prospects for improving your footprint.</p>
 
-                    You can choose which solutions you are/are not willing to adopt by ticking the corresponding policies on
-                    the left of the screen.
+                    <p>By ticking the policies on the left of the screen in accordance with your needs, a visualisation of how much
+                        carbon you could prevent from being released into the atmosphere will be displayed.
+                    </p>
+                    <p>The green bubbles next to each policy represents the reduction in killo tonnes of carbon emissions. If this number is negative, it means more emissions.
+                    </p>
                 </Offcanvas.Body>
             </Offcanvas>
         </>
