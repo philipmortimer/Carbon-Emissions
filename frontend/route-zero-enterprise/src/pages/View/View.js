@@ -92,10 +92,12 @@ export const View = (props) => {
                         </div>
 
                         <div className="cell">
-                            <h1>Visualisation</h1>
+                            <div className="inline">
+                                <h1>Visualisation</h1>
+                                <HelpButton/>
+                            </div>
                             
                             <div className="center-grid2">
-                            <HelpButton/>
                         
                                 <div className="inner">
                             
