@@ -79,9 +79,7 @@ export const BarChart = ({ chartId, header, bars }) => {
           <span className="chart-overlay">{ bars === undefined || bars.length === 0
           ? "Sorry, not enough data"
           : "" }</span>
-          <canvas id={chartId}/>
+          <canvas data-testid={header} id={chartId}/>
       </>
   );
-
 }
-
