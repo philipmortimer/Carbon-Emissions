@@ -93,10 +93,12 @@ export const View = (props) => {
 
                         <div className="cell">
                             <h1>Visualisation</h1>
+                            
                             <div className="center-grid2">
-
+                            <HelpButton/>
+                        
                                 <div className="inner">
-
+                            
                                     <div className="cell">
                                         <h2>Before</h2>
                                         <div className="Chart">
@@ -116,9 +118,6 @@ export const View = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="cell">
-                                <HelpButton/>
                             </div>
                         </div>
                     </div>
