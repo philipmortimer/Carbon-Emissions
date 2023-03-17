@@ -10,7 +10,7 @@ function OffCanvasExample({ name, ...props }) {
 
     return (
         <>
-            <Button variant="light" onClick={handleShow} className="me-2">
+            <Button variant="secondary" onClick={handleShow}>
                 Help
             </Button>
             <Offcanvas show={show} onHide={handleClose} {...props}>

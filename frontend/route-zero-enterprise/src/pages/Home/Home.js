@@ -21,14 +21,14 @@ export const Home = (props) => {
         <div className="middle-grid">
             <div className="custom-container">
                 <h1>Do you want to know your potential carbon savings?</h1>
-                <div className="csv-prompt">
+                <div className="help">
                     <h3>Simply upload your travel expense or milage data as a CSV file</h3>
-                    <PromptSchemaCSV className="homepage-csv-schema"/>
                 </div>
                 <div className="buttons">
                     <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
-                    <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
+                    <PromptSchemaCSV className="homepage-csv-schema"/>
                     <HelpButton/>
+                    <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse}/>
                 </div>
             </div>
         </div>    
