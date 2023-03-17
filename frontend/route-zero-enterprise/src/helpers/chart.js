@@ -71,12 +71,9 @@ export const getTransportsCSV = (text) => {
     - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
     - Slices the nought element as element 0 is just the field headings
     - Splits the record by comma and accesses the transport method (last element of record)
-    */
-  return (() => {
-    const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
-    t.pop()
-    return t
-  })()
+  */
+  const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
+  return t
 }
 
 export const journeyBars = (csvBlob) => {
@@ -91,65 +88,79 @@ export const journeyBars = (csvBlob) => {
     })
 }
 
-
-//maps transport methods in CSV to records in the response
-export const emissionBars = (csvBlob, response, fieldName) => {
+// maps transport methods in CSV to records in the response
+export const emissionBarsBefore = (csvBlob, response) => {
   return csvBlob
     .text()
     .then((text) => {
-        const transports = getTransportsCSV(text);
-        const uniqueTransports = listToSet(transports);
-        const co2Tally = {};
-        uniqueTransports.map(x => { 
-            co2Tally[x] = 0; 
-            return x;
-        }); //fresh map
-        transports.map((x, i) => {
-            //console.log(x);
-            co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i][fieldName]; //handles undefined 
-            return x;
-        });
-        const pairs = mapToPairs(uniqueTransports, co2Tally);
-        
-        return transform(pairs, EMISSION_LOWER_LIM);
-    });
+      const transports = getTransportsCSV(text)
+      const uniqueTransports = listToSet(transports)
+      const co2Tally = {}
+      uniqueTransports.map(x => {
+        co2Tally[x] = 0
+        return x
+      }) // fresh map
+      transports.map((x, i) => {
+        co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i]['currentCarbonKgCo2e'] // handles undefined
+        return x
+      })
+      const pairs = mapToPairs(uniqueTransports, co2Tally)
+      return transform(pairs, EMISSION_LOWER_LIM)
+    })
+}
+
+// Calculates updated emissions for each transport method by multiplying probability of it occuring
+// with the emissions it would induce
+export const emissionBarsAfter = (csvBlob, response) => {
+  return csvBlob
+    .text()
+    .then((text) => {
+      // Fills map of transportType, totalPredictedEmissions
+      let transEmissionMap = new Map()
+      for (let journeyIndex = 0; journeyIndex < response.predictions.length; journeyIndex++) {
+        const jounrey = response.predictions[journeyIndex]
+        for (let altIndex = 0; altIndex < jounrey.alternatives.length; altIndex++) {
+          const alternative = jounrey.alternatives[altIndex]
+          const type = alternative.transport.type
+          // If journey has no registered emissions yet, puts it in the map
+          if (!transEmissionMap.has(type)) {
+            transEmissionMap.set(type, 0)
+          }
+          // New emission is probability of transport being taken * emissions from said journey
+          transEmissionMap.set(type, 
+            transEmissionMap.get(type) + (alternative.probability * alternative.carbonKgCo2e))
+        }
+      }
+      // Converts map to pair array
+      const pairs = Array.from(transEmissionMap)
+      return transform(pairs, EMISSION_LOWER_LIM)
+    })
 }
 
 // takes lists of pairs [<field>, <data point for transforming>]
 export const transform = (xs, lowerCutoff) => {
-
-    const xsMap = xs.map(x => {
-        let xTransform = x[1]; //[0] -> name, [1] -> value
-         //optional data transformations
-        //xTransform = Math.round(xTransform);
-        if (xTransform >= lowerCutoff) {
-            return [x[0], xTransform];
-        }else{
-            return [x[0], -1];
-        }
-    });
-
-    const xsFilter = xsMap.filter(x => x[1] !== -1); //removes those set to be removed
-    return xsFilter;
+  const xsFilter = xs.filter(x => x[1] >= lowerCutoff)
+  return xsFilter
 }
 
 export const predictJourneyBars = (response) => {
-    const transportSet = new Set();
-    const transportTally = {};
-    response.predictions.map(predict => {
-        predict.alternatives.map(alternative => {
-            const transport = alternative.transport.type;
-            transportSet.add(transport);
-            if(transportTally[transport] === undefined) { //when we create a new tally, there wont be an entry
-                transportTally[transport] = 0;
-            }else{
-                transportTally[transport] += alternative.probability;
-            }
-            return alternative; //warning about void arrow function mitigated; no longer mutates predict.alternatives
-        });
-        return predict; //warning about void arrow function mitigated; no longer mutates response.predictions
-    });
-    const transportList = new Array(...transportSet);
-    const pairs = mapToPairs(transportList, transportTally);   
-    return transform(pairs, JOURNEY_LOWER_LIM);
+  const transportSet = new Set()
+  const transportTally = {}
+  response.predictions.map(predict => {
+    predict.alternatives.map(alternative => {
+      const transport = alternative.transport.type
+      transportSet.add(transport)
+      if (transportTally[transport] === undefined) {
+        transportTally[transport] = alternative.probability
+      } else {
+        transportTally[transport] += alternative.probability
+      }
+      return alternative // warning about void arrow function mitigated; no longer mutates predict.alternatives
+    })
+    return predict // warning about void arrow function mitigated; no longer mutates response.predictions
+  })
+  const transportList = new Array(...transportSet)
+  const pairs = mapToPairs(transportList, transportTally)
+
+  return transform(pairs, JOURNEY_LOWER_LIM)
 }

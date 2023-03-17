@@ -8,7 +8,7 @@ import {PolicySelector} from "../../components/Policy/PolicySelector.js";
 import HelpButton from '../../components/HelpButtons/ViewHelpButton.js'
 
 //helpers
-import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart.js";
+import {journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars} from "../../helpers/chart.js";
 
 //data
 import {getPolicies} from "../../data/policies.js";
@@ -36,26 +36,26 @@ export const View = (props) => {
                     setBeforeJourneys(pairs);
                 });
 
-            emissionBars(props.file, props.response, "currentCarbonKgCo2e")
+                emissionBarsBefore(props.file, props.response)
                 .then((pairs) => {
                     setBeforeEmissions(pairs);
                 });
 
             setPredictJourneys(predictJourneyBars(props.response));
 
-            emissionBars(props.file, props.response, "newCarbonKgCo2e")
-                .then((pairs) => {
-                    setPredictEmissions(pairs)
-                    return pairs;
-                })
-                .then((pairs) => {
-                    //final setup
-                    setOriginalPredict({
-                        journeys: predictJourneyBars(props.response),
-                        emissions: pairs
-                    });
-                    setPolicies(getPolicies());
+            emissionBarsAfter(props.file, props.response)
+            .then((pairs) => { 
+                setPredictEmissions(pairs)
+                return pairs;
+             })
+            .then((pairs) => {
+                //final setup
+                setOriginalPredict({
+                    journeys: predictJourneyBars(props.response),
+                    emissions: pairs
                 });
+                setPolicies(getPolicies());
+            });
         }
     }
 
