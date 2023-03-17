@@ -15,8 +15,10 @@ export const Hero = (props) => {
         <Container fluid>
           <Navbar.Brand className='navbar-brand' href='https://routezero.world/'><Logo />{/* RouteZero */}</Navbar.Brand>
           <Nav className='me-auto'>
+            <Link className='nav-link' to='/schema'>CSV Schema</Link>
             <Link className='nav-link' to='/'>Upload</Link>
             <Link className='nav-link' id={'view-link' + (props.response === null ? '-disabled' : '')} to={props.response === null ? '/' : '/view'}>View</Link>
+            
           </Nav>
         </Container>
       </Navbar>
