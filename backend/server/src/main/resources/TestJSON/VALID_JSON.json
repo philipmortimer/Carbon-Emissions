@@ -1,0 +1,562 @@
+[
+  {
+    "origin": "Paddington",
+    "destination": "Bristol Parkway",
+    "distanceKm": 179.08,
+    "departureTime": "2022-10-14T17:48:00.000Z",
+    "arrivalTime": "2022-10-14T19:01:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.002,
+    "departureTime": "2022-10-14T19:01:00.000Z",
+    "arrivalTime": "2022-10-14T19:01:03.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Bristol Parkway",
+    "destination": "Bristol Temple Meads",
+    "distanceKm": 9.536,
+    "departureTime": "2022-10-14T19:16:00.000Z",
+    "arrivalTime": "2022-10-14T19:28:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "Bristol Bond St",
+    "destination": "Bristol Airport",
+    "distanceKm": 15.15563166,
+    "departureTime": "2022-10-27T02:30:00.000Z",
+    "arrivalTime": "2022-10-27T02:50:00.000Z",
+    "transport": "bus"
+  },
+  {
+    "origin": "",
+    "destination": "Bristol Airport (BRS)",
+    "distanceKm": 0.53,
+    "departureTime": "2022-10-27T02:50:00.000Z",
+    "arrivalTime": "2022-10-27T02:57:10.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Paris Charles de Gaulle Airport (CDG)",
+    "destination": "",
+    "distanceKm": 0.486,
+    "departureTime": "2022-10-27T08:16:01.000Z",
+    "arrivalTime": "2022-10-27T08:21:59.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Tour de Contr√¥le / Parc Pr",
+    "destination": "A√©roport CDG 1 (Terminal 3)",
+    "distanceKm": 1.235,
+    "departureTime": "2022-10-27T08:22:00.000Z",
+    "arrivalTime": "2022-10-27T08:24:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.158,
+    "departureTime": "2022-10-27T08:24:00.000Z",
+    "arrivalTime": "2022-10-27T08:27:02.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "A√©roport CDG 1 (Terminal 3)",
+    "destination": "Gare du Nord",
+    "distanceKm": 27.296,
+    "departureTime": "2022-10-27T08:32:00.000Z",
+    "arrivalTime": "2022-10-27T09:04:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "Bristol",
+    "destination": "",
+    "distanceKm": 299.185,
+    "departureTime": "2022-10-27T00:21:31.000Z",
+    "arrivalTime": "2022-10-27T03:46:17.000Z",
+    "transport": "petrolCar"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 54.297,
+    "departureTime": "2022-10-27T03:46:17.000Z",
+    "arrivalTime": "2022-10-27T04:42:32.000Z",
+    "transport": "eurostar"
+  },
+  {
+    "origin": "",
+    "destination": "Paris",
+    "distanceKm": 296.665,
+    "departureTime": "2022-10-27T04:42:32.000Z",
+    "arrivalTime": "2022-10-27T07:45:00.000Z",
+    "transport": "petrolCar"
+  },
+  {
+    "origin": "Castlehill",
+    "destination": "",
+    "distanceKm": 0.898,
+    "departureTime": "2022-11-01T09:01:03.000Z",
+    "arrivalTime": "2022-11-01T09:11:00.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Edinburgh Waverley",
+    "destination": "King's Cross",
+    "distanceKm": 630.928,
+    "departureTime": "2022-11-01T09:11:00.000Z",
+    "arrivalTime": "2022-11-01T13:47:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.31,
+    "departureTime": "2022-11-01T13:47:00.000Z",
+    "arrivalTime": "2022-11-01T13:52:09.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "St Pancras",
+    "destination": "Gare du Nord",
+    "distanceKm": 450.768,
+    "departureTime": "2022-11-01T14:31:00.000Z",
+    "arrivalTime": "2022-11-01T16:47:00.000Z",
+    "transport": "eurostar"
+  },
+  {
+    "origin": "Gare du Nord",
+    "destination": "Ch√¢telet",
+    "distanceKm": 2.537,
+    "departureTime": "2022-11-01T16:51:00.000Z",
+    "arrivalTime": "2022-11-01T16:59:00.000Z",
+    "transport": "subway"
+  },
+  {
+    "origin": "",
+    "destination": "Rue de Rivoli",
+    "distanceKm": 0.6,
+    "departureTime": "2022-11-01T16:59:00.000Z",
+    "arrivalTime": "2022-11-01T17:06:55.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Castlehill",
+    "destination": "Edinburgh Airport (EDI)",
+    "distanceKm": 14.392,
+    "departureTime": "2022-11-01T05:16:37.000Z",
+    "arrivalTime": "2022-11-01T05:45:00.000Z",
+    "transport": "taxi"
+  },
+  {
+    "origin": "Paris Charles de Gaulle Airport (CDG)",
+    "destination": "Rue de Rivoli",
+    "distanceKm": 33.851,
+    "departureTime": "2022-11-01T10:07:00.000Z",
+    "arrivalTime": "2022-11-01T10:47:05.000Z",
+    "transport": "taxi"
+  },
+  {
+    "origin": "Castlehill",
+    "destination": "",
+    "distanceKm": 0.898,
+    "departureTime": "2022-11-01T13:20:03.000Z",
+    "arrivalTime": "2022-11-01T13:30:00.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Edinburgh Waverley",
+    "destination": "King's Cross",
+    "distanceKm": 631.614,
+    "departureTime": "2022-11-01T13:30:00.000Z",
+    "arrivalTime": "2022-11-01T17:51:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.273,
+    "departureTime": "2022-11-01T17:51:00.000Z",
+    "arrivalTime": "2022-11-01T17:55:05.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "St Pancras International",
+    "destination": "Rotterdam",
+    "distanceKm": 516.946,
+    "departureTime": "2022-11-01T18:19:00.000Z",
+    "arrivalTime": "2022-11-01T21:32:00.000Z",
+    "transport": "eurostar"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.022,
+    "departureTime": "2022-11-01T21:32:00.000Z",
+    "arrivalTime": "2022-11-01T21:32:22.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Rotterdam",
+    "destination": "Hengelo",
+    "distanceKm": 188.288,
+    "departureTime": "2022-11-01T21:35:00.000Z",
+    "arrivalTime": "2022-11-02T00:06:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.013,
+    "departureTime": "2022-11-02T00:06:00.000Z",
+    "arrivalTime": "2022-11-02T00:06:14.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Hengelo",
+    "destination": "Berlin Central Station",
+    "distanceKm": 485.075,
+    "departureTime": "2022-11-02T04:34:00.000Z",
+    "arrivalTime": "2022-11-02T10:22:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "Castlehill",
+    "destination": "Edinburgh Airport (EDI)",
+    "distanceKm": 14.392,
+    "departureTime": "2022-11-01T05:16:37.000Z",
+    "arrivalTime": "2022-11-01T05:45:00.000Z",
+    "transport": "petrolCar"
+  },
+  {
+    "origin": "Stra√üe ohne Stra√üennamen",
+    "destination": "Berlin",
+    "distanceKm": 11.444,
+    "departureTime": "2022-11-01T10:37:00.000Z",
+    "arrivalTime": "2022-11-01T11:15:00.000Z",
+    "transport": "bike"
+  },
+  {
+    "origin": "London",
+    "destination": "Paddington London",
+    "distanceKm": 27.419,
+    "departureTime": "2022-10-14T15:08:32.370Z",
+    "arrivalTime": "2022-10-14T15:51:48.370Z",
+    "transport": "petrolCar"
+  },
+  {
+    "origin": "Edinburgh Airport (EDI)",
+    "destination": "",
+    "distanceKm": 1.141,
+    "departureTime": "2022-10-14T19:41:08.000Z",
+    "arrivalTime": "2022-10-14T19:55:00.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Edinburgh Airport",
+    "destination": "St Andrew Square",
+    "distanceKm": 13.357,
+    "departureTime": "2022-10-14T19:55:00.000Z",
+    "arrivalTime": "2022-10-14T20:30:00.000Z",
+    "transport": "tram"
+  },
+  {
+    "origin": "",
+    "destination": "Edinburgh",
+    "distanceKm": 0.384,
+    "departureTime": "2022-10-14T20:30:00.000Z",
+    "arrivalTime": "2022-10-14T20:34:52.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "London Bridge",
+    "destination": "",
+    "distanceKm": 0.389,
+    "departureTime": "2022-10-17T06:27:02.000Z",
+    "arrivalTime": "2022-10-17T06:32:27.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "London Bridge",
+    "destination": "Green Park",
+    "distanceKm": 4.232,
+    "departureTime": "2022-10-17T06:32:27.000Z",
+    "arrivalTime": "2022-10-17T06:39:00.000Z",
+    "transport": "subway"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.11,
+    "departureTime": "2022-10-17T06:39:00.000Z",
+    "arrivalTime": "2022-10-17T06:40:51.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Green Park",
+    "destination": "Heathrow Terminals 2 & 3",
+    "distanceKm": 24.989,
+    "departureTime": "2022-10-17T06:44:00.000Z",
+    "arrivalTime": "2022-10-17T07:33:00.000Z",
+    "transport": "subway"
+  },
+  {
+    "origin": "",
+    "destination": "London",
+    "distanceKm": 0.413,
+    "departureTime": "2022-10-17T07:33:00.000Z",
+    "arrivalTime": "2022-10-17T07:38:41.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Glasgow Airport (GLA)",
+    "destination": "Glasgow",
+    "distanceKm": 18.003,
+    "departureTime": "2022-10-17T11:30:00.000Z",
+    "arrivalTime": "2022-10-17T11:49:17.000Z",
+    "transport": "taxi"
+  },
+  {
+    "origin": "Bristol",
+    "destination": "Manchester",
+    "distanceKm": 269.853,
+    "departureTime": "2022-10-20T18:00:00.000Z",
+    "arrivalTime": "2022-10-20T21:05:15.000Z",
+    "transport": "dieselCar"
+  },
+  {
+    "origin": "Bristol Bond St",
+    "destination": "Bristol Airport",
+    "distanceKm": 15.15563166,
+    "departureTime": "2022-10-20T14:30:00.000Z",
+    "arrivalTime": "2022-10-20T15:05:00.000Z",
+    "transport": "bus"
+  },
+  {
+    "origin": "",
+    "destination": "Bristol Airport (BRS)",
+    "distanceKm": 0.53,
+    "departureTime": "2022-10-20T15:05:00.000Z",
+    "arrivalTime": "2022-10-20T15:12:10.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Adolfo Su√°rez Madrid‚ÄìBarajas Airport (MAD)",
+    "destination": "Madrid",
+    "distanceKm": 27.809,
+    "departureTime": "2022-10-20T20:59:00.000Z",
+    "arrivalTime": "2022-10-20T21:27:37.000Z",
+    "transport": "taxi"
+  },
+  {
+    "origin": "Victoria Coach",
+    "destination": "Cabot Circus (S4)",
+    "distanceKm": 195.6060707,
+    "departureTime": "2022-10-14T18:00:00.000Z",
+    "arrivalTime": "2022-10-14T20:55:00.000Z",
+    "transport": "coach"
+  },
+  {
+    "origin": "Bond Street",
+    "destination": "St Augustine's Parade",
+    "distanceKm": 0.99,
+    "departureTime": "2022-10-14T20:55:00.000Z",
+    "arrivalTime": "2022-10-14T20:58:03.000Z",
+    "transport": "electricScooter"
+  },
+  {
+    "origin": "Bristol Bond St",
+    "destination": "Bristol Airport",
+    "distanceKm": 15.15563166,
+    "departureTime": "2022-10-20T14:30:00.000Z",
+    "arrivalTime": "2022-10-20T15:05:00.000Z",
+    "transport": "bus"
+  },
+  {
+    "origin": "",
+    "destination": "Bristol Airport (BRS)",
+    "distanceKm": 0.53,
+    "departureTime": "2022-10-20T15:05:00.000Z",
+    "arrivalTime": "2022-10-20T15:12:10.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "BRS airport",
+    "destination": "AMS airport",
+    "distanceKm": 524.3634257,
+    "departureTime": "2022-10-20T18:00:00.000Z",
+    "arrivalTime": "2022-10-20T19:15:00.000Z",
+    "transport": "flight"
+  },
+  {
+    "origin": "Amsterdam Airport Schiphol (AMS)",
+    "destination": "",
+    "distanceKm": 0.218,
+    "departureTime": "2022-10-20T19:46:08.000Z",
+    "arrivalTime": "2022-10-20T19:48:56.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Schiphol Airport",
+    "destination": "Amsterdam South",
+    "distanceKm": 8.778,
+    "departureTime": "2022-10-20T19:49:00.000Z",
+    "arrivalTime": "2022-10-20T19:55:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "London",
+    "destination": "Bristol",
+    "distanceKm": 189.491,
+    "departureTime": "2022-10-22T15:26:54.000Z",
+    "arrivalTime": "2022-10-22T17:45:00.000Z",
+    "transport": "petrolCar"
+  },
+  {
+    "origin": "Charing Cross",
+    "destination": "Wilson's Road",
+    "distanceKm": 7.263,
+    "departureTime": "2022-10-22T15:14:41.000Z",
+    "arrivalTime": "2022-10-22T15:28:28.000Z",
+    "transport": "electricCar"
+  },
+  {
+    "origin": "Wilson's Road",
+    "destination": "",
+    "distanceKm": 182.078,
+    "departureTime": "2022-10-22T15:42:59.000Z",
+    "arrivalTime": "2022-10-22T17:45:00.000Z",
+    "transport": "electricCar"
+  },
+  {
+    "origin": "Paddington",
+    "destination": "Bristol Parkway",
+    "distanceKm": 179.126,
+    "departureTime": "2022-10-22T15:48:00.000Z",
+    "arrivalTime": "2022-10-22T17:03:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.002,
+    "departureTime": "2022-10-22T17:03:00.000Z",
+    "arrivalTime": "2022-10-22T17:03:03.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Bristol Parkway",
+    "destination": "Bristol Temple Meads",
+    "distanceKm": 9.536,
+    "departureTime": "2022-10-22T17:17:00.000Z",
+    "arrivalTime": "2022-10-22T17:28:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "Bristol Temple Meads",
+    "destination": "Doncaster",
+    "distanceKm": 298.432,
+    "departureTime": "2022-10-26T18:35:00.000Z",
+    "arrivalTime": "2022-10-26T22:07:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.021,
+    "departureTime": "2022-10-26T22:07:00.000Z",
+    "arrivalTime": "2022-10-26T22:07:22.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Doncaster",
+    "destination": "Edinburgh Waverley",
+    "distanceKm": 380.956,
+    "departureTime": "2022-10-26T22:52:00.000Z",
+    "arrivalTime": "2022-10-27T07:07:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "Bristol",
+    "destination": "Edinburgh",
+    "distanceKm": 613.981,
+    "departureTime": "2022-10-27T01:07:34.000Z",
+    "arrivalTime": "2022-10-27T07:45:00.000Z",
+    "transport": "petrolCar"
+  },
+  {
+    "origin": "Bristol",
+    "destination": "Edinburgh",
+    "distanceKm": 757.6308666,
+    "departureTime": "2022-10-26T18:25:00.000Z",
+    "arrivalTime": "2022-10-27T07:05:00.000Z",
+    "transport": "coach"
+  },
+  {
+    "origin": "Bristol Temple Meads",
+    "destination": "Paddington",
+    "distanceKm": 189.778,
+    "departureTime": "2022-10-26T21:00:00.000Z",
+    "arrivalTime": "2022-10-26T22:56:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.328,
+    "departureTime": "2022-10-26T22:56:00.000Z",
+    "arrivalTime": "2022-10-26T23:01:30.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Paddington",
+    "destination": "King's Cross St. Pancras",
+    "distanceKm": 4.243,
+    "departureTime": "2022-10-26T23:04:50.000Z",
+    "arrivalTime": "2022-10-26T23:16:00.000Z",
+    "transport": "subway"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.372,
+    "departureTime": "2022-10-26T23:16:00.000Z",
+    "arrivalTime": "2022-10-26T23:21:35.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "St Pancras",
+    "destination": "Gare du Nord",
+    "distanceKm": 450.768,
+    "departureTime": "2022-10-27T04:59:00.000Z",
+    "arrivalTime": "2022-10-27T07:17:00.000Z",
+    "transport": "eurostar"
+  },
+  {
+    "origin": "Victoria Coach",
+    "destination": "Cabot Circus (S4)",
+    "distanceKm": 195.6060707,
+    "departureTime": "2022-10-14T18:00:00.000Z",
+    "arrivalTime": "2022-10-14T20:55:00.000Z",
+    "transport": "coach"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": 0.527,
+    "departureTime": "2022-10-14T20:55:00.000Z",
+    "arrivalTime": "2022-10-14T21:01:30.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Union Street",
+    "destination": "The Centre (C7)",
+    "distanceKm": 0.774,
+    "departureTime": "2022-10-14T21:07:30.000Z",
+    "arrivalTime": "2022-10-14T21:11:00.000Z",
+    "transport": "bus"
+  }
+]
