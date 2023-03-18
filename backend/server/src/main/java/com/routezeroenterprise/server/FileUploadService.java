@@ -121,18 +121,18 @@ public class FileUploadService {
         return warnings;
     }
 
-    private APIResponse process(String csvFile) {
+    private APIResponse process(String inputFile) {
         APIResponse finalResponse;
         ObjectMapper objectMapper = new ObjectMapper();
 
         try{
             // Attempt to parse the file as JSON
-            List<Map<String, Object>> jsonFile = objectMapper.readValue(csvFile, new TypeReference<List<Map<String, Object>>>(){});
+            List<Map<String, Object>> jsonFile = objectMapper.readValue(inputFile, new TypeReference<List<Map<String, Object>>>(){});
             finalResponse = processJSON(jsonFile);
         } catch (JsonProcessingException e) {
             System.out.println("PROCESSINGERROR ======>>>");
             e.printStackTrace();
-            finalResponse = processCSV(csvFile);
+            finalResponse = processCSV(inputFile);
         }
 
         return finalResponse;

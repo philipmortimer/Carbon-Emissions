@@ -36,8 +36,8 @@ public class APIController {
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, path = "/get_predictions")
-    public ResponseEntity<String> getPredictions(@RequestBody String csv){
+    public ResponseEntity<String> getPredictions(@RequestBody String inputFile){
         return ResponseEntity.ok()
-                .body(fs.upload(csv).getResponse()); //will delegate call to required method
+                .body(fs.upload(inputFile).getResponse()); //will delegate call to required method
     }
 }
