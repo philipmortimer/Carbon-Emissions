@@ -1,14 +1,16 @@
 package com.routezeroenterprise.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * This class parses CSV file, performing validation on the file.
@@ -130,10 +132,21 @@ public class FileUploadService {
      * @return The API response
      */
     private APIResponse process(String csvFile) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try{
+            // Attempt to parse the file as JSON
+            List<Map<String, Object>> jsonFile = objectMapper.readValue(csvFile, new TypeReference<List<Map<String, Object>>>(){});
+        } catch (JsonProcessingException e) {
+            System.out.println("PROCESSINGERROR ======>>>");
+            e.printStackTrace();
+        }
+
         // Null check
         if (csvFile == null) {
             return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
         }
+
         List<String> lines = csvFile.lines().toList();
         // Checks for critical errors in CSV file
         Optional<String> errors = checkForErrors(lines);
@@ -172,7 +185,7 @@ public class FileUploadService {
 
         return new APIResponse(responseString); // Returns response
     }
-
+z
     /**
      * Adds string array containing warnings to JSON response.
      * @param jo The JSON.
