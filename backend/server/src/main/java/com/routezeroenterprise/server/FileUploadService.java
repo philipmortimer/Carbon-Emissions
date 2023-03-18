@@ -121,6 +121,26 @@ public class FileUploadService {
         return warnings;
     }
 
+    private APIResponse process(String csvFile) {
+        APIResponse finalResponse;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try{
+            // Attempt to parse the file as JSON
+            List<Map<String, Object>> jsonFile = objectMapper.readValue(csvFile, new TypeReference<List<Map<String, Object>>>(){});
+            finalResponse = processJSON(jsonFile);
+        } catch (JsonProcessingException e) {
+            System.out.println("PROCESSINGERROR ======>>>");
+            e.printStackTrace();
+            finalResponse = processCSV(csvFile);
+        }
+
+        return finalResponse;
+    }
+
+    private APIResponse processJSON(List<Map<String, Object>> jsonFile) {
+        return new APIResponse("temp");
+    }
 
     /**
      * Processes the CSV file and returns the Route Zero API predictions.
@@ -131,17 +151,7 @@ public class FileUploadService {
      * @param csvFile The CSV file
      * @return The API response
      */
-    private APIResponse process(String csvFile) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try{
-            // Attempt to parse the file as JSON
-            List<Map<String, Object>> jsonFile = objectMapper.readValue(csvFile, new TypeReference<List<Map<String, Object>>>(){});
-        } catch (JsonProcessingException e) {
-            System.out.println("PROCESSINGERROR ======>>>");
-            e.printStackTrace();
-        }
-
+    private APIResponse processCSV(String csvFile) {
         // Null check
         if (csvFile == null) {
             return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
@@ -185,7 +195,7 @@ public class FileUploadService {
 
         return new APIResponse(responseString); // Returns response
     }
-z
+
     /**
      * Adds string array containing warnings to JSON response.
      * @param jo The JSON.
