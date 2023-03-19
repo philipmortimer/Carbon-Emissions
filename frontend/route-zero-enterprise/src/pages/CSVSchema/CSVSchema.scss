@@ -22,24 +22,3 @@
     padding-right: 5%;
    
 }
-
-.buttons{
-    display: grid;
-    grid-template-columns: 10rem 10rem 20rem;
-    gap: 1rem;
-}
-
-.csv-prompt{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 1rem;
-}
-
-.homepage-csv-schema-button{
-    margin-left: 1rem;
-    white-space: nowrap;
-}
-
-.csv-schema.body{
-    white-space: normal;
-}

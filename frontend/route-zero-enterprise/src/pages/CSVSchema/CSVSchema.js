@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,7 +12,6 @@ export const CSVSchema = (props) => {
        
         <div class="custom-container">
         <div class="middle-container">
-            <Container>
                 <div class="section">
                 <div class="sub-section">
                 <h1>CSV Schema</h1>
@@ -94,7 +92,6 @@ export const CSVSchema = (props) => {
                     </ul>
                     </div>
                 </div>
-            </Container>
             </div>
             </div>
             
