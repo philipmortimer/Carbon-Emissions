@@ -18,13 +18,13 @@ export const CSVSchema = (props) => {
                 </div>
                 <div class="section">
                 <div class="sub-section">
-                <h2>Line format:</h2>
+                <h2>Line format</h2>
                 </div>
                 <div class="sub-section">
                 <Row>
                     <Col>
                     <p>Please format each line of your CSV as follows:</p>
-                    <p>origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
+                    <p class="highlight">origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
                     </Col>
                 </Row>
                 </div>
@@ -74,7 +74,7 @@ export const CSVSchema = (props) => {
                     <div class="sub-section"> 
                     <p>To include the type of transportation used, please pick one from the following dictionary and 
                         use the exact spelling seen bellow:</p>
-                    <ul>
+                    <ul class="highlight">
                         <Row>
                             <Col> 
                                 <li>foot</li>
