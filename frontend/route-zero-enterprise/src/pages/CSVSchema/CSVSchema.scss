@@ -10,6 +10,21 @@
     height: calc(100vh - 8.3rem);
 }
 
+.section{
+    padding-top:2rem;
+    padding-bottom: 2rem;
+    padding-left: 20%;
+    padding-right: 20%;
+   
+}
+.sub-section{
+    padding-top:0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 5%;
+    padding-right: 5%;
+   
+}
+
 .buttons{
     display: grid;
     grid-template-columns: 10rem 10rem 20rem;

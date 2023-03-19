@@ -7,7 +7,7 @@ import {
 
 import { Home } from './pages/Home/Home.js'
 import { View } from './pages/View/View.js'
-import {CSVSchema} from 'C:/Users/smara/OneDrive/Desktop/app/my-app/src/pages/CSVSchema/CSVSchema.js'
+import {CSVSchema} from './pages/CSVSchema/CSVSchema.js'
 import { Hero } from './components/Hero/Hero.js'
 import { Content } from './components/Content/Content.js'
 
