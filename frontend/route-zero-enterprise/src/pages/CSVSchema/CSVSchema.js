@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import { DownloadButton } from '../../components/Download/DownloadButton';
 import './CSVSchema.scss'
 
 
@@ -33,7 +32,7 @@ export const CSVSchema = (props) => {
                 <h2>Download example</h2>
                 </div>
                 <div class="sub-section">
-                <Button variant="primary">Download</Button>{' '}
+                <DownloadButton/>
                 </div>
                 </div>
                 <div class="section">
