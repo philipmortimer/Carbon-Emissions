@@ -22,8 +22,10 @@ export const CSVSchema = (props) => {
                 </div>
                 <div class="sub-section">
                 <Row>
-                    <Col>Please format each line of your CSV as follows: origin,destination,distanceKm,departureTime,arrivalTime,transport</Col>
-                
+                    <Col>
+                    <p>Please format each line of your CSV as follows:</p>
+                    <p>origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
+                    </Col>
                 </Row>
                 </div>
                 </div>
@@ -40,7 +42,8 @@ export const CSVSchema = (props) => {
                 <h4>Origin & Destination</h4>
                 </div> 
                 <div class="sub-section"> 
-                <p>These are the name of the source and destination of your travel journey. Please include the names</p>
+                <p>These are the name of the source and destination of your travel journey. Please include these names, but you
+                    could also opt to omit them. For more information, please refer to the example above.</p>
                 </div>
                 </div>
                 <div class="section">
@@ -48,7 +51,9 @@ export const CSVSchema = (props) => {
                 <h4>Distance</h4>
                 </div>
                 <div class="sub-section"> 
-                <p>This is the number of kilometers you travelled between source and destination.</p>
+                <p>This is the number of kilometers you travelled between source and destination. This information could easily be 
+                    found through a map application such as Google Maps.
+                </p>
                 </div>
                 </div>
                 <div class="section">
@@ -67,27 +72,35 @@ export const CSVSchema = (props) => {
                     <h4>Transport</h4>
                     </div>
                     <div class="sub-section"> 
-                    <p>To include the transport please pick one from the following dictionary:</p>
+                    <p>To include the type of transportation used, please pick one from the following dictionary and 
+                        use the exact spelling seen bellow:</p>
                     <ul>
                         <Row>
-                            <Col> <li>foot</li>
-                        <li>bike</li>
-                        <li>electricScooter</li>
-                        <li>petrolCar</li>
-                        <li>dieselCar</li>
-                        <li>hybridCar</li>
-                        <li>electricCar</li>
-                        <li>taxi</li></Col>
-                            <Col><li>bus</li>
-                        <li>coach</li>
-                        <li>eurostar</li>
-                        <li>lightRail</li>
-                        <li>tram</li>
-                        <li>subway</li>
-                        <li>flight</li>
-                        <li>ferry</li></Col>
+                            <Col> 
+                                <li>foot</li>
+                                <li>bike</li>
+                                <li>electricScooter</li>
+                                <li>petrolCar</li>
+                            </Col>
+                        <Col>
+                            <li>dieselCar</li>
+                            <li>hybridCar</li>
+                            <li>electricCar</li>
+                            <li>taxi</li>
+                        </Col>
+                        <Col>
+                            <li>bus</li>
+                            <li>coach</li>
+                            <li>eurostar</li>
+                            <li>lightRail</li>
+                        </Col>
+                        <Col>
+                            <li>tram</li>
+                            <li>subway</li>
+                            <li>flight</li>
+                            <li>ferry</li>
+                        </Col>
                         </Row>
-                    
                     </ul>
                     </div>
                 </div>
