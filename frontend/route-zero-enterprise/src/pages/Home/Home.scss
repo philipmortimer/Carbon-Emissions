@@ -14,23 +14,33 @@
 
 .buttons{
     display: grid;
-    grid-template-columns: 10rem 10rem 20rem;
+    grid-template-columns: 10rem 10rem 5rem 5rem 5rem;
+    @media screen and (max-width: 750px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
     gap: 1rem;
 }
 
-.csv-prompt{
+.help{
     display: flex;
     flex-direction: row;
     margin-bottom: 1rem;
 }
 
-.homepage-csv-schema-button{
-    margin-left: 1rem;
-    white-space: nowrap;
-}
-
 .csv-schema.body{
     white-space: normal;
+}
+
+.suggestion {
+    grid-column: span 2;
+}
+
+.homepage-csv-schema-button {
+    grid-column: span 2;
+}
+
+#upload-btn{
+    grid-column: span 2;
 }
 
 .progress-bar{
