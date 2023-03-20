@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link} from "react-router-dom"; 
 
 //components
 import "./View.scss";
 import {BarChart} from "../../components/Chart/Chart.js";
 import {PolicySelector} from "../../components/Policy/PolicySelector.js";
-import HelpButton from '../../components/HelpButtons/ViewHelpButton.js'
 
 //helpers
 import {journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars} from "../../helpers/chart.js";
@@ -22,7 +21,7 @@ export const View = (props) => {
     const [predictEmissions, setPredictEmissions] = useState([]);
 
     const [originalPredict, setOriginalPredict] = useState({});
-
+    
     const [policies, setPolicies] = useState([]);
     // const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
 
@@ -32,14 +31,14 @@ export const View = (props) => {
         if(props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
 
             journeyBars(props.file)
-                .then((pairs) => {
-                    setBeforeJourneys(pairs);
-                });
+            .then((pairs) => {
+                setBeforeJourneys(pairs);
+            });
 
-                emissionBarsBefore(props.file, props.response)
-                .then((pairs) => {
-                    setBeforeEmissions(pairs);
-                });
+            emissionBarsBefore(props.file, props.response)
+            .then((pairs) => {
+                setBeforeEmissions(pairs);
+            });
 
             setPredictJourneys(predictJourneyBars(props.response));
 
@@ -65,65 +64,57 @@ export const View = (props) => {
         resetGraphs();
 
     }, [props.setFile, props.file, props.response]);
-
+    
     return(<>
             {props.file === undefined || props.file === null
-                ?
-                <div className="middle-grid">
-                    <h1>Error</h1>
-                    <h3>Could not display predictions</h3>
-                    <p>There was an error displaying your predictions. Your data is not loaded, please <Link to="/">provide a CSV</Link></p>
+            ? 
+            <div className="middle-grid">
+                <h1>Error</h1>
+                <h3>Could not display predictions</h3>
+                <p>There was an error displaying your predictions. Your data is not loaded, please <Link to="/">provide a CSV</Link></p>
+            </div>
+            : 
+            <div className="center-grid">
+                <div className="outer">
+                <div className="cell">
+                    {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
+                    <PolicySelector 
+                    policies={policies} 
+                    setPolicies={setPolicies} 
+                    journeysState={[predictJourneys, setPredictJourneys]} 
+                    emissionsState={[predictEmissions, setPredictEmissions]}
+                    originalPredict={originalPredict}/>
+                   { // savedCO2e={savedCO2e}
+                    // setSavedCO2e={setSavedCO2e}/> 
+                   }
                 </div>
-                :
-                <div className="center-grid">
-                    <div className="outer">
+                <div className="cell">
+                    <h1>Visualisation</h1>
+                    <div className="center-grid2">
+                        <div className="inner">
                         <div className="cell">
-                            {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
-                            <PolicySelector
-                                policies={policies}
-                                setPolicies={setPolicies}
-                                journeysState={[predictJourneys, setPredictJourneys]}
-                                emissionsState={[predictEmissions, setPredictEmissions]}
-                                originalPredict={originalPredict}/>
-                            { // savedCO2e={savedCO2e}
-                                // setSavedCO2e={setSavedCO2e}/>
-                            }
-
+                            <h2>Before</h2>
+                            <div className="Chart">
+                                <BarChart chartId="1" header="Journeys" bars={beforeJourneys}/>
+                            </div>
+                            <div className="Chart">
+                                <BarChart chartId="2" header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
+                            </div>
                         </div>
-
                         <div className="cell">
-                            <div className="inline">
-                                <h1>Visualisation</h1>
-                                <HelpButton/>
+                            <h2>After</h2>
+                            <div className="Chart">
+                                <BarChart chartId="3" header="Average Predicted Journeys" bars={predictJourneys}/>
                             </div>
-                            
-                            <div className="center-grid2">
-                        
-                                <div className="inner">
-                            
-                                    <div className="cell">
-                                        <h2>Before</h2>
-                                        <div className="Chart">
-                                            <BarChart chartId="1" header="Journeys" bars={beforeJourneys}/>
-                                        </div>
-                                        <div className="Chart">
-                                            <BarChart chartId="2" header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
-                                        </div>
-                                    </div>
-                                    <div className="cell">
-                                        <h2>After</h2>
-                                        <div className="Chart">
-                                            <BarChart chartId="3" header="Average Predicted Journeys" bars={predictJourneys}/>
-                                        </div>
-                                        <div className="Chart">
-                                            <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="Chart">
+                                <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
+                </div>
+            </div>
             }
         </>
     )
