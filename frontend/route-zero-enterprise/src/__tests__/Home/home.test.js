@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
 import { beforeTests } from '../View/view.test'
+import 'jest-canvas-mock';
 
 beforeTests()
 

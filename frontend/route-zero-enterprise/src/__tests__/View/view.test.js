@@ -2,10 +2,13 @@ import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { View } from '../../pages/View/View'
 import { getCsvFile } from '../App/app.test'
+import 'jest-canvas-mock';
+import {Chart} from 'chart.js/auto'
 
 export function beforeTests() {
   beforeEach(() => {
     jest.resetAllMocks();
+    // Mocks window.matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockImplementation(query => ({
@@ -19,6 +22,12 @@ export function beforeTests() {
         dispatchEvent: jest.fn(),
       })),
     });
+    // Mocks chart creation
+    jest.mock('chart.js/auto', ()=> {
+      return {
+          Chart : jest.fn().mockImplementation((ctx, config) => { return {} })
+      }
+  });
   })
 }
 

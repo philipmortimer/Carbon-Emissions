@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import App from '../../App'
 import { beforeTests } from '../View/view.test'
+import 'jest-canvas-mock';
 
 beforeTests()
 
