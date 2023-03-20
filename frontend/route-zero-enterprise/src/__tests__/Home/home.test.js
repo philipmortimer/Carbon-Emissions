@@ -3,6 +3,10 @@ import { Home } from '../../pages/Home/Home'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import '@testing-library/jest-dom'
+import { beforeTests } from '../View/view.test'
+import 'jest-canvas-mock';
+
+beforeTests()
 
 describe('File upload tests', () => {
   test('File is null when no actions have been performed', () => {
