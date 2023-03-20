@@ -2,6 +2,9 @@ import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import App from '../../App'
+import { beforeTests } from '../View/view.test'
+
+beforeTests()
 
 describe('App tests', () => {
   test('Check website document title', () => {

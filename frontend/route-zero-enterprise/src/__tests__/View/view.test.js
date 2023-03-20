@@ -3,6 +3,29 @@ import '@testing-library/jest-dom'
 import { View } from '../../pages/View/View'
 import { getCsvFile } from '../App/app.test'
 
+export function beforeTests() {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(), // Deprecated
+        removeListener: jest.fn(), // Deprecated
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
+  })
+}
+
+beforeTests()
+
+
+
 describe("Policy Selector Aesthetics", () => {
     test("Policy Selector Categories all appear in view page", async () => {
         render(viewComponent(exampleFile.file, exampleFile.apiResponse))
