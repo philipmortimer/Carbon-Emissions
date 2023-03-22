@@ -28,13 +28,13 @@ public class FileUploadService {
     /**
      * Uploads the CSV string and sends it to the route zero backend for processing.
      * Returns the API response. If the CSV file is invalid, an error message is returned.
-     * @param csvString The string containing the CSV file.
+     * @param inputString The string containing the CSV/JSON file.
      * @return The API response (or an error message if the string is determined to be invalid).
      */
-    public APIResponse upload(String csvString){
+    public APIResponse upload(String inputString){
         /* Converts csv file to line of Strings, where each line is a row in the file.
         Sends the data to the process method which handles validation and API response. */
-        return process(csvString);
+        return process(inputString);
     }
 
     /**
@@ -53,7 +53,7 @@ public class FileUploadService {
      * Otherwise, a String error message will be returned
      * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'submarine'")).
      */
-    private static Optional<String> checkForErrors(List<String> lines) {
+    private static Optional<String> checkForCSVErrors(List<String> lines) {
         // Performs null checks. This probably isn't necessary but is safe.
         if (lines == null || lines.stream().anyMatch(x -> x == null)) {
             return Optional.of("Unexpected null error. This is likely because the file provided is empty.");
@@ -154,7 +154,7 @@ public class FileUploadService {
             warnings = getWarnings(lines);
 
             // Checks for critical errors in CSV file
-            Optional<String> errors = checkForErrors(lines);
+            Optional<String> errors = checkForCSVErrors(lines);
             if (errors.isPresent()) {
                 return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
             }
