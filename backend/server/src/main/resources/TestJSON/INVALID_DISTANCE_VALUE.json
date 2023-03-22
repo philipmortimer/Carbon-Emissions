@@ -1,0 +1,58 @@
+[
+  {
+    "origin": "Paddington",
+    "destination": "Bristol Parkway",
+    "distanceKm": "179.08",
+    "departureTime": "2022-10-14T17:48:00.000Z",
+    "arrivalTime": "2022-10-14T19:01:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "",
+    "destination": "",
+    "distanceKm": "0.002",
+    "departureTime": "2022-10-14T19:01:00.000Z",
+    "arrivalTime": "2022-10-14T19:01:03.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Bristol Parkway",
+    "destination": "Bristol Temple Meads",
+    "distanceKm": "9.536",
+    "departureTime": "2022-10-14T19:16:00.000Z",
+    "arrivalTime": "2022-10-14T19:28:00.000Z",
+    "transport": "train"
+  },
+  {
+    "origin": "Bristol Bond St",
+    "destination": "Bristol Airport",
+    "distanceKm": "-15.15563166",
+    "departureTime": "2022-10-27T02:30:00.000Z",
+    "arrivalTime": "2022-10-27T02:50:00.000Z",
+    "transport": "bus"
+  },
+  {
+    "origin": "",
+    "destination": "Bristol Airport (BRS)",
+    "distanceKm": "0",
+    "departureTime": "2022-10-27T02:50:00.000Z",
+    "arrivalTime": "2022-10-27T02:57:10.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Paris Charles de Gaulle Airport (CDG)",
+    "destination": "",
+    "distanceKm": "0.486",
+    "departureTime": "2022-10-27T08:16:01.000Z",
+    "arrivalTime": "2022-10-27T08:21:59.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Tour de Contr√¥le / Parc Pr",
+    "destination": "A√©roport CDG 1 (Terminal 3)",
+    "distanceKm": "1.235",
+    "departureTime": "2022-10-27T08:22:00.000Z",
+    "arrivalTime": "2022-10-27T08:24:00.000Z",
+    "transport": "train"
+  }
+]

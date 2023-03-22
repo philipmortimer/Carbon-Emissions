@@ -28,13 +28,13 @@ public class FileUploadService {
     /**
      * Uploads the CSV string and sends it to the route zero backend for processing.
      * Returns the API response. If the CSV file is invalid, an error message is returned.
-     * @param csvString The string containing the CSV file.
+     * @param inputString The string containing the CSV/JSON file.
      * @return The API response (or an error message if the string is determined to be invalid).
      */
-    public APIResponse upload(String csvString){
+    public APIResponse upload(String inputString){
         /* Converts csv file to line of Strings, where each line is a row in the file.
         Sends the data to the process method which handles validation and API response. */
-        return process(csvString);
+        return process(inputString);
     }
 
     /**
@@ -53,7 +53,7 @@ public class FileUploadService {
      * Otherwise, a String error message will be returned
      * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'submarine'")).
      */
-    private static Optional<String> checkForErrors(List<String> lines) {
+    private static Optional<String> checkForCSVErrors(List<String> lines) {
         // Performs null checks. This probably isn't necessary but is safe.
         if (lines == null || lines.stream().anyMatch(x -> x == null)) {
             return Optional.of("Unexpected null error. This is likely because the file provided is empty.");
@@ -96,6 +96,64 @@ public class FileUploadService {
                         " (e.g. 1.2).");
             }
         }
+        return Optional.empty(); // No critical errors
+    }
+
+    private static Optional<String> checkForJSONErrors(List<Map<String,Object>> jsonFile) {
+        // Checks that file is not empty.
+        if (jsonFile.isEmpty()) {
+            return Optional.of("Empty CSV File provided.");
+        }
+        // Checks that each object is include all required keys and validates distanceKm and transport values
+        List<Integer> errorObjNo = new ArrayList<>();
+        List<String> invalidValues = new ArrayList<>();
+        for (int i = 0; i < jsonFile.size(); i++) {
+            var registeredError = false;
+            var jsonObject = jsonFile.get(i);
+            // Validates object key set
+            if (!jsonObject.keySet().equals(Set.of("origin","destination","distanceKm","departureTime","arrivalTime","transport"))) {
+                errorObjNo.add(i+1);
+                registeredError = true;
+            }
+            // Checks that transport is one of the predefined valid types.
+            if (jsonObject.containsKey("transport")) {
+                String transportType = (String) jsonObject.get("transport");
+                if (!FileFormat.VALID_TRAVEL_TYPES.contains(transportType)) {
+                    if (!registeredError) {
+                        errorObjNo.add(i+1);
+                        registeredError = true;
+                    }
+                    invalidValues.add("{TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
+                            "Transport type '" + transportType + "' is invalid.");
+                }
+            }
+            // Checks that distanceKm is a real number greater than 0
+            if (jsonObject.containsKey("distanceKm")) {
+                try {
+                    float dist = Float.parseFloat((String) jsonObject.get("distanceKm"));
+                    if (dist <= 0) {
+                        if (!registeredError) {
+                            errorObjNo.add(i+1);
+                            registeredError = true;
+                        }
+                        invalidValues.add("[DISTANCE] Object number " + (i + 1) + " contains and invalid distance value. " +
+                                "Distance must be positive (strictly greater than zero). Distance found: " + dist);
+                    }
+                } catch (NumberFormatException e) {
+                    if (!registeredError) {
+                        errorObjNo.add(i+1);
+                        registeredError = true;
+                    }
+                    System.out.println("ERROR DISTANCE");
+                    invalidValues.add("[DISTANCE] Object number " + (i + 1) + " of file. Distance must be a valid real number (e.g. 1.2).");
+                }
+            }
+        }
+        if (!errorObjNo.isEmpty()) {
+            return Optional.of("Please make sure the JSON file you submitted is formatted properly. Errors found in objects number "
+                    + errorObjNo + " " + (invalidValues.isEmpty() ? "" : invalidValues));
+        }
+        System.out.println(errorObjNo);
         return Optional.empty(); // No critical errors
     }
 
@@ -147,6 +205,13 @@ public class FileUploadService {
             // JSON File: Attempt to parse the file as JSON
             ObjectMapper objectMapper = new ObjectMapper();
             List<Map<String, Object>> jsonFile = objectMapper.readValue(inputFile, new TypeReference<List<Map<String, Object>>>(){});
+
+            // Checks for critical errors in JSON file
+            Optional<String> errors = checkForJSONErrors(jsonFile);
+            if (errors.isPresent()) {
+                return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
+            }
+
             journeys = processJSON(jsonFile, journeys);
         } catch (JsonProcessingException e) {
             // CSV File
@@ -154,7 +219,7 @@ public class FileUploadService {
             warnings = getWarnings(lines);
 
             // Checks for critical errors in CSV file
-            Optional<String> errors = checkForErrors(lines);
+            Optional<String> errors = checkForCSVErrors(lines);
             if (errors.isPresent()) {
                 return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
             }
@@ -186,7 +251,7 @@ public class FileUploadService {
 
     // Processes the JSON file and returns the journeys submitted
     private StringBuilder processJSON(List<Map<String, Object>> jsonFile, StringBuilder journeys) {
-        System.out.println(jsonFile);
+        // Gets the transport types and distance travelled
         for (Map<String, Object> map : jsonFile) {
             String transportType = (String) map.get("transport");
             Float distanceKm = Float.parseFloat((String) map.get("distanceKm"));
