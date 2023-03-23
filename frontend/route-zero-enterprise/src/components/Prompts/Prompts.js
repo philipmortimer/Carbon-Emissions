@@ -12,8 +12,8 @@ export const PromptSchemaCSV = (props) => {
   const handleShow = () => setShown(true)
 
   return (
-    <div className={`${props.className}`}>
-      <Button className={`${props.className}-button`} variant='primary' onClick={handleShow}>
+    <>
+      <Button className={`${props.className}-button`} variant='secondary' onClick={handleShow}>
         CSV Schema
       </Button>
 
@@ -51,6 +51,6 @@ export const PromptSchemaCSV = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   )
 }
