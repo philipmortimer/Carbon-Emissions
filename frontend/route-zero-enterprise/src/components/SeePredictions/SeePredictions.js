@@ -14,7 +14,7 @@ import { InvalidFileModal } from '../InvalidFileModal/InvalidFileModal.js'
 function checkValidity (state, action) {
   // TODO: Note this code here causes a console warning. This needs to be fixed in future!
   if (action.f !== null) {
-    if (action.f.name.split('.')[1] !== 'csv' && action.f.name.split('.')[1] !== 'json') {
+    if (action.f.name.split('.')[1] !== 'csv' && action.f.name.split('.')[1].toLowerCase() !== 'json') { 
       action.setV('invalid_extension')
     } else {
       action.setV('valid')
