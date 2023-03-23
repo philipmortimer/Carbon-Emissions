@@ -5,6 +5,7 @@ import {
     transform, predictJourneyBars, emissionBarsAfter
 } from '../../helpers/chart'
 import { emptyFile, simpleFile, exampleFile } from '../View/view.test'
+import 'jest-canvas-mock';
 
 describe("Tally List Tests", () => {
     test("Empty list returns empty set", () => {
