@@ -41,7 +41,7 @@
   },
   {
     "origin": "Paris Charles de Gaulle Airport (CDG)",
-    "destination": "",
+    "destination": "9",
     "distanceKm": "0.486",
     "departureTime": "2022-10-27T08:16:01.000Z",
     "arrivalTime": "2022-10-27T08:21:59.000Z",

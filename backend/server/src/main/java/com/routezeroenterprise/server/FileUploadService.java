@@ -102,7 +102,7 @@ public class FileUploadService {
     private static Optional<String> checkForJSONErrors(List<Map<String,Object>> jsonFile) {
         // Checks that file is not empty.
         if (jsonFile.isEmpty()) {
-            return Optional.of("Empty CSV File provided.");
+            return Optional.of("Empty JSON File provided.");
         }
         // Checks that each object is include all required keys and validates distanceKm and transport values
         List<Integer> errorObjNo = new ArrayList<>();
@@ -123,7 +123,8 @@ public class FileUploadService {
                         errorObjNo.add(i+1);
                         registeredError = true;
                     }
-                    invalidValues.add("{TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
+                    System.out.println("ERROR DISTANCE" + transportType);
+                    invalidValues.add("[TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
                             "Transport type '" + transportType + "' is invalid.");
                 }
             }
