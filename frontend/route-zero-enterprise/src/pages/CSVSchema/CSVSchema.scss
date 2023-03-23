@@ -1,0 +1,31 @@
+.custom-container{
+    margin-top: 0;
+    //padding: 0 4rem 0 4rem;
+}
+
+.middle-grid{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 8.3rem);
+}
+
+.section{
+    padding-top:2rem;
+    padding-left: 20%;
+    padding-right: 20%;
+   
+}
+.sub-section{
+    padding-top:0.2rem;
+    padding-left: 5%;
+    padding-right: 5%;
+   
+}
+.highlight{
+    color: #A52A2A;
+}
+ul {
+    list-style-type: none;
+   }
+

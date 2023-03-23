@@ -1,183 +1,86 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts'
+import { CSVSchema } from '../../pages/CSVSchema/CSVSchema'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom'
+import { DownloadButton } from '../../components/Download/DownloadButton'
 
-describe('CSV Scheme Component Tests', () => {
-  test('CSV Schema properly configured when button has not been pressed to open it', () => {
-    render(<PromptSchemaCSV />)
+describe('PromptSchemaCSV Component Tests', () => {
+  test('CSV Schema button exists', () => {
+    render(
+      <>
+        <Router>
+          <PromptSchemaCSV />
+          <Routes>
+            <Route path='/schema' element={<p>gone to schema</p>} />
+          </Routes>
+        </Router>
+      </>)
     // Ensures button exists but no other info is visible
     expect(screen.getAllByText('CSV Schema').length).toBe(1)
     expect(screen.getAllByText('CSV Schema')[0].disabled).toBe(false)
-    // Tests that line of schema info is not visible
-    expect(screen.queryByText('origin,destination,distanceKm,departureTime,arrivalTime,transport')).not.toBeInTheDocument()
   })
-  test('CSV Scheme displays correct transport options', async () => {
-    render(<PromptSchemaCSV />)
-    userEvent.click(screen.getAllByText('CSV Schema')[0])
-    userEvent.click(screen.getAllByText('View transport options')[0])
-    // Waits for state to update
-    await waitFor(() => {
-      expect(screen.getByText('a journey taken by foot;')).toBeInTheDocument()
-    })
-    // Tests that all essential schema info is present.
-    testSchemaInfoPresent()
-    // Tests that drop down view of travel options is displayed
-    expect(screen.getAllByText('a journey taken by foot;').length).toBe(1)
-    expect(screen.getAllByText('foot').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by bicycle;').length).toBe(1)
-    expect(screen.getAllByText('bike').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by electric scooter;').length).toBe(1)
-    expect(screen.getAllByText('electricScooter').length).toBe(1)
-
-    expect(screen.getAllByText('a journey driven in a petrol car;').length).toBe(1)
-    expect(screen.getAllByText('petrolCar').length).toBe(1)
-
-    expect(screen.getAllByText('a journey driven in a diesel car;').length).toBe(1)
-    expect(screen.getAllByText('dieselCar').length).toBe(1)
-
-    expect(screen.getAllByText('a journey driven in a hybrid car;').length).toBe(1)
-    expect(screen.getAllByText('hybridCar').length).toBe(1)
-
-    expect(screen.getAllByText('a journey driven in an electric car;').length).toBe(1)
-    expect(screen.getAllByText('electricCar').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by taxi;').length).toBe(1)
-    expect(screen.getAllByText('taxi').length).toBe(1)
-
-    expect(screen.getAllByText('a journey driven by bus;').length).toBe(1)
-    expect(screen.getAllByText('bus').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by coach;').length).toBe(1)
-    expect(screen.getAllByText('coach').length).toBe(1)
-
-    expect(screen.getAllByText('a journey on the Eurostar;').length).toBe(1)
-    expect(screen.getAllByText('eurostar').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by light-rail;').length).toBe(1)
-    expect(screen.getAllByText('lightRail').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by tram;').length).toBe(1)
-    expect(screen.getAllByText('tram').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by subway;').length).toBe(1)
-    expect(screen.getAllByText('subway').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by plane;').length).toBe(1)
-    expect(screen.getAllByText('flight').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by plane;').length).toBe(1)
-    expect(screen.getAllByText('flight').length).toBe(1)
-
-    expect(screen.getAllByText('a journey by ferry;').length).toBe(1)
-    expect(screen.getAllByText('ferry').length).toBe(1)
-  })
-  test('CSV Schema displayed when opened', () => {
-    render(<PromptSchemaCSV />)
-    // Clicks button to open schema and transport options
-    userEvent.click(screen.getAllByText('CSV Schema')[0])
-    testSchemaInfoPresent()
-    // Checks that transport options are not displayed by default.
-    expect(screen.queryByText('a journey taken by foot;')).not.toBeInTheDocument()
-    expect(screen.queryByText('foot')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by bicycle;')).not.toBeInTheDocument()
-    expect(screen.queryByText('bike')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by electric scooter;')).not.toBeInTheDocument()
-    expect(screen.queryByText('electricScooter')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey driven in a petrol car;')).not.toBeInTheDocument()
-    expect(screen.queryByText('petrolCar')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey driven in a diesel car;')).not.toBeInTheDocument()
-    expect(screen.queryByText('dieselCar')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey driven in a hybrid car;')).not.toBeInTheDocument()
-    expect(screen.queryByText('hybridCar')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey driven in an electric car;')).not.toBeInTheDocument()
-    expect(screen.queryByText('electricCar')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by taxi;')).not.toBeInTheDocument()
-    expect(screen.queryByText('taxi')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey driven by bus;')).not.toBeInTheDocument()
-    expect(screen.queryByText('bus')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by coach;')).not.toBeInTheDocument()
-    expect(screen.queryByText('coach')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey on the Eurostar;')).not.toBeInTheDocument()
-    expect(screen.queryByText('eurostar')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by light-rail;')).not.toBeInTheDocument()
-    expect(screen.queryByText('lightRail')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by tram;')).not.toBeInTheDocument()
-    expect(screen.queryByText('tram')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by subway;')).not.toBeInTheDocument()
-    expect(screen.queryByText('subway')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by plane;')).not.toBeInTheDocument()
-    expect(screen.queryByText('flight')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by plane;')).not.toBeInTheDocument()
-    expect(screen.queryByText('flight')).not.toBeInTheDocument()
-
-    expect(screen.queryByText('a journey by ferry;')).not.toBeInTheDocument()
-    expect(screen.queryByText('ferry')).not.toBeInTheDocument()
-  })
-  test('Closing schema only displays button', async () => {
-    render(<PromptSchemaCSV />)
-    // Opens schema then closes it
-    await waitFor(() => {
-      userEvent.click(screen.getByText('CSV Schema'))
-      userEvent.click(screen.getByText('Close'))
-    })
-    // Checks that modal is no longer visible
-    expect(global.window.document.getElementsByClassName('fade modal-backdrop').length).toBe(1)
-    expect(global.window.document.getElementsByClassName('fade modal-backdrop show').length).toBe(0)
-    // Gets modal component (as there are now two CSV Schema texts) and button
-    let modal = null
-    let modalsFound = 0
-    let btn = null
-    let btnsFound = 0
-    const schemaList = screen.getAllByText('CSV Schema')
-    for (let i = 0; i < schemaList.length; i++) {
-      if (schemaList[i].tagName === 'DIV') {
-        modalsFound++
-        modal = schemaList[i]
-      }
-      if (schemaList[i].tagName === 'BUTTON') {
-        btnsFound++
-        btn = schemaList[i]
-      }
-    }
-    expect(modalsFound).toBe(1)
-    expect(btnsFound).toBe(1)
-    expect(schemaList.length).toBe(2)
-    // Checks that button is visible and nothing else
-    console.log(modal.className)
-
-    // expect(modal).not.toBeVisible();
-    expect(btn.disabled).toBe(false)
+  test('CSV Schema pressed takes user to schema page', async () => {
+    render(
+      <>
+        <Router>
+          <PromptSchemaCSV />
+          <Routes>
+            <Route path='/schema' element={<p>gone to schema</p>} />
+          </Routes>
+        </Router>
+      </>)
+    // Clicks schema button
+    userEvent.click(screen.getByText("CSV Schema"))
+    expect(screen.queryByText("gone to schema")).toBeInTheDocument()
   })
 })
 
-/**
- * Tests that general schema text is visible
- */
-function testSchemaInfoPresent () {
-  // Ensures text content is correctly displayed
-  expect(screen.getAllByText('CSV Schema').length).toBe(2) // One for button, one for box title
-  expect(screen.getAllByText('Line format').length).toBe(1)
-  expect(screen.getAllByText('transport').length).toBe(1)
-  expect(screen.getAllByText('Please format each line of your CSV as follows').length).toBe(1)
-  expect(screen.getAllByText('origin,destination,distanceKm,departureTime,arrivalTime,transport').length).toBe(1)
-  expect(screen.getAllByText('View transport options').length).toBe(1)
-  expect(screen.getAllByText('Close').length).toBe(1)
-}
+describe("CSVSchema component tests", () => {
+  test("Aesthetics of csv schema", () => {
+    render(<CSVSchema />)
+    // Tests general aesthetics of component
+    expect(screen.getByText("CSV Schema")).toBeInTheDocument()
+    expect(screen.getByText("Line format")).toBeInTheDocument()
+    expect(screen.getByText("Please format each line of your CSV as follows:")).toBeInTheDocument()
+    expect(screen.getByText("origin,destination,distanceKm,departureTime,arrivalTime,transport")).toBeInTheDocument()
+    expect(screen.getByText("Download example")).toBeInTheDocument()
+    expect(screen.getByText("Download")).toBeInTheDocument()
+    expect(screen.getByText("Origin & Destination")).toBeInTheDocument()
+    expect(screen.getByText("These are the name of the source and destination of your travel journey. Please include these names, but you could also opt to omit them. For more information, please refer to the example above.")).toBeInTheDocument()
+    expect(screen.getByText("Distance")).toBeInTheDocument()
+    expect(screen.getByText("This is the number of kilometers you travelled between source and destination. This information could easily be found through a map application such as Google Maps.")).toBeInTheDocument()
+    expect(screen.getByText("Arrival & Departure time")).toBeInTheDocument()
+    expect(screen.getByText("Please include the time in the following format yyyy-mm-ddThh:mm:ss.000Z, where yyyy stands for year, mm stands for month, dd stands for day, hh stands for hour, mm stands for minutes and ss stands for seconds, e.g. 2022-10-14T17:48:00.000Z.")).toBeInTheDocument()
+    expect(screen.getByText("Transport")).toBeInTheDocument()
+    expect(screen.getByText("To include the type of transportation used, please pick one from the following dictionary and use the exact spelling seen bellow:")).toBeInTheDocument()
+    expect(screen.getByText("foot")).toBeInTheDocument()
+    expect(screen.getByText("dieselCar")).toBeInTheDocument()
+    expect(screen.getByText("bus")).toBeInTheDocument()
+    expect(screen.getByText("tram")).toBeInTheDocument()
+    expect(screen.getByText("bike")).toBeInTheDocument()
+    expect(screen.getByText("hybridCar")).toBeInTheDocument()
+    expect(screen.getByText("coach")).toBeInTheDocument()
+    expect(screen.getByText("subway")).toBeInTheDocument()
+    expect(screen.getByText("electricScooter")).toBeInTheDocument()
+    expect(screen.getByText("electricCar")).toBeInTheDocument()
+    expect(screen.getByText("eurostar")).toBeInTheDocument()
+    expect(screen.getByText("flight")).toBeInTheDocument()
+    expect(screen.getByText("petrolCar")).toBeInTheDocument()
+    expect(screen.getByText("taxi")).toBeInTheDocument()
+    expect(screen.getByText("lightRail")).toBeInTheDocument()
+    expect(screen.getByText("lightRail")).toBeInTheDocument()
+  })
+})
+
+describe("Download button for CSV schema tests", () => {
+  test("Looks of button", () => {
+    render(<DownloadButton />)
+    expect(screen.getByText("Download")).toBeInTheDocument()
+  })
+})

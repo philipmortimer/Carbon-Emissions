@@ -17,6 +17,7 @@ export const Hero = (props) => {
           <Nav className='me-auto'>
             <Link className='nav-link' to='/'>Upload</Link>
             <Link className='nav-link' id={'view-link' + (props.response === null ? '-disabled' : '')} to={props.response === null ? '/' : '/view'}>View</Link>
+            
           </Nav>
         </Container>
       </Navbar>
