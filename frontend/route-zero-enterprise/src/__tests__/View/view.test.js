@@ -2,6 +2,38 @@ import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { View } from '../../pages/View/View'
 import { getCsvFile } from '../App/app.test'
+import 'jest-canvas-mock';
+import {Chart} from 'chart.js/auto'
+
+export function beforeTests() {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    // Mocks window.matchMedia
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(), // Deprecated
+        removeListener: jest.fn(), // Deprecated
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
+    // Mocks chart creation
+    jest.mock('chart.js/auto', ()=> {
+      return {
+          Chart : jest.fn().mockImplementation((ctx, config) => { return {} })
+      }
+  });
+  })
+}
+
+beforeTests()
+
+
 
 describe("Policy Selector Aesthetics", () => {
     test("Policy Selector Categories all appear in view page", async () => {

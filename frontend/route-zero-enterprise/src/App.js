@@ -10,8 +10,6 @@ import { View } from './pages/View/View.js'
 import { Hero } from './components/Hero/Hero.js'
 import { Content } from './components/Content/Content.js'
 
-import './style.scss';
-
 // import Button from 'react-bootstrap/Button';
 
 function App () {
