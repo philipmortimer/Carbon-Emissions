@@ -1,0 +1,157 @@
+$rz_green: #00DF74;
+$span_width: 0.75rem;
+$span_height: 0.35rem;
+
+.center-grid {
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.center-grid2 {
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  padding: 5px;
+}
+
+.inner{
+  display: grid;
+}
+
+.outer{
+  display: grid;
+}
+
+@media (min-width: 1230px) {
+  .inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 1230px){
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 800px) { 
+  .outer{
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .outer{
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px){
+  .center-grid {
+    padding: 0px;
+  }
+  .cell{
+    margin: 0px;
+  }
+}
+
+#h2 {
+  padding: 15px;
+  font-family: unset;
+  font-weight: 675;
+  color: rgb(80, 80, 80);
+}
+
+.cell {
+  display:grid;
+  border-radius: 15px;
+  padding: 0.5rem;
+  margin: 0 auto;
+}
+
+.Chart {
+  display: block;
+  height: 18rem;
+  margin: 5px;
+  padding: 5px;
+  width: 400px;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.policy{
+
+  .list-group-item{
+    display: grid;
+    grid-template-columns: 1.5rem 1fr 0fr;
+    height: 3.5rem;
+    padding: 1rem 0 1rem 0.5rem;
+  }
+
+  @media screen and (max-width: 1040px) and (min-width: 800px){
+    .list-group-item{
+      height: 3.5rem;
+      padding: 1rem 0 1rem 0.5rem;
+    }
+
+    p{
+      margin-top: -0.75rem;
+    }
+  }
+
+  @media screen and (max-width: 1345px) and (min-width: 1230px) {
+    .list-group-item{
+      height: 3.5rem;
+      padding: 1rem 0 1rem 0.5rem;
+    }
+
+    p{
+      margin-top: -0.75rem;
+    }
+  }
+
+  min-width: 200px;
+  margin: 0 auto;
+
+  .form-check-input {
+    margin-top: 0.2rem;
+    width: 1rem;
+  }
+
+  .policyOption {
+    display:inline-flex;
+  }
+
+  span{
+    background-color: white;
+    padding: $span_height $span_width $span_height $span_width;
+    border-radius: 1.4rem;
+    border-color: $rz-green;
+    color: $rz-green;
+    border-style: solid;
+    border-width: 0.15rem;
+    margin: 10px;
+  }
+
+  span.true{
+    background-color: $rz_green;
+    color: white;
+  }
+}
+
+.chart-overlay{
+  position:absolute;
+  margin-top: 8.0rem;
+  margin-left: 2.5rem;
+  color:rgb(156, 156, 156);
+  font-size: 2rem;
+}
+
+.me-2{
+  height: 2.65rem;
+}
