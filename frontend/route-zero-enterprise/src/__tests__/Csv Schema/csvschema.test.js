@@ -8,6 +8,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
+import { DownloadButton } from '../../components/Download/DownloadButton'
 
 describe('PromptSchemaCSV Component Tests', () => {
   test('CSV Schema button exists', () => {
@@ -74,5 +75,12 @@ describe("CSVSchema component tests", () => {
     expect(screen.getByText("taxi")).toBeInTheDocument()
     expect(screen.getByText("lightRail")).toBeInTheDocument()
     expect(screen.getByText("lightRail")).toBeInTheDocument()
+  })
+})
+
+describe("Download button for CSV schema tests", () => {
+  test("Looks of button", () => {
+    render(<DownloadButton />)
+    expect(screen.getByText("Download")).toBeInTheDocument()
   })
 })
