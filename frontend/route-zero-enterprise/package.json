@@ -10,7 +10,7 @@
     "chart.js": "^4.0.1",
     "file-api": "^0.10.4",
     "i": "^0.3.7",
-    "jest-canvas-mock": "^2.4.0",
+    "jest-canvas-mock": "^2.5.0",
     "node-sass": "^7.0.3",
     "npm": "^9.6.2",
     "react": "^18.2.0",
