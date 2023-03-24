@@ -114,6 +114,7 @@ public class FileUploadService {
             if (!jsonObject.keySet().equals(Set.of("origin","destination","distanceKm","departureTime","arrivalTime","transport"))) {
                 errorObjNo.add(i+1);
                 registeredError = true;
+                invalidValues.add("[KEYS] Object number " + (i + 1) + " contains the wrong number of keys.");
             }
             // Checks that transport is one of the predefined valid types.
             if (jsonObject.containsKey("transport")) {
@@ -123,7 +124,7 @@ public class FileUploadService {
                         errorObjNo.add(i+1);
                         registeredError = true;
                     }
-                    System.out.println("ERROR DISTANCE" + transportType);
+                    System.out.println("ERROR DISTANCE");
                     invalidValues.add("[TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
                             "Transport type '" + transportType + "' is invalid.");
                 }

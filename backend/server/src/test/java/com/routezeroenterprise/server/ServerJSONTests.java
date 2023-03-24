@@ -60,6 +60,7 @@ public class ServerJSONTests {
      */
     private static final String JSON_INVALID_KEYS = loadTextFileTest("src/main/resources/TestJSON/INVALID_KEYS.json");
 
+
     /**
      * A test helper function that loads a file but handles any IO errors that may be thrown.
      * @param path The file path.
@@ -116,14 +117,14 @@ public class ServerJSONTests {
     // void uploadInvalidHeaderCSVShouldFail() {
     //     assertTrue(fs.upload(CSV_INVALID_HEADER).getResponse().contains("First line of JSON file must be heading."));
     // }
-    // /**
-    //  * <b>INVALID FIELD NUMBER JSON TEST</b><br/>
-    //  * Tests that an error is thrown if JSON file with a row with invalid number of fields is passed.
-    //  */
-    // @Test
-    // void uploadInvalidFieldNOCSVShouldFail() {
-    //     assertTrue((fs.upload(CSV_INVALID_FIELD_NO).getResponse().contains("Line 4 should have exactly 5 fields. I.E. it should have exactly 5 commas.Here is the content of the invalid line: Bristol Temple Meads,9.536,2022-10-14T19:16:00.000Z,train")));
-    // }
+    /**
+     * <b>INVALID FIELD NUMBER JSON TEST</b><br/>
+     * Tests that an error is thrown if JSON file with a row with invalid number of fields is passed.
+     */
+    @Test
+    void uploadInvalidKeysJSONShouldFail() {
+        assertTrue((fs.upload(JSON_INVALID_KEYS).getResponse().contains("[KEYS] Object number 1 contains the wrong number of keys.")));
+    }
     /**
      * <b>INVALID TRANSPORT TYPE JSON TEST</b><br/>
      * Tests that an error is thrown if a JSON file with an invalid transport type is passed.
