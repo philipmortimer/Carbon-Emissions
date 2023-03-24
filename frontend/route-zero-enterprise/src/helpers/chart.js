@@ -76,7 +76,30 @@ export const getTransportsCSV = (text) => {
   return t
 }
 
-export const journeyBars = (csvBlob) => {
+export const getTransportsJSON = (text) => {
+  /* Converts text into transports using the following transformations:
+    - Splits it by {}
+    - Splits the record by " and accesses the transport method (last second to last element of record)
+  */
+  const t = text.split(/}/).map(x => x.split('"').at(-2))
+  return t
+}
+
+export const journeyBarsCVS = (csvBlob) => {
+
+  return csvBlob
+    .text()
+    .then((text) => {
+      const transports = getTransportsJSON(text)
+      const uniqueTransports = listToSet(transports)
+      const transportTally = tallyList(transports) // the first line is not a travel type
+      const pairs = mapToPairs(uniqueTransports, transportTally)
+      return pairs
+    })
+}
+
+export const journeyBarsJSON = (csvBlob) => {
+
   return csvBlob
     .text()
     .then((text) => {
@@ -88,12 +111,12 @@ export const journeyBars = (csvBlob) => {
     })
 }
 
-// maps transport methods in CSV to records in the response
-export const emissionBarsBefore = (csvBlob, response) => {
+// maps transport methods in CVS to records in the response
+export const emissionBarsBeforeCVS = (csvBlob, response) => {
   return csvBlob
     .text()
     .then((text) => {
-      const transports = getTransportsCSV(text)
+      const transports = getTransportsCVS(text)
       const uniqueTransports = listToSet(transports)
       const co2Tally = {}
       uniqueTransports.map(x => {
@@ -108,6 +131,28 @@ export const emissionBarsBefore = (csvBlob, response) => {
       return transform(pairs, EMISSION_LOWER_LIM)
     })
 }
+
+// maps transport methods in JSON to records in the response
+export const emissionBarsBeforeJSON = (csvBlob, response) => {
+  return csvBlob
+    .text()
+    .then((text) => {
+      const transports = getTransportsJSON(text)
+      const uniqueTransports = listToSet(transports)
+      const co2Tally = {}
+      uniqueTransports.map(x => {
+        co2Tally[x] = 0
+        return x
+      }) // fresh map
+      transports.map((x, i) => {
+        co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i]['currentCarbonKgCo2e'] // handles undefined
+        return x
+      })
+      const pairs = mapToPairs(uniqueTransports, co2Tally)
+      return transform(pairs, EMISSION_LOWER_LIM)
+    })
+}
+
 
 // Calculates updated emissions for each transport method by multiplying probability of it occuring
 // with the emissions it would induce
