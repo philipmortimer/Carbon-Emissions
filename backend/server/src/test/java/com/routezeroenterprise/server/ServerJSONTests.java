@@ -108,7 +108,9 @@ public class ServerJSONTests {
     @Test
     void uploadInvalidKeysJSONShouldFail() {
         assertTrue((fs.upload(JSON_INVALID_KEYS).getResponse().contains("[KEYS] Object number 1 contains the wrong number of keys.")));
-    }
+        assertTrue((fs.upload(JSON_INVALID_KEYS).getResponse().contains("[KEYS] Object number 3 contains the wrong number of keys.")));
+    }   
+
     /**
      * <b>INVALID TRANSPORT TYPE JSON TEST</b><br/>
      * Tests that an error is thrown if a JSON file with an invalid transport type is passed.

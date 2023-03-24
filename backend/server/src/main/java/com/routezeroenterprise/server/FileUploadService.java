@@ -262,7 +262,6 @@ public class FileUploadService {
                     String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
 
         }
-        System.out.println(journeys);
         return journeys;
     }
 
@@ -283,7 +282,6 @@ public class FileUploadService {
             journeys = journeys.append((journeys.isEmpty() ? "" : ",") +
                     String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
         }
-        System.out.println(journeys);
         return journeys;
     }
 
