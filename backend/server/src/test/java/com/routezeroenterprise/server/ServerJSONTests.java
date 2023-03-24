@@ -34,17 +34,9 @@ public class ServerJSONTests {
      * The contents of an empty json file ('INVALID_EMPTY.json').
      */
     private static final String JSON_EMPTY = loadTextFileTest("src/main/resources/TestJSON/INVALID_EMPTY.json");
-    // /**
-    //  * The contents of a json file with an invalid header ('INVALID_HEADER.json').
-    //  */
-    // private static final String JSON_INVALID_HEADER = loadTextFileTest("src/main/resources/TestJSON/INVALID_HEADER.json");
-    // /**
-    //  * The contents of a json file with invalid number of fields ('INVALID_FIELD_NO.json').
-    //  */
-    // private static final String JSON_INVALID_FIELD_NO = loadTextFileTest("src/main/resources/TestJSON/INVALID_FIELD_NO.json");
-    // /**
-    //  * The contents of a json file with an invalid transport type ('INVALID_TRANSPORT.json').
-    //  */
+    /**
+     * The contents of a json file with an invalid transport type ('INVALID_TRANSPORT.json').
+     */
     private static final String JSON_INVALID_TRANSPORT = loadTextFileTest("src/main/resources/TestJSON/INVALID_TRANSPORT.json");
     /**
      * The contents of a json file with an invalid distance value ('INVALID_DISTANCE_VALUE.json').
@@ -54,7 +46,6 @@ public class ServerJSONTests {
      * The contents of a json file with an invalid distance type ('INVALID_DISTANCE_TYPE.json').
      */
     private static final String JSON_INVALID_DISTANCE_TYPE = loadTextFileTest("src/main/resources/TestJSON/INVALID_DISTANCE_TYPE.json");
-
     /**
      * The contents of a json file with an invalid key ('INVALID_KEYS.json').
      */
@@ -109,14 +100,7 @@ public class ServerJSONTests {
     void uploadEmptyJSONShouldFail() {
         assertTrue(fs.upload(JSON_EMPTY).getResponse().contains("Empty JSON File provided."));
     }
-    // /**
-    //  * <b>INVALID HEADER JSON TEST</b><br/>
-    //  * Tests that an error is thrown if a JSON file with an invalid header is passed.
-    //  */
-    // @Test
-    // void uploadInvalidHeaderCSVShouldFail() {
-    //     assertTrue(fs.upload(CSV_INVALID_HEADER).getResponse().contains("First line of JSON file must be heading."));
-    // }
+   
     /**
      * <b>INVALID FIELD NUMBER JSON TEST</b><br/>
      * Tests that an error is thrown if JSON file with a row with invalid number of fields is passed.
