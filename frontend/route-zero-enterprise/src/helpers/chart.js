@@ -68,17 +68,6 @@ export const mapToPairs = (keys, tally) => {
   return pairs
 }
 
-export const getTransportsCSV = (text) => {
-  /* Converts text into transports using the following transformations:
-    - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
-    - Slices the nought element as element 0 is just the field headings
-    - Splits the record by comma and accesses the transport method (last element of record)
-  */
-  console.log(text);
-  const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
-  return t
-}
-
 export const journeyBars = (file) => {
   return getTransports(file)
     .then((transports) => {
