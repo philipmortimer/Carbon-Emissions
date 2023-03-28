@@ -15,7 +15,6 @@ import {getPolicies} from "../../data/policies.js";
 
 export const View = (props) => {
 
-    
     // PairArray<BarName, Number>
     const [beforeJourneys, setBeforeJourneys] = useState([]);
     const [beforeEmissions, setBeforeEmissions] = useState([]);
@@ -33,14 +32,14 @@ export const View = (props) => {
         if(props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
 
             journeyBars(props.file)
-                .then((pairs) => {
-                    setBeforeJourneys(pairs);
-                });
+            .then((pairs) => {
+                setBeforeJourneys(pairs);
+            });
 
-                emissionBarsBefore(props.file, props.response)
-                .then((pairs) => {
-                    setBeforeEmissions(pairs);
-                });
+            emissionBarsBefore(props.file, props.response)
+            .then((pairs) => {
+                setBeforeEmissions(pairs);
+            });
 
             setPredictJourneys(predictJourneyBars(props.response));
 
