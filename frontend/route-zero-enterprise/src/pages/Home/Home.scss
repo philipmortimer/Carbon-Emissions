@@ -14,7 +14,7 @@
 
 .buttons{
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     @media screen and (max-width: 750px) {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -43,8 +43,13 @@
     min-width: 8rem;
 }
 
-#upload-btn{
+#upload-button{
     grid-column: span 2;
+    max-width: 30.7rem;
+}
+
+.help-button{
+    min-width: 8rem;
 }
 
 .progress-bar{
@@ -54,5 +59,6 @@
 }
 
 .predict-button{
+    grid-column: span 1;
     min-width: 10rem;
 }

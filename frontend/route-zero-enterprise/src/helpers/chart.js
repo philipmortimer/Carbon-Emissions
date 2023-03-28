@@ -72,6 +72,7 @@ export const getTransportsCSV = (text) => {
     - Slices the nought element as element 0 is just the field headings
     - Splits the record by comma and accesses the transport method (last element of record)
   */
+  console.log(text);
   const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
   return t
 }

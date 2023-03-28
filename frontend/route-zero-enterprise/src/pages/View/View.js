@@ -15,6 +15,7 @@ import {getPolicies} from "../../data/policies.js";
 
 export const View = (props) => {
 
+    
     // PairArray<BarName, Number>
     const [beforeJourneys, setBeforeJourneys] = useState([]);
     const [beforeEmissions, setBeforeEmissions] = useState([]);
