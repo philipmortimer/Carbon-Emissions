@@ -11,12 +11,8 @@ export const PromptSchemaCSV = (props) => {
   };
 
   return (
-    <div className={`${props.className}`}>
-      <Button className={`${props.className}-button`} variant='primary' onClick={navigateToCSVSchema}>
-        CSV Schema
-      </Button>
-
-      
-    </div>
+    <Button className="homepage-csv-schema-button" variant='primary' onClick={navigateToCSVSchema}>
+      <span className="homepage-csv-schema-button-inner-text">CSV Schema</span>
+    </Button>
   )
 }
