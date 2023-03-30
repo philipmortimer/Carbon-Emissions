@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts'
-import { CSVSchema } from '../../pages/CSVSchema/CSVSchema'
+import { CSVSchema } from '../../pages/Schemas/CSVSchema'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import {
@@ -8,7 +8,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
-import { DownloadButton } from '../../components/Download/DownloadButton'
+import { CSVDownloadButton } from '../../components/Download/CSVDownloadButton'
 
 describe('PromptSchemaCSV Component Tests', () => {
   test('CSV Schema button exists', () => {
