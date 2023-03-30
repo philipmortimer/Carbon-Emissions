@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { UploadButton } from '../../components/Upload/Upload.js'
 import { PredictButton } from '../../components/SeePredictions/SeePredictions.js'
 import { PromptSchemaCSV } from '../../components/Prompts/Prompts.js'
+import { PromptSchemaJSON } from '../../components/Prompts/Prompts.js'
 import { ProgressBar } from '../../components/ProgressBar/ProgressBar.js'
 
 import './Home.scss'
@@ -26,6 +27,7 @@ export const Home = (props) => {
                 <div className="buttons">
                     <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
                     <PromptSchemaCSV className="homepage-csv-schema"/>
+                    <PromptSchemaJSON className="homepage-json-schema"/>
                     <HelpButton/>
                     <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse} loading={props.loading} setLoading={props.setLoading}/>
 

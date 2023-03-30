@@ -7,13 +7,32 @@ export const PromptSchemaCSV = (props) => {
   const navigate = useNavigate();
 
   const navigateToCSVSchema = () =>{
-    navigate('/schema');
+    navigate('/CSVschema');
   };
 
   return (
     <div className={`${props.className}`}>
       <Button className={`${props.className}-button`} variant='primary' onClick={navigateToCSVSchema}>
         CSV Schema
+      </Button>
+
+      
+    </div>
+  )
+}
+
+export const PromptSchemaJSON = (props) => {
+  
+  const navigate = useNavigate();
+
+  const navigateToJSONSchema = () =>{
+    navigate('/JSONschema');
+  };
+
+  return (
+    <div className={`${props.className}`}>
+      <Button className={`${props.className}-button`} variant='primary' onClick={navigateToJSONSchema}>
+        JSON Schema
       </Button>
 
       
