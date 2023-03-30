@@ -7,10 +7,11 @@ import { policySelectorId } from '../Policy/PolicySelector';
 
 export const DownloadGraphs = () => {
 
+    // Note that rough expected ratio of file is 450px tall and 794 px wide (multiplied by some scalar)
     const pdfOptions = {
         orientation: 'l',
         unit: 'px',
-        format: [450 * 5, 794 * 5]/*'a4'*/,
+        format: /*[450, 794]*/'a4',
         hotfixes: ["px_scaling"]
     }
 
@@ -65,7 +66,7 @@ export const DownloadGraphs = () => {
 
     async function addPolicySelector(pdf) {
         const policyCanvas = await html2canvas(document.getElementById(policySelectorId));
-        const maxWidth = Math.floor(pdf.internal.pageSize.getWidth() / 3.0)
+        const maxWidth = Math.floor(pdf.internal.pageSize.getWidth() / 5.0)
         const maxHeight = pdf.internal.pageSize.getHeight()
         const policyScaled = scaleImage(policyCanvas, maxWidth, maxHeight)
         // Horizontally centers component
