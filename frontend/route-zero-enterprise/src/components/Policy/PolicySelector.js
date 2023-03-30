@@ -2,6 +2,9 @@ import React /**/, {useEffect}/*, useState}*/ from "react";
 // import {KiloTonBubble} from "../KiloTonBubble/KiloTonBubble.js";
 import {PolicyOption} from "./PolicyOption.js";
 
+// ID used for component
+export const policySelectorId = "policySelector";
+
 export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState, originalPredict}) => {
 
     return(
@@ -10,7 +13,7 @@ export const PolicySelector = ({policies, setPolicies, journeysState, emissionsS
         ? <em>Error: Please provide policies and setter. </em>
         : 
         (
-            <div className="list-group policy">
+            <div className="list-group policy" id={policySelectorId}>
                 {policies.map((policyOption, i) => {
                     return <PolicyOption 
                     policyOption={policyOption} 

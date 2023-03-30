@@ -9,6 +9,7 @@
     "bootstrap": "^5.2.2",
     "chart.js": "^4.0.1",
     "file-api": "^0.10.4",
+    "html2canvas": "^1.4.1",
     "i": "^0.3.7",
     "jest-canvas-mock": "^2.5.0",
     "jspdf": "^2.5.1",

@@ -1,7 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import { jsPDF } from 'jspdf'
+import html2canvas from 'html2canvas';
 
-import {beforeJourneyId, currentEmissionId, predictedJourneyId, predictEmissionsId} from '../../pages/View/View'
+import { beforeJourneyId, currentEmissionId, predictedJourneyId, predictEmissionsId } from '../../pages/View/View';
+import { policySelectorId } from '../Policy/PolicySelector';
 
 export const DownloadGraphs = () => {
 
@@ -12,20 +14,22 @@ export const DownloadGraphs = () => {
         hotfixes: ["px_scaling"]
     }
 
-    function addImages(pdf, img1, img2, startY, width, height) {
+    function addImages(pdf, img1, img2, startY, startX) {
         const pdfWidth = pdf.internal.pageSize.getWidth()
         const pdfHeight = pdf.internal.pageSize.getHeight()
+        const availableWidth = pdfWidth - startX;
 
-        const imgWidth = Math.floor(width / 2.0)
-        const imgHeight = Math.floor(height / 2.0)
+        const imgWidth = Math.floor(availableWidth / 2.0)
+        const imgHeight = Math.floor(pdfHeight / 2.0);
         const scaled1 = scaleImage(img1, imgWidth, imgHeight)
         const scaled2 = scaleImage(img2, imgWidth, imgHeight)
         const totalWidth = scaled1.width + scaled2.width
         // Horizontally centres images
-        const pdfStartX = Math.floor((pdfWidth - totalWidth) / 2.0)
+        const pdfStartX = Math.floor((availableWidth - totalWidth) / 2.0) + startX
         // Adds images
-        pdf.addImage(scaled1, 'PNG', pdfStartX, startY, scaled1.width, scaled1.height)
-        pdf.addImage(scaled2, 'PNG', pdfStartX + scaled1.width, startY, scaled1.width, scaled1.height)
+        pdf.addImage(scaled1.toDataURL("image/png"), 'PNG', pdfStartX, startY, scaled1.width, scaled1.height)
+        pdf.addImage(scaled2.toDataURL("image/png"), 'PNG', pdfStartX + scaled1.width, startY, scaled2.width, scaled2.height)
+        console.log("Height " + Math.max(scaled1.height, scaled2.height) * 2 + " WIDTh " + pdfWidth)
         return startY + Math.max(scaled1.height, scaled2.height)
     }
 
@@ -60,14 +64,26 @@ export const DownloadGraphs = () => {
         return newCanvas
     }
 
+    async function addPolicySelector(pdf) {
+        const policyCanvas = await html2canvas(document.getElementById(policySelectorId));
+        const maxWidth = Math.floor(pdf.internal.pageSize.getWidth() / 5.0)
+        const maxHeight = pdf.internal.pageSize.getHeight()
+        const policyScaled = scaleImage(policyCanvas, maxWidth, maxHeight)
+        pdf.addImage(policyScaled.toDataURL('image/png'), 'PNG', 0, 0, policyScaled.width, policyScaled.height)
+        return policyScaled.width
+    }
+
     async function downloadGraphs() {
         let pdf = new jsPDF(pdfOptions);
-        let startY = 0;
-        startY = addImages(pdf, document.getElementById(beforeJourneyId), document.getElementById(currentEmissionId), startY,
-            pdf.internal.pageSize.getWidth(), Math.floor(pdf.internal.pageSize.getHeight() / 2.0))
-        startY = addImages(pdf, document.getElementById(predictedJourneyId), document.getElementById(predictEmissionsId), startY,
-            pdf.internal.pageSize.getWidth(), Math.floor(pdf.internal.pageSize.getHeight() / 2.0))
+        // Adds policy selector
+        const startX = await addPolicySelector(pdf)
 
+        // Adds graphs to document
+        let startY = 0;
+        startY = addImages(pdf, document.getElementById(beforeJourneyId), document.getElementById(currentEmissionId),
+            startY, startX)
+        startY = addImages(pdf, document.getElementById(predictedJourneyId), document.getElementById(predictEmissionsId),
+            startY, startX)
         pdf.save('Carbon Savings.pdf');
     }
 
