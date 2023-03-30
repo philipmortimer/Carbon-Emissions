@@ -1,7 +1,9 @@
 import Button from 'react-bootstrap/Button';
 import { jsPDF } from 'jspdf'
 
-export const DownloadGraphs = (beforeJourneyId, currentEmissionId, currentJourneyId, predictEmissionsId) => {
+import {beforeJourneyId, currentEmissionId, predictedJourneyId, predictEmissionsId} from '../../pages/View/View'
+
+export const DownloadGraphs = () => {
 
     const pdfOptions = {
         orientation: 'p',
@@ -10,17 +12,30 @@ export const DownloadGraphs = (beforeJourneyId, currentEmissionId, currentJourne
         hotfixes: ["px_scaling"]
     }
 
+    function addImages(pdf, img1, img2, startY, width, height) {
+        const pdfWidth = pdf.internal.pageSize.getWidth()
+        const pdfHeight = pdf.internal.pageSize.getHeight()
 
-    function addImage(pdf, canvas, startY) {
+        const imgWidth = Math.floor(width / 2.0)
+        const imgHeight = Math.floor(height / 2.0)
+        const scaled1 = scaleImage(img1, imgWidth, imgHeight)
+        const scaled2 = scaleImage(img2, imgWidth, imgHeight)
+        const totalWidth = scaled1.width + scaled2.width
+        // Horizontally centres images
+        const pdfStartX = Math.floor((pdfWidth - totalWidth) / 2.0)
+        // Adds images
+        pdf.addImage(scaled1, 'PNG', pdfStartX, startY, scaled1.width, scaled1.height)
+        pdf.addImage(scaled2, 'PNG', pdfStartX + scaled1.width, startY, scaled1.width, scaled1.height)
+        return startY + Math.max(scaled1.height, scaled2.height)
     }
 
     /**
      * Returns copy of canvas which is scaled to be as large as possible within the provided constraints whilst
-     * maintaining the original image aspect ratio.
+     * maintaining the original image aspect ratio. Note the provided image canvas is not altered
      * @param {*} image The image
      * @param {*} maxWidth The max width
      * @param {*} maxHeight The max height
-     * @returns The scaled image
+     * @returns The new scaled image
      */
     function scaleImage(image, maxWidth, maxHeight) {
         // Scales image so aspect ratio is maintained but image is as large as possible
@@ -47,7 +62,11 @@ export const DownloadGraphs = (beforeJourneyId, currentEmissionId, currentJourne
 
     async function downloadGraphs() {
         let pdf = new jsPDF(pdfOptions);
-        // Calculates dimensions 
+        let startY = 0;
+        startY = addImages(pdf, document.getElementById(beforeJourneyId), document.getElementById(currentEmissionId), startY,
+            pdf.internal.pageSize.getWidth(), Math.floor(pdf.internal.pageSize.getHeight() / 2.0))
+        startY = addImages(pdf, document.getElementById(predictedJourneyId), document.getElementById(predictEmissionsId), startY,
+            pdf.internal.pageSize.getWidth(), Math.floor(pdf.internal.pageSize.getHeight() / 2.0))
 
         pdf.save('Carbon Savings.pdf');
     }
