@@ -1,9 +1,10 @@
 // These tests test functions from chart.js which perform data manipulation to generate the graph values.
 import '@testing-library/jest-dom'
 import {
-    tallyList, listToSet, mapToPairs, getTransportsCSV, journeyBars, emissionBarsBefore,
+    tallyList, listToSet, mapToPairs, journeyBars, emissionBarsBefore,
     transform, predictJourneyBars, emissionBarsAfter
 } from '../../helpers/chart'
+import {getTransports} from '../../helpers/file'
 import { emptyFile, simpleFile, exampleFile } from '../View/view.test'
 import 'jest-canvas-mock';
 
@@ -96,33 +97,18 @@ describe("Map to pairs tests", () => {
 
 describe("Get Transport CSV test", () => {
     test("Empty CSV file", async () => {
-        // Gets file text
-        let text = undefined
-        await emptyFile.file.text()
-            .then(txt => text = txt)
-        expect(text === undefined).toBe(false)
         // Tests extraction of transport types
-        const transports = getTransportsCSV(text)
+        const transports = await getTransports(emptyFile.file)
         expect(transports).toStrictEqual([])
     })
     test("Simple CSV file", async () => {
-        // Gets file text
-        let text = undefined
-        await simpleFile.file.text()
-            .then(txt => text = txt)
-        expect(text === undefined).toBe(false)
         // Tests extraction of transport types
-        const transports = getTransportsCSV(text)
+        const transports = await getTransports(simpleFile.file)
         expect(transports).toStrictEqual(['train'])
     })
     test("Example CSV file", async () => {
-        // Gets file text
-        let text = undefined
-        await exampleFile.file.text()
-            .then(txt => text = txt)
-        expect(text === undefined).toBe(false)
         // Tests extraction of transport types
-        const transports = getTransportsCSV(text)
+        const transports = await getTransports(exampleFile.file)
         expect(transports).toEqual([
             'train', 'foot', 'train', 'bus', 'foot', 'flight', 'foot', 'train', 'foot',
             'train', 'petrolCar', 'eurostar', 'petrolCar', 'foot', 'train', 'foot', 'eurostar',

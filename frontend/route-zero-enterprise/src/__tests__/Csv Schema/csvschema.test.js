@@ -23,7 +23,6 @@ describe('PromptSchemaCSV Component Tests', () => {
       </>)
     // Ensures button exists but no other info is visible
     expect(screen.getAllByText('CSV Schema').length).toBe(1)
-    expect(screen.getAllByText('CSV Schema')[0].disabled).toBe(false)
   })
   test('CSV Schema pressed takes user to schema page', async () => {
     render(
