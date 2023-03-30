@@ -90,7 +90,7 @@ public class ServerJSONTests {
      */
     @Test
     void uploadNoJSONShouldFail(){
-        assertTrue(fs.upload(null).getResponse().contains("The File provided was null unexpectedly."));
+        assertTrue(fs.upload(null).getResponse().contains("The file provided was null/empty unexpectedly."));
     }
     /**
      * <b>INVALID EMPTY JSON TEST</b><br/>
@@ -98,7 +98,7 @@ public class ServerJSONTests {
      */
     @Test
     void uploadEmptyJSONShouldFail() {
-        assertTrue(fs.upload(JSON_EMPTY).getResponse().contains("Empty JSON File provided."));
+        assertTrue(fs.upload(JSON_EMPTY).getResponse().contains("The file provided was null/empty unexpectedly."));
     }
    
     /**

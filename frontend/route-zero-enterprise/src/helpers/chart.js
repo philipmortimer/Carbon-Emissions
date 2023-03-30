@@ -66,7 +66,7 @@ export const mapToPairs = (keys, tally) => {
   return pairs
 }
 
-export const getTransportsCVS = (text) => {
+export const getTransportsCSV = (text) => {
   /* Converts text into transports using the following transformations:
     - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
     - Slices the nought element as element 0 is just the field headings
@@ -82,7 +82,7 @@ export const journeyBars = (csvBlob) => {
   return csvBlob
     .text()
     .then((text) => {
-      const transports = getTransportsCVS(text)
+      const transports = getTransportsCSV(text)
       const uniqueTransports = listToSet(transports)
       const transportTally = tallyList(transports) // the first line is not a travel type
       const pairs = mapToPairs(uniqueTransports, transportTally)
@@ -91,12 +91,12 @@ export const journeyBars = (csvBlob) => {
 }
 
 
-// maps transport methods in CVS to records in the response
+// maps transport methods in CSV to records in the response
 export const emissionBarsBefore = (csvBlob, response) => {
   return csvBlob
     .text()
     .then((text) => {
-      const transports = getTransportsCVS(text)
+      const transports = getTransportsCSV(text)
       const uniqueTransports = listToSet(transports)
       const co2Tally = {}
       uniqueTransports.map(x => {

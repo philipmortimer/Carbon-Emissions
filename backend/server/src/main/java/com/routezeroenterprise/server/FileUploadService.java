@@ -195,8 +195,8 @@ public class FileUploadService {
     // Processing file starts here
     private APIResponse process(String inputFile) {
         // Null check
-        if (inputFile == null) {
-            return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
+        if (inputFile == null || inputFile.isEmpty()) {
+            return new APIResponse("{\"error\": \"The file provided was null/empty unexpectedly.\"}");
         }
 
         // Builds the data of all the journeys using each travel record.
