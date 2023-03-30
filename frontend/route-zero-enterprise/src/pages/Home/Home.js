@@ -22,7 +22,7 @@ export const Home = (props) => {
             <div className="custom-container">
                 <h1>Do you want to know your potential carbon savings?</h1>
                 <div className="help">
-                    <h3>Simply upload your travel expense or milage data as a CSV file</h3>
+                    <h3>Simply upload your travel expense or milage data as a CSV or JSON file</h3>
                 </div>
                 <div className="buttons">
                     <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
