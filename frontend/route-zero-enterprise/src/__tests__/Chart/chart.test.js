@@ -319,3 +319,30 @@ function testTwoArraysSame2dp(arr1, arr2) {
         expect(arr1[i][1].toFixed(2) === arr2[i][1].toFixed(2)).toBe(true)
     }
 }
+
+/**
+ * This function is a helper function that can be used to convert a CSV file to a JSON file.
+ * This function is not super well tested and is more of a developer utility than part of the tests
+ * or production. I have used this, to generate a JSON file that is equivalent to a needed a CSV file
+ * for transport data. This function prints the file as a string.
+ * @param {*} file The file
+ */
+async function convertCsvFileToJson(file) {
+    const text = await file.text()
+    let rows = []
+    text.split(/\r\n|\n/).slice(1).map(x => rows.push(x.split(",")))
+    let jsonData = []
+    for (let i = 0; i < rows.length; i++) {
+        let row = rows[i]
+        jsonData.push({
+            origin: row[0],
+            destination: row[1],
+            distanceKm: row[2],
+            departureTime: row[3],
+            arrivalTime: row[4],
+            transport: row[5]
+        })
+    }
+    // Prints JSON
+    console.log(JSON.stringify(jsonData, null, 2))
+}
