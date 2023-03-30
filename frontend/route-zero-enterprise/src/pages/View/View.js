@@ -6,6 +6,7 @@ import "./View.scss";
 import {BarChart} from "../../components/Chart/Chart.js";
 import {PolicySelector} from "../../components/Policy/PolicySelector.js";
 import HelpButton from '../../components/HelpButtons/ViewHelpButton.js'
+import {DownloadGraphs} from '../../components/DownloadGraphs/DownloadGraphs'
 
 //helpers
 import {journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars} from "../../helpers/chart.js";
@@ -95,6 +96,7 @@ export const View = (props) => {
                             <div className="inline">
                                 <h1>Visualisation</h1>
                                 <HelpButton/>
+                                <DownloadGraphs />
                             </div>
                             
                             <div className="center-grid2">
