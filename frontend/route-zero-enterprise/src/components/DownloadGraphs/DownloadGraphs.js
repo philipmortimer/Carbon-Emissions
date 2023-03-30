@@ -8,9 +8,9 @@ import { policySelectorId } from '../Policy/PolicySelector';
 export const DownloadGraphs = () => {
 
     const pdfOptions = {
-        orientation: 'p',
+        orientation: 'l',
         unit: 'px',
-        format: 'a4',
+        format: [450 * 5, 794 * 5]/*'a4'*/,
         hotfixes: ["px_scaling"]
     }
 
@@ -29,7 +29,6 @@ export const DownloadGraphs = () => {
         // Adds images
         pdf.addImage(scaled1.toDataURL("image/png"), 'PNG', pdfStartX, startY, scaled1.width, scaled1.height)
         pdf.addImage(scaled2.toDataURL("image/png"), 'PNG', pdfStartX + scaled1.width, startY, scaled2.width, scaled2.height)
-        console.log("Height " + Math.max(scaled1.height, scaled2.height) * 2 + " WIDTh " + pdfWidth)
         return startY + Math.max(scaled1.height, scaled2.height)
     }
 
@@ -66,11 +65,13 @@ export const DownloadGraphs = () => {
 
     async function addPolicySelector(pdf) {
         const policyCanvas = await html2canvas(document.getElementById(policySelectorId));
-        const maxWidth = Math.floor(pdf.internal.pageSize.getWidth() / 5.0)
+        const maxWidth = Math.floor(pdf.internal.pageSize.getWidth() / 3.0)
         const maxHeight = pdf.internal.pageSize.getHeight()
         const policyScaled = scaleImage(policyCanvas, maxWidth, maxHeight)
-        pdf.addImage(policyScaled.toDataURL('image/png'), 'PNG', 0, 0, policyScaled.width, policyScaled.height)
-        return policyScaled.width
+        // Horizontally centers component
+        const startX = Math.floor((maxWidth - policyScaled.width) / 2.0)
+        pdf.addImage(policyScaled.toDataURL('image/png'), 'PNG', startX, 0, policyScaled.width, policyScaled.height)
+        return policyScaled.width + startX
     }
 
     async function downloadGraphs() {

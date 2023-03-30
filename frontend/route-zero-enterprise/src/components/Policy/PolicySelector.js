@@ -3,16 +3,12 @@ import React /**/, {useEffect}/*, useState}*/ from "react";
 import {PolicyOption} from "./PolicyOption.js";
 
 // ID used for component
-export const policySelectorId = "policySelector";
+export const policySelectorId = 'policySelector';
 
 export const PolicySelector = ({policies, setPolicies, journeysState, emissionsState, originalPredict}) => {
 
     return(
         <>
-        { policies === undefined || setPolicies === undefined 
-        ? <em>Error: Please provide policies and setter. </em>
-        : 
-        (
             <div className="list-group policy" id={policySelectorId}>
                 {policies.map((policyOption, i) => {
                     return <PolicyOption 
@@ -28,9 +24,7 @@ export const PolicySelector = ({policies, setPolicies, journeysState, emissionsS
                     key={i}
                     />
                 })}
-            </div> 
-        )
-        }  
+            </div>  
         </>
     );
 }
