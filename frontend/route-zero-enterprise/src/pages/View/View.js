@@ -15,6 +15,11 @@ import {journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars} 
 import {getPolicies} from "../../data/policies.js";
 
 export const View = (props) => {
+    // ID's used for each chart
+    const beforeJourneyId = "1";
+    const currentEmissionId = "2";
+    const currentJourneyId = "3";
+    const predictEmissionsId = "4";
 
     // PairArray<BarName, Number>
     const [beforeJourneys, setBeforeJourneys] = useState([]);
@@ -96,7 +101,8 @@ export const View = (props) => {
                             <div className="inline">
                                 <h1>Visualisation</h1>
                                 <HelpButton/>
-                                <DownloadGraphs />
+                                <DownloadGraphs beforeJourneyId={beforeJourneyId} currentEmissionId={currentEmissionId} 
+                                    currentJourneyId={currentJourneyId} predictEmissionsId={predictEmissionsId}/>
                             </div>
                             
                             <div className="center-grid2">
@@ -106,19 +112,19 @@ export const View = (props) => {
                                     <div className="cell">
                                         <h2>Before</h2>
                                         <div className="Chart">
-                                            <BarChart chartId="1" header="Journeys" bars={beforeJourneys}/>
+                                            <BarChart chartId={beforeJourneyId} header="Journeys" bars={beforeJourneys}/>
                                         </div>
                                         <div className="Chart">
-                                            <BarChart chartId="2" header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
+                                            <BarChart chartId={currentEmissionId} header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
                                         </div>
                                     </div>
                                     <div className="cell">
                                         <h2>After</h2>
                                         <div className="Chart">
-                                            <BarChart chartId="3" header="Average Predicted Journeys" bars={predictJourneys}/>
+                                            <BarChart chartId={currentJourneyId} header="Average Predicted Journeys" bars={predictJourneys}/>
                                         </div>
                                         <div className="Chart">
-                                            <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
+                                            <BarChart chartId={predictEmissionsId} header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
                                         </div>
                                     </div>
                                 </div>
