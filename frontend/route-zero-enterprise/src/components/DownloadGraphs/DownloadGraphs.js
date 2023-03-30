@@ -8,6 +8,7 @@ import { policySelectorId } from '../Policy/PolicySelector';
 export const DownloadGraphs = () => {
 
     // Note that rough expected ratio of file is 450px tall and 794 px wide (multiplied by some scalar)
+    // Increase format size to increase quality
     const pdfOptions = {
         orientation: 'l',
         unit: 'px',
