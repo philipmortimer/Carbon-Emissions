@@ -31,7 +31,7 @@ describe('PromptSchemaCSV Component Tests', () => {
         <Router>
           <PromptSchemaCSV />
           <Routes>
-            <Route path='/schema' element={<p>gone to schema</p>} />
+            <Route path='/CSVschema' element={<p>gone to schema</p>} />
           </Routes>
         </Router>
       </>)
@@ -80,7 +80,7 @@ describe("CSVSchema component tests", () => {
 
 describe("Download button for CSV schema tests", () => {
   test("Looks of button", () => {
-    render(<DownloadButton />)
+    render(<CSVDownloadButton />)
     expect(screen.getByText("Download")).toBeInTheDocument()
   })
 })
