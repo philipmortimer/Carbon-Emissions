@@ -73,20 +73,60 @@ export const DownloadGraphs = () => {
         // Horizontally centers component
         const startX = Math.floor((maxWidth - policyScaled.width) / 2.0)
         pdf.addImage(policyScaled.toDataURL('image/png'), 'PNG', startX, 0, policyScaled.width, policyScaled.height)
-        return policyScaled.width + startX
+        return {width: policyScaled.width + startX, height: policyScaled.height}
+    }
+
+    function addText(pdf, width, startY) {
+        // Sets font and size
+        pdf.setFont('helvetica', 'italic')
+        pdf.setFontSize(10)
+        // Adds text
+        const text = "This is a PDF summary of your current transport carbon emissions" + 
+            " and potential future carbon reductions. The above policy selector shows various potential company" + 
+            " travel policies and their resulting predicted change in carbon emissions. The selected options" +
+            " are represented in the graphs. The \"Journeys\" graph shows the current journeys that your company" +
+            " is taking, broken down by transport type. The \"Current Emissions (KgC02)\" chart shows the carbon" +
+            " emissions caused by your current travels, broken down by emissions for each type of transportation." +
+            " The \"Average Predicted Journeys\" graph shows the predicted future journeys that can be taken in " + 
+            " order to meet your travel needs whilst also being environmentally responsible. These predicted future" +
+            " journeys are calculated by Route Zero. The \"Predicted Emissions (KgC02)\" chart shows the estimated" +
+            " carbon emissions that would be produced by adopting the recommended new travel routes, broken down" +
+            " by transport type. To access the full informatic, resubmit your travel data to the website used to" +
+            " generate this report. Route Zero's website: https://routezero.world/"
+        const txtHeight = pdf.getTextDimensions(text).h;
+        const whiteSpace = Math.floor(width / 20.0);
+        // Splits text into columns
+        const noCols = 3.0;
+        const textSplit = []
+        let chars = 0;
+        const charsInCol = Math.round(text.length / noCols)
+        for (let i = 0; i < noCols - 1; i++) {
+            textSplit.push(text.slice(chars, chars + charsInCol))
+            chars += charsInCol
+        }
+        textSplit.push(text.slice(chars, text.length))
+        // Adds columns
+        let startX = whiteSpace
+        const colWidth = Math.floor((width - (2.0 * whiteSpace)) / noCols)
+        for (let i = 0; i < noCols; i++) {
+            pdf.text(textSplit[i], startX, startY + txtHeight, {align: 'left',  maxWidth: colWidth})
+            startX += colWidth
+        }
     }
 
     async function downloadGraphs() {
         let pdf = new jsPDF(pdfOptions);
         // Adds policy selector
-        const startX = await addPolicySelector(pdf)
+        const policyDims = await addPolicySelector(pdf)
 
         // Adds graphs to document
         let startY = 0;
         startY = addImages(pdf, document.getElementById(beforeJourneyId), document.getElementById(currentEmissionId),
-            startY, startX)
+            startY, policyDims.width)
         startY = addImages(pdf, document.getElementById(predictedJourneyId), document.getElementById(predictEmissionsId),
-            startY, startX)
+            startY, policyDims.width)
+        // Adds text
+        addText(pdf, pdf.internal.pageSize.getWidth(), startY)
         pdf.save('Carbon Savings.pdf');
     }
 
