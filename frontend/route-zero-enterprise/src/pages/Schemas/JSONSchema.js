@@ -23,7 +23,7 @@ export const JSONSchema = (props) => {
                 <div class="sub-section">
                 <Row>
                     <Col>
-                    <p>Please format each Object of your JSON as follows:</p>
+                    <p>Your JSON must be an array of objects of the following format:</p>
                     <ul class="highlight">
                             <li>"origin": "Paddington",</li>
                             <li>"destination": "Bristol Parkway",</li>
