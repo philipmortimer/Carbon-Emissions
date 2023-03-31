@@ -62,7 +62,7 @@ describe('File upload tests', () => {
     })
     // Tests that button name changes to file content
     expect(screen.getByText('helloworlds.txt')).toBeInTheDocument()
-    expect(screen.getByText('You must select either a CSV file')).toBeInTheDocument()
+    expect(screen.getByText('You must select a CSV file')).toBeInTheDocument()
     expect(screen.getByText('See predictions').disabled).toBe(true)
   })
 })

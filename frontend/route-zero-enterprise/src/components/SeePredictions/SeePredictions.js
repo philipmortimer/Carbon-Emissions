@@ -39,7 +39,7 @@ export const PredictButton = (props) => {
     if (validity === 'valid') {
       return 'CSV file selected'
     } else if (validity === 'invalid_extension') {
-      return 'You must select either a CSV file'
+      return 'You must select a CSV file'
     } else if (validity === 'invalid_by_backend_determination') {
       return 'You must select a correctly formatted file'
     } else { // In this case validty = "no_file"
