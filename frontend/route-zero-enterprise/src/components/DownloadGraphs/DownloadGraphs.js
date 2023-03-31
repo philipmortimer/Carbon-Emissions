@@ -96,7 +96,7 @@ export const DownloadGraphs = () => {
     }
 
     /**
-     * Adds useful text to the bottom of the pdf file
+     * Adds useful text to the bottom of the pdf file.
      * @param {*} pdf The pdf document
      * @param {*} width The available width
      * @param {*} startY The starting y coordinate
