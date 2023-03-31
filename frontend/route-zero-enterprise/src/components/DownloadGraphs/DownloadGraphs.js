@@ -5,9 +5,14 @@ import html2canvas from 'html2canvas';
 import { beforeJourneyId, currentEmissionId, predictedJourneyId, predictEmissionsId } from '../../pages/View/View';
 import { policySelectorId } from '../Policy/PolicySelector';
 
+/**
+ * Component used to download pdf summary of graph information.
+ * @returns The component used to download graphs.
+ */
 export const DownloadGraphs = () => {
 
-    // Note that rough expected ratio of file is 450px tall and 794 px wide (multiplied by some scalar)
+    // Note that rough expected ratio of file is 450px tall and 794 px wide 
+    //(multiplied by some scalar) [without text at the bottom of the pdf file]
     // Increase format size to increase quality
     const pdfOptions = {
         orientation: 'l',
@@ -16,6 +21,15 @@ export const DownloadGraphs = () => {
         hotfixes: ["px_scaling"]
     }
 
+    /**
+     * Adds two images to the pdf as required
+     * @param {*} pdf The pdf document
+     * @param {*} img1 The first image
+     * @param {*} img2 The second image
+     * @param {*} startY The starting y coordinate
+     * @param {*} startX The starting x coordinate
+     * @returns startY + height of the largest image added (i.e. the new startY to safely used)
+     */
     function addImages(pdf, img1, img2, startY, startX) {
         const pdfWidth = pdf.internal.pageSize.getWidth()
         const pdfHeight = pdf.internal.pageSize.getHeight()
@@ -65,6 +79,11 @@ export const DownloadGraphs = () => {
         return newCanvas
     }
 
+    /**
+     * Adds the policy secletor to the pdf
+     * @param {*} pdf The pdf file
+     * @returns The dimensions of the written image (including whitespace)
+     */
     async function addPolicySelector(pdf) {
         const policyCanvas = await html2canvas(document.getElementById(policySelectorId));
         const maxWidth = Math.floor(pdf.internal.pageSize.getWidth() / 5.0)
@@ -76,6 +95,12 @@ export const DownloadGraphs = () => {
         return {width: policyScaled.width + startX, height: policyScaled.height}
     }
 
+    /**
+     * Adds useful text to the bottom of the pdf file
+     * @param {*} pdf The pdf document
+     * @param {*} width The available width
+     * @param {*} startY The starting y coordinate
+     */
     function addText(pdf, width, startY) {
         // Sets font and size
         pdf.setFont('helvetica', 'italic')
@@ -114,6 +139,9 @@ export const DownloadGraphs = () => {
         }
     }
 
+    /**
+     * Downloads a file summarising the carbon savings.
+     */
     async function downloadGraphs() {
         let pdf = new jsPDF(pdfOptions);
         // Adds policy selector
