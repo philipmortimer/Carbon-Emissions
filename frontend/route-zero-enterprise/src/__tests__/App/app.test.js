@@ -34,7 +34,7 @@ describe('File upload tests', () => {
     })
     // Tests that button name changes to file content
     expect(getUploadButton('helloworlds.csv').disabled).toBe(false)
-    expect(screen.getAllByText('CSV or JSON file selected').length).toBe(1)
+    expect(screen.getAllByText('CSV file selected').length).toBe(1)
     expect(screen.getByText('See predictions').disabled).toBe(false)
   })
   test('Test that file upload for long file names have name truncated', async () => {
@@ -48,7 +48,7 @@ describe('File upload tests', () => {
     })
     // Tests that button name changes to file content
     expect(getUploadButton('helloworlds1.cs...').disabled).toBe(false)
-    expect(screen.getAllByText('CSV or JSON file selected').length).toBe(1)
+    expect(screen.getAllByText('CSV file selected').length).toBe(1)
     expect(screen.getByText('See predictions').disabled).toBe(false)
   })
   test("File that don't end in .csv can't be used for prediction", async () => {
@@ -62,7 +62,7 @@ describe('File upload tests', () => {
     })
     // Tests that button name changes to file content
     expect(screen.getByText('helloworlds.txt')).toBeInTheDocument()
-    expect(screen.getByText('You must select either a CSV or a JSON file')).toBeInTheDocument()
+    expect(screen.getByText('You must select either a CSV file')).toBeInTheDocument()
     expect(screen.getByText('See predictions').disabled).toBe(true)
   })
 })
@@ -176,7 +176,7 @@ describe('File Upload predictions retrieval tests', () => {
     })
     // Test that valid csv file status registered
     const seePredBtn = screen.getByText('See predictions')
-    expect(screen.getByText('CSV or JSON file selected')).toBeInTheDocument()
+    expect(screen.getByText('CSV file selected')).toBeInTheDocument()
     expect(seePredBtn.disabled).toBe(false)
     // Takes user to view tab
     await waitFor(() => {

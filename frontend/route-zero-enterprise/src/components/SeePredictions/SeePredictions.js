@@ -37,9 +37,9 @@ export const PredictButton = (props) => {
 
   const getSuggestion = (validity) => {
     if (validity === 'valid') {
-      return 'CSV or JSON file selected'
+      return 'CSV file selected'
     } else if (validity === 'invalid_extension') {
-      return 'You must select either a CSV or a JSON file'
+      return 'You must select either a CSV file'
     } else if (validity === 'invalid_by_backend_determination') {
       return 'You must select a correctly formatted file'
     } else { // In this case validty = "no_file"
