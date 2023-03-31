@@ -82,19 +82,19 @@ export const DownloadGraphs = () => {
         pdf.setFontSize(10)
         // Adds text
         const text = "This is a PDF summary of your current transport carbon emissions" + 
-            " and potential future carbon reductions. The above policy selector shows various potential company" + 
-            " travel policies and their resulting predicted change in carbon emissions. The selected options" +
+            " and potential future carbon reductions. The policy selector shows various potential company" + 
+            " travel policies and their resulting predicted changes in carbon emissions. The selected options" +
             " are represented in the graphs. The \"Journeys\" graph shows the current journeys that your company" +
             " is taking, broken down by transport type. The \"Current Emissions (KgC02)\" chart shows the carbon" +
             " emissions caused by your current travels, broken down by emissions for each type of transportation." +
-            " The \"Average Predicted Journeys\" graph shows the predicted future journeys that can be taken in " + 
+            " The \"Average Predicted Journeys\" graph shows the predicted future journeys that can be taken in" + 
             " order to meet your travel needs whilst also being environmentally responsible. These predicted future" +
             " journeys are calculated by Route Zero. The \"Predicted Emissions (KgC02)\" chart shows the estimated" +
             " carbon emissions that would be produced by adopting the recommended new travel routes, broken down" +
             " by transport type. To access the full informatic, resubmit your travel data to the website used to" +
             " generate this report. Route Zero's website: https://routezero.world/"
         const txtHeight = pdf.getTextDimensions(text).h;
-        const whiteSpace = Math.floor(width / 20.0);
+        const whiteSpace = Math.floor(width / 30.0);
         // Splits text into columns
         const noCols = 3.0;
         const textSplit = []
@@ -107,10 +107,10 @@ export const DownloadGraphs = () => {
         textSplit.push(text.slice(chars, text.length))
         // Adds columns
         let startX = whiteSpace
-        const colWidth = Math.floor((width - (2.0 * whiteSpace)) / noCols)
+        const colWidth = Math.floor((width - ((noCols + 1) * whiteSpace)) / noCols)
         for (let i = 0; i < noCols; i++) {
             pdf.text(textSplit[i], startX, startY + txtHeight, {align: 'left',  maxWidth: colWidth})
-            startX += colWidth
+            startX += colWidth + whiteSpace
         }
     }
 
