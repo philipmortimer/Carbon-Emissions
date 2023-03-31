@@ -126,8 +126,15 @@ export const DownloadGraphs = () => {
         let chars = 0;
         const charsInCol = Math.round(text.length / noCols)
         for (let i = 0; i < noCols - 1; i++) {
-            textSplit.push(text.slice(chars, chars + charsInCol))
-            chars += charsInCol
+            // Finds nearest space to right in text and uses this to ensure words are not split over columns
+            // Not a super well tested algorithm, but does the job well enough for this specific case
+            let charBoundary = charsInCol + chars
+            let offset = 0;
+            for (; text[charBoundary + offset] !== ' ' && (charBoundary + offset < text.length); offset++) {}
+            charBoundary += offset + 1; // One is added as we wish to include the space in the end of the column
+
+            textSplit.push(text.slice(chars, charBoundary))
+            chars += charBoundary - chars
         }
         textSplit.push(text.slice(chars, text.length))
         // Adds columns
@@ -159,6 +166,6 @@ export const DownloadGraphs = () => {
     }
 
     return (
-        <Button onClick={downloadGraphs}>Save</Button>
+        <Button onClick={downloadGraphs} className="me-2 pull-right">Save</Button>
     )
 }

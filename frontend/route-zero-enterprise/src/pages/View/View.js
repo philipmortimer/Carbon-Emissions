@@ -102,9 +102,9 @@ export const View = (props) => {
                     <div className="cell">
                         <div className="inline">
                             <h1>Visualisation</h1>
-                            <HelpButton />
                             <DownloadGraphs beforeJourneyId={beforeJourneyId} currentEmissionId={currentEmissionId}
                                 predictedJourneyId={predictedJourneyId} predictEmissionsId={predictEmissionsId} />
+                            <HelpButton />
                         </div>
 
                         <div className="center-grid2">
