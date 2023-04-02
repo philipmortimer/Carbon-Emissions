@@ -102,7 +102,7 @@ public class FileUploadService {
     private static Optional<String> checkForJSONErrors(List<Map<String,Object>> jsonFile) {
         // Checks that file is not empty.
         if (jsonFile.isEmpty()) {
-            return Optional.of("Empty CSV File provided.");
+            return Optional.of("Empty JSON File provided.");
         }
         // Checks that each object is include all required keys and validates distanceKm and transport values
         List<Integer> errorObjNo = new ArrayList<>();
@@ -114,6 +114,7 @@ public class FileUploadService {
             if (!jsonObject.keySet().equals(Set.of("origin","destination","distanceKm","departureTime","arrivalTime","transport"))) {
                 errorObjNo.add(i+1);
                 registeredError = true;
+                invalidValues.add("[KEYS] Object number " + (i + 1) + " contains the wrong number of keys.");
             }
             // Checks that transport is one of the predefined valid types.
             if (jsonObject.containsKey("transport")) {
@@ -123,7 +124,8 @@ public class FileUploadService {
                         errorObjNo.add(i+1);
                         registeredError = true;
                     }
-                    invalidValues.add("{TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
+                    System.out.println("ERROR DISTANCE");
+                    invalidValues.add("[TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
                             "Transport type '" + transportType + "' is invalid.");
                 }
             }
@@ -193,8 +195,8 @@ public class FileUploadService {
     // Processing file starts here
     private APIResponse process(String inputFile) {
         // Null check
-        if (inputFile == null) {
-            return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
+        if (inputFile == null || inputFile.isEmpty()) {
+            return new APIResponse("{\"error\": \"The file provided was null/empty unexpectedly.\"}");
         }
 
         // Builds the data of all the journeys using each travel record.
@@ -260,7 +262,6 @@ public class FileUploadService {
                     String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
 
         }
-
         return journeys;
     }
 
@@ -281,7 +282,6 @@ public class FileUploadService {
             journeys = journeys.append((journeys.isEmpty() ? "" : ",") +
                     String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
         }
-
         return journeys;
     }
 
