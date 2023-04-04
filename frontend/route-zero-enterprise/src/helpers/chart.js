@@ -76,7 +76,6 @@ export const journeyBars = (file) => {
       const pairs = mapToPairs(uniqueTransports, transportTally);
       return pairs;
     });
-}
 
 // maps transport methods in CSV to records in the response
 export const emissionBarsBefore = (file, response) => {
@@ -96,6 +95,8 @@ export const emissionBarsBefore = (file, response) => {
       return transform(pairs, EMISSION_LOWER_LIM);
     });
 }
+
+
 
 // Calculates updated emissions for each transport method by multiplying probability of it occuring
 // with the emissions it would induce

@@ -21,8 +21,7 @@
     "destination": "Bristol Temple Meads",
     "distanceKm": "9.536",
     "departureTime": "2022-10-14T19:16:00.000Z",
-    "arrivalTime": "2022-10-14T19:28:00.000Z",
-    "transport": "train"
+    "arrivalTime": "2022-10-14T19:28:00.000Z"
   },
   {
     "origin": "Bristol Bond St",
