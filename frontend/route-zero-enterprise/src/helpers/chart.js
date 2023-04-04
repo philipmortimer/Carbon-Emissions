@@ -76,6 +76,7 @@ export const journeyBars = (file) => {
       const pairs = mapToPairs(uniqueTransports, transportTally);
       return pairs;
     });
+}
 
 // maps transport methods in CSV to records in the response
 export const emissionBarsBefore = (file, response) => {
