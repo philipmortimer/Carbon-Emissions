@@ -93,7 +93,7 @@ public class ServerCSVTests {
      */
     @Test
     void uploadNoCSVShouldFail(){
-        assertTrue(fs.upload(null).getResponse().contains("The File provided was null unexpectedly."));
+        assertTrue(fs.upload(null).getResponse().contains("The file provided was null/empty unexpectedly."));
     }
     /**
      * <b>INVALID EMPTY CSV TEST</b><br/>
@@ -101,7 +101,7 @@ public class ServerCSVTests {
      */
     @Test
     void uploadEmptyCSVShouldFail() {
-        assertTrue(fs.upload(CSV_EMPTY).getResponse().contains("Empty CSV File provided."));
+        assertTrue(fs.upload(CSV_EMPTY).getResponse().contains("The file provided was null/empty unexpectedly."));
     }
     /**
      * <b>INVALID HEADER CSV TEST</b><br/>
