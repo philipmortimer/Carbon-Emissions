@@ -81,7 +81,7 @@ export const PredictButton = (props) => {
 
   return (
     <>
-      {(props.validity === 'valid' && props.loading === 'loaded') ? <Button onClick={loadThenPost}>See predictions</Button> : <Button disabled>See predictions</Button>}
+      {(props.validity === 'valid' && props.loading === 'loaded') ? <Button className="predict-button" onClick={loadThenPost}>See predictions</Button> : <Button className="predict-button" disabled>See predictions</Button>}
       <p className='suggestion'>{getSuggestion(props.validity)}</p>
       <InvalidFileModal show={showModal} onHide={() => { setModalErrorTxt(''); setShowModal(false) }} msg={modalErrorTxt} />
     </>

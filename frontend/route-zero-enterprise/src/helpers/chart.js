@@ -1,3 +1,5 @@
+import { getTransports } from "./file.js";
+
 
 /*
 
@@ -66,55 +68,43 @@ export const mapToPairs = (keys, tally) => {
   return pairs
 }
 
-export const getTransportsCSV = (text) => {
-  /* Converts text into transports using the following transformations:
-    - Splits it by line (one record per line). Note regex handles '\n' and '\r\n' as valid new line chars.
-    - Slices the nought element as element 0 is just the field headings
-    - Splits the record by comma and accesses the transport method (last element of record)
-  */
-  const t = text.split(/\r\n|\n/).slice(1).map(x => x.split(',').at(-1))
-  return t
-}
-
-export const journeyBars = (csvBlob) => {
-  return csvBlob
-    .text()
-    .then((text) => {
-      const transports = getTransportsCSV(text)
-      const uniqueTransports = listToSet(transports)
-      const transportTally = tallyList(transports) // the first line is not a travel type
-      const pairs = mapToPairs(uniqueTransports, transportTally)
-      return pairs
-    })
+export const journeyBars = (file) => {
+  return getTransports(file)
+    .then((transports) => {
+      const uniqueTransports = listToSet(transports);
+      const transportTally = tallyList(transports); // the first line is not a travel type
+      const pairs = mapToPairs(uniqueTransports, transportTally);
+      return pairs;
+    });
 }
 
 // maps transport methods in CSV to records in the response
-export const emissionBarsBefore = (csvBlob, response) => {
-  return csvBlob
-    .text()
-    .then((text) => {
-      const transports = getTransportsCSV(text)
-      const uniqueTransports = listToSet(transports)
-      const co2Tally = {}
+export const emissionBarsBefore = (file, response) => {
+  return getTransports(file)
+    .then((transports) => {
+      const uniqueTransports = listToSet(transports);
+      const co2Tally = {};
       uniqueTransports.map(x => {
         co2Tally[x] = 0
-        return x
-      }) // fresh map
+        return x;
+      }); // fresh map
       transports.map((x, i) => {
         co2Tally[x] += response.predictions[i] === undefined ? 0 : response.predictions[i]['currentCarbonKgCo2e'] // handles undefined
-        return x
-      })
-      const pairs = mapToPairs(uniqueTransports, co2Tally)
-      return transform(pairs, EMISSION_LOWER_LIM)
-    })
+        return x;
+      });
+      const pairs = mapToPairs(uniqueTransports, co2Tally);
+      return transform(pairs, EMISSION_LOWER_LIM);
+    });
 }
+
+
 
 // Calculates updated emissions for each transport method by multiplying probability of it occuring
 // with the emissions it would induce
-export const emissionBarsAfter = (csvBlob, response) => {
-  return csvBlob
-    .text()
-    .then((text) => {
+export const emissionBarsAfter = (file, response) => {
+  return file
+    .text() //superfluous text call to maintain the promise return type 
+    .then(() => {
       // Fills map of transportType, totalPredictedEmissions
       let transEmissionMap = new Map()
       for (let journeyIndex = 0; journeyIndex < response.predictions.length; journeyIndex++) {

@@ -1,5 +1,5 @@
 
-export const fetchPOST = async (url, data) => { // temporarily, this function only logs to the console and returns nothing
+export const fetchPOST = async (url, data) => { 
   // console.log(data)
   // console.log(JSON.stringify(data))
 
