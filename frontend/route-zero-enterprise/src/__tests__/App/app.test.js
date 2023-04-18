@@ -197,6 +197,8 @@ describe('File Upload predictions retrieval tests', () => {
 export function getCsvFile (name, text) {
   const file = {
     name,
+    type: name.endsWith(".csv")? "text/csv" : 
+      (name.endsWith(".json")? "application/json" : undefined),
     text: () => Promise.resolve(text)
   }
   return file
