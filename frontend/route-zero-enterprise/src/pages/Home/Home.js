@@ -29,8 +29,7 @@ export const Home = (props) => {
                     <PromptSchemaCSV className="homepage-csv-schema"/>
                     <PromptSchemaJSON className="homepage-json-schema"/>
                     <HelpButton/>
-                    <PredictButton file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse} loading={props.loading} setLoading={props.setLoading}/>
-
+                    <PredictButton id="predict-button" file={props.file} validity={props.validity} setValidity={props.setValidity} setResponse={props.setResponse} loading={props.loading} setLoading={props.setLoading}/>
                 </div>
             </div>
             <div className="progress-bar">
