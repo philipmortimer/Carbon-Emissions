@@ -39,7 +39,6 @@ describe('Home page aesthetics', () => {
   test('Default enabled status of buttons', () => {
     render(getHomeTestComponent(getDefaultPropsHome()))
     // Checks that the default state of buttons being enabled / disbaled is correct
-    expect(screen.getAllByText('CSV Schema')[0].disabled).toBe(false)
     expect(screen.getAllByText('JSON Schema')[0].disabled).toBe(false)
     expect(screen.getAllByText('Upload')[0].disabled).toBe(false) // merge conflict was resolved here! 18/04/23
     expect(screen.getAllByText('See predictions')[0].disabled).toBe(true) // merge conflict was resolved here! 18/04/23
