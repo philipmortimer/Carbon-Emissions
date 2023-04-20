@@ -18,10 +18,10 @@ function OffCanvasExample({ name, ...props }) {
                     <Offcanvas.Title>Information</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <p>Please upload your .csv file by pressing the 'Upload' button. Once this step is completed,
+                    <p>Please upload your .csv or .json file by pressing the 'Upload' button. Once this step is completed,
                         you will be able to access your predictions by pressing the 'See predictions' button.</p>
 
-                    <p>The predictions will not work without a valid csv file. Please review the csv schema for more information.
+                    <p>The predictions will not work without a valid csv or json file. Please review the csv and json schema for more information.
                     </p>
                 </Offcanvas.Body>
             </Offcanvas>

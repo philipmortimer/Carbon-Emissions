@@ -7,7 +7,8 @@ import {
 
 import { Home } from './pages/Home/Home.js'
 import { View } from './pages/View/View.js'
-import {CSVSchema} from './pages/CSVSchema/CSVSchema.js'
+import {CSVSchema} from './pages/Schemas/CSVSchema.js'
+import {JSONSchema} from './pages/Schemas/JSONSchema.js'
 import { Hero } from './components/Hero/Hero.js'
 import { Content } from './components/Content/Content.js'
 
@@ -30,7 +31,8 @@ function App () {
           <Routes>
             <Route path='/' element={<Home file={file} setFile={setFile} validity={validity} setValidity={setValidity} setResponse={setResponse} loading={loading} setLoading={setLoading}/>} />
             <Route path='/view' element={<View file={file} setFile={setFile} response={response} loading={loading} setLoading={setLoading} />} />
-            <Route path='/schema' element={<CSVSchema/>}/>
+            <Route path='/CSVschema' element={<CSVSchema/>}/>
+            <Route path='/JSONschema' element={<JSONSchema/>}/>
 
           </Routes>
         }
