@@ -1,4 +1,12 @@
+
+<p align="center">
+  <img src="https://enterprise.routezero.world/static/media/routezero.e760ac773e0cf56e3c20e228ee964ebb.svg" alt="rze_logo" width="400px"/>
+</p>
+
 # Route Zero Enterprise Carbon Savings Prediction
+
+Visit our Continuously Delivered (on merge with main) deployment at [http://rzcarbonsavings.ddns.net/](http://rzcarbonsavings.ddns.net/) or [http://34.226.134.137](http://34.226.134.137).
+
 ## Index
 - [Overview](#overview)
 - [Starting our app](#startup-guides)
@@ -48,12 +56,7 @@ This will have two main components:
 
 ## Startup guides
 
-
-## Starting our Frontend
-
-### Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Starting our Frontend
 
 ### Installing dependancies (prerequisite)
 
@@ -77,12 +80,15 @@ If you're testing the frontend with a locally hosted backend, to avoid CORS issu
 
 #### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Testing feature to-be implemented. 
 
-#### Deployment
+#### `npm run build`
 
-To do: insert deployment instructions
+Builds the app for production to the `build` folder.\
+
+### Deployment
+
+The frontend is running with NGINX. To deploy the app yourself, please see [Docker Images](#docker-images).
 
 ## Starting our Backend
 
@@ -107,9 +113,8 @@ To change that, change the value of `server.port` in the *application.properties
 
 ### For the Frontend
 
-The ``docker compose`` instructions are **depricated** as there was no need for a multistage build.
+To generate and run just the frontend image, observe the following steps: 
 
-To generate and run just the frontend image, observe the following steps:
 - start the docker desktop app
 - find ``frontend/route-zero-enterprise/``
 - select a name for the image, here ``<docker_username>/frontend:latest`` is used
