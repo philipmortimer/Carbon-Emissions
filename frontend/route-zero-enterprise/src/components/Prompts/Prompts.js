@@ -26,9 +26,9 @@ export const PromptSchemaJSON = (props) => {
   };
 
   return (
-    <div className={`${props.className}`}>
-      <Button className={`${props.className}-button`} variant='primary' onClick={navigateToJSONSchema}>
-        JSON Schema
+    <div className="homepage-json-schema-button" >
+      <Button className="homepage-json-schema-button" variant='primary' onClick={navigateToJSONSchema}>
+        <span>JSON Schema</span>
       </Button>
 
       

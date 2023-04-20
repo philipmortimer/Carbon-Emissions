@@ -80,10 +80,14 @@ export const PredictButton = (props) => {
   }, [props.file, props.setValidity]) // refreshes on updates to props['file']
 
   return (
-    <>
-      {(props.validity === 'valid' && props.loading === 'loaded') ? <Button className="predict-button" onClick={loadThenPost}>See predictions</Button> : <Button className="predict-button" disabled>See predictions</Button>}
+    <span class="flex-row predict-pair">
+      {
+        props.validity === 'valid' && props.loading === 'loaded'
+        ? <Button className="predict-button" onClick={loadThenPost}>See predictions</Button> 
+        : <Button className="predict-button" disabled>See predictions</Button>
+      }
       <p className='suggestion'>{getSuggestion(props.validity)}</p>
       <InvalidFileModal show={showModal} onHide={() => { setModalErrorTxt(''); setShowModal(false) }} msg={modalErrorTxt} />
-    </>
+    </span>
   )
 }

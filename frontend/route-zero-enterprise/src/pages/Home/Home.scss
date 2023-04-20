@@ -14,10 +14,16 @@
 
 .buttons{
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    @media screen and (max-width: 750px) {
-        grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 2fr 8rem 8rem 8rem;
+    @media screen and (max-width: 795px) {
+        grid-template-columns: 1fr 1fr 1fr;
     }
+    gap: 1rem;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
     gap: 1rem;
 }
 
@@ -35,21 +41,31 @@
     grid-column: span 3;
 }
 
-.homepage-csv-schema {
+.homepage-csv-schema{
+    min-width: 8rem;
     grid-column: span 1;
 }
 
 .homepage-csv-schema-button{
-    min-width: 8rem;
+    width: 8rem;
+}
+
+.homepage-json-schema-button{
+    width: 8rem;
+}
+
+.float-right{
+    display: flex;
+    justify-content:right;
 }
 
 #upload-button{
-    grid-column: span 2;
+    grid-column: span 1;
     max-width: 30.7rem;
 }
 
 .help-button{
-    min-width: 8rem;
+    width: 8rem;
 }
 
 .progress-bar{
@@ -59,6 +75,20 @@
 }
 
 .predict-button{
-    grid-column: span 1;
-    min-width: 10rem;
+    width: 15rem;
+}
+
+.predict-pair{
+    
+    grid-column: span 3;
+    @media screen and (max-width: 650px) {
+        grid-column: span 3;
+    }
+}
+
+#upload-button{
+    width: 15rem;
+    @media screen and (max-width: 650px) {
+        grid-column: span 3;
+    }
 }
