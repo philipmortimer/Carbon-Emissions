@@ -14,7 +14,7 @@
 
 .buttons{
     display: grid;
-    grid-template-columns: 11rem 11rem 6rem 6rem 6rem;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     @media screen and (max-width: 750px) {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -32,19 +32,33 @@
 }
 
 .suggestion {
-    grid-column: span 2;
+    grid-column: span 3;
 }
 
-.homepage-csv-schema-button {
-    grid-column: span 2;
+.homepage-csv-schema {
+    grid-column: span 1;
 }
 
-#upload-btn{
+.homepage-csv-schema-button{
+    min-width: 8rem;
+}
+
+#upload-button{
     grid-column: span 2;
+    max-width: 30.7rem;
+}
+
+.help-button{
+    min-width: 8rem;
 }
 
 .progress-bar{
     display: grid;
     padding: 30px;
     margin: 0 auto;
+}
+
+.predict-button{
+    grid-column: span 1;
+    min-width: 10rem;
 }
