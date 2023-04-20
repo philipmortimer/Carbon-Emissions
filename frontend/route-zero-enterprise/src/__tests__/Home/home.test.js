@@ -29,17 +29,19 @@ describe('Home page aesthetics', () => {
     render(getHomeTestComponent(getDefaultPropsHome()))
     // Checks that exactly one of each of the following default text items exists
     expect(screen.getAllByText('Do you want to know your potential carbon savings?').length).toBe(1)
-    expect(screen.getAllByText('Simply upload your travel expense or milage data as a CSV file').length).toBe(1)
+    expect(screen.getAllByText('Simply upload your travel expense or milage data as a CSV or JSON file').length).toBe(1)
     expect(screen.getAllByText('Please select a file').length).toBe(1)
     expect(screen.getAllByText('CSV Schema').length).toBe(1)
+    expect(screen.getAllByText('JSON Schema').length).toBe(1)
     expect(screen.getAllByText('Upload').length).toBe(1)
     expect(screen.getAllByText('See predictions').length).toBe(1)
   })
   test('Default enabled status of buttons', () => {
     render(getHomeTestComponent(getDefaultPropsHome()))
     // Checks that the default state of buttons being enabled / disbaled is correct
-    expect(screen.getAllByText('Upload')[0].disabled).toBe(false)
-    expect(screen.getAllByText('See predictions')[0].disabled).toBe(true)
+    expect(screen.getAllByText('JSON Schema')[0].disabled).toBe(false)
+    expect(screen.getAllByText('Upload')[0].disabled).toBe(false) // merge conflict was resolved here! 18/04/23
+    expect(screen.getAllByText('See predictions')[0].disabled).toBe(true) // merge conflict was resolved here! 18/04/23
   })
 })
 

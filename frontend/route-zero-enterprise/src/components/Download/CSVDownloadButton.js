@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-export const DownloadButton = (props) => {
+export const CSVDownloadButton = (props) => {
   
     const downloadTxtFile = () => {
     // text content

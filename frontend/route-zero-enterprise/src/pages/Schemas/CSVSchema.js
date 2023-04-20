@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { DownloadButton } from '../../components/Download/DownloadButton';
-import './CSVSchema.scss'
+import { CSVDownloadButton } from '../../components/Download/CSVDownloadButton';
+import './Schema.scss'
 
 
 export const CSVSchema = (props) => {
@@ -34,7 +34,7 @@ export const CSVSchema = (props) => {
                 <h2>Download example</h2>
                 </div>
                 <div class="sub-section">
-                <DownloadButton/>
+                <CSVDownloadButton/>
                 </div>
                 </div>
                 <div class="section">
