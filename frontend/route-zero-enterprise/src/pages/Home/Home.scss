@@ -1,3 +1,9 @@
+
+h1, h2, h4 {
+    font-family: Poppins-Black, serif;
+    color: #505050;
+}
+
 .custom-container{
     margin-top: 0;
     background-color: white;
@@ -46,12 +52,13 @@
     grid-column: span 1;
 }
 
-.homepage-csv-schema-button{
+.homepage-csv-schema-button, .homepage-json-schema-button, .help-button{
     width: 8rem;
+    color: #1AB4D7;
 }
 
-.homepage-json-schema-button{
-    width: 8rem;
+button{
+    font-family: Poppins-Regular, serif;
 }
 
 .float-right{
@@ -64,10 +71,6 @@
     max-width: 30.7rem;
 }
 
-.help-button{
-    width: 8rem;
-}
-
 .progress-bar{
     display: grid;
     padding: 30px;
@@ -76,6 +79,7 @@
 
 .predict-button{
     width: 15rem;
+    font-family: Poppins-Regular, serif;
 }
 
 .predict-pair{

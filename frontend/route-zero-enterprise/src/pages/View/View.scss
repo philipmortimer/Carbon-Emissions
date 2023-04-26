@@ -1,6 +1,8 @@
-$rz_green: #00DF74;
+$rz_green: #00C795;
+$rz_grey: #505050;
 $span_width: 0.75rem;
 $span_height: 0.35rem;
+
 
 .center-grid {
   background-color: rgb(255, 255, 255);
@@ -12,7 +14,6 @@ $span_height: 0.35rem;
 .center-grid2 {
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
-  padding: 5px;
 }
 
 .inner{
@@ -49,24 +50,31 @@ $span_height: 0.35rem;
 
 @media (max-width: 500px){
   .center-grid {
-    padding: 0px;
+    padding: 0;
   }
   .cell{
-    margin: 0px;
+    margin: 0;
   }
 }
 
-#h2 {
+h2 , h1{
   padding: 15px;
-  font-family: unset;
+  font-family: Poppins-Black, serif;
   font-weight: 675;
-  color: rgb(80, 80, 80);
+}
+
+h2{
+  color: $rz_green;
+}
+
+h1{
+  color: $rz_grey;
 }
 
 .cell {
   display:grid;
   border-radius: 15px;
-  padding: 0.5rem;
+  padding: 40px 0 0 0;
   margin: 0 auto;
 }
 
@@ -84,13 +92,23 @@ $span_height: 0.35rem;
   gap: 1rem;
 }
 
+
 .policy{
+
+  #policySelector{
+    border-radius: 10px;
+  }
 
   .list-group-item{
     display: grid;
     grid-template-columns: 1.5rem 1fr 0fr;
     height: 3.5rem;
     padding: 1rem 0 1rem 0.5rem;
+  }
+
+  p{
+    font-family: Poppins-Regular, serif;
+    color: $rz_grey;
   }
 
   @media screen and (max-width: 1040px) and (min-width: 800px){
@@ -150,6 +168,7 @@ $span_height: 0.35rem;
   margin-left: 2.5rem;
   color:rgb(156, 156, 156);
   font-size: 2rem;
+
 }
 
 .me-2{

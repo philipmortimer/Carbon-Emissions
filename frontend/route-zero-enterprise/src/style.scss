@@ -2,6 +2,18 @@
 $body-bg: #d6d6d6;
 $body-color: #2b2b2b;
 $rz-green: #00DF74;
+$rz_grey: #505050;
+$rz_blue: #1AB4D7;
+
+@font-face {
+    font-family: 'Poppins-Black';
+    src: local('Poppins-Black'), url(./fonts/Poppins-Black.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: local('Poppins-Regular'), url(./fonts/Poppins-Regular.ttf) format('truetype');
+}
 
 //$navbar-padding-y: 10rem 10rem;
 
@@ -13,6 +25,13 @@ $rz-green: #00DF74;
 // @import "./components/Hero/Hero.scss";
 // @import "./components/Logo/Logo.scss";
 
+
 .router {
     background-color: #d6d6d6;
+}
+
+.content{
+    background-image: url("../public/ev_no_road.png");
+    background-size: cover;
+
 }
