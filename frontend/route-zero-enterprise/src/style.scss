@@ -1,7 +1,7 @@
 /* and customise defaults... */
-$body-bg: #d6d6d6;
+$body-bg: #ffffff;
 $body-color: #2b2b2b;
-$rz-green: #00DF74;
+$rz-green: #00C795;
 $rz_grey: #505050;
 $rz_blue: #1AB4D7;
 
@@ -27,11 +27,17 @@ $rz_blue: #1AB4D7;
 
 
 .router {
-    background-color: #d6d6d6;
+    background-color: white;
 }
 
 .content{
     background-image: url("../public/ev_no_road.png");
     background-size: cover;
-
 }
+
+@media(min-width:1400px){
+    .content{
+        border-radius: 20px;
+    }
+}
+
