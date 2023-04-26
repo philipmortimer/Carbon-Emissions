@@ -104,6 +104,8 @@ class Effect {
             }else{
                 factors[bar[0]] = journeyBarsNew[i][1] / barVal;  //find by what proportion a bar has increased by 
             }
+
+            return bar;
         });
 
         return emissionBars.map((bar) => {
@@ -167,7 +169,7 @@ const POLICIES_BASE =
 
             //indices of all interesting bars
             const [journeyEVIndex, journeyPetrolIndex, journeyDieselIndex] = Effect.searchBarsOnNames(journeys, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
-            const [emissionEVIndex, emissionPetrolIndex, emissionDieselIndex] = Effect.searchBarsOnNames(emissions, travelKind.electricCar, travelKind.petrolCar, travelKind.dieselCar);
+            const [emissionPetrolIndex, emissionDieselIndex] = Effect.searchBarsOnNames(emissions, travelKind.petrolCar, travelKind.dieselCar);
             const iceBars = [journeyPetrolIndex, journeyDieselIndex];
 
             let newJourneys = Effect.copyBars(journeys); //a mutable copy of journeys

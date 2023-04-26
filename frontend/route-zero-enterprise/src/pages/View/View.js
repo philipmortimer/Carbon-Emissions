@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 //components
@@ -36,7 +36,7 @@ export const View = (props) => {
 
     //console.log(policies);
 
-    const resetGraphs = () => {
+    const resetGraphsCallback = useCallback(() => { 
         if (props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
 
             journeyBars(props.file)
@@ -65,14 +65,14 @@ export const View = (props) => {
                     setPolicies(getPolicies());
                 });
         }
-    }
+    }, [props.file, props.response, predictJourneys.length]);
 
     useEffect(() => {
         document.title = "Graphs | RouteZero"
 
-        resetGraphs();
+        resetGraphsCallback();
 
-    }, [props.setFile, props.file, props.response]);
+    }, [resetGraphsCallback]);
 
     return (<>
         {props.file === undefined || props.file === null

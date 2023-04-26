@@ -191,7 +191,7 @@ export const JSONDownloadButton = (props) => {
         '  },\n'   +
         " {\n" +
           '  "origin": "Bond Street",\n'   +
-          '  "destination": "St Augustine'   +' s Parade",\n'   +
+          '  "destination": "St Augustine\'s Parade",\n'   +
           '  "distanceKm": "0.99",\n'   +
           '  "departureTime": "2022-10-14T20:55:00.000Z",\n'   +
           '  "arrivalTime": "2022-10-14T20:58:03.000Z",\n'   +

@@ -17,14 +17,13 @@ export const PolicyOption = ({
 
     useEffect(() => {
         if(!policyOption.selected){
-            // emissions.map(e => console.log(`${e[0]},${e[1]}`));
-
+            
             setSaved(policyOption.effect.getCO2eSaved(
                 [journeys, setJourneys],
                 [emissions, setEmissions]
             ));
         }
-    }, [policies, setEmissions]);
+    }, [policies, setEmissions, policyOption.effect, policyOption.selected, emissions, journeys, setJourneys]);
 
     const togglePolicy = () => {
         setPolicies(policies.map((p, i) => {

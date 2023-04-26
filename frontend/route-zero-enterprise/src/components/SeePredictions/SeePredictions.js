@@ -80,7 +80,7 @@ export const PredictButton = (props) => {
   }, [props.file, props.setValidity]) // refreshes on updates to props['file']
 
   return (
-    <span class="flex-row predict-pair">
+    <span className="flex-row predict-pair">
       {
         props.validity === 'valid' && props.loading === 'loaded'
         ? <Button className="predict-button" onClick={loadThenPost}>See predictions</Button> 

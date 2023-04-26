@@ -1,4 +1,4 @@
-import React /**/, {useEffect}/*, useState}*/ from "react";
+import React from "react";
 // import {KiloTonBubble} from "../KiloTonBubble/KiloTonBubble.js";
 import {PolicyOption} from "./PolicyOption.js";
 
