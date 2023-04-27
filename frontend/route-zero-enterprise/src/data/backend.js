@@ -1,5 +1,5 @@
 const deployed = true; 
-
+// deploy
 const deploy = {
   ip: 'http://34.226.134.137',
   port: 8080,
