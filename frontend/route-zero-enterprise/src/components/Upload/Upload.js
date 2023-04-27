@@ -28,7 +28,7 @@ export const UploadButton = (props) => {
       <input id='file-input' onChange={handleUpload} className='d-none' type='file' />
       <Button
         className={`btn-${props.validity === 'valid'
-? 'success'
+? 'success2'
 : (props.validity === 'invalid_extension' ||
                 props.validity === 'invalid_by_backend_determination')
 ? 'danger'

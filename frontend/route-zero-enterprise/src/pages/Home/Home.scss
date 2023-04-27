@@ -1,7 +1,15 @@
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, #contained-modal-title-vcenter{
     font-family: Poppins-Black, serif;
     color: #505050;
+}
+
+#contained-modal-title-vcenter{
+    color: #303030;
+}
+
+.InvalidFileModalHeader{
+    color: #00C795;
 }
 
 .custom-container{
@@ -52,20 +60,12 @@ h1, h2, h3, h4 {
     grid-column: span 1;
 }
 
-.homepage-csv-schema-button, .homepage-json-schema-button, .help-button{
-    width: 8rem;
-}
-
 
 .float-right{
     display: flex;
     justify-content:right;
 }
 
-#upload-button{
-    grid-column: span 1;
-    max-width: 30.7rem;
-}
 
 .progress-bar{
     display: grid;
@@ -73,12 +73,28 @@ h1, h2, h3, h4 {
     margin: 0 auto;
 }
 
-.predict-button{
+#predict-button{
     width: 15rem;
+    background-color: #1AB4D7;
+    color: #FFFFFF;
+    border: solid 2px #1AB4D7;
+}
+
+#predict-button:hover{
+    width: 15rem;
+    background-color: #ffffff;
+    color: #1AB4D7;
+    border: solid 2px #1AB4D7;
+}
+
+#predict-button-disabled{
+    width: 15rem;
+    background-color: #1AB4D7;
+    color: #FFFFFF;
+    border: solid 2px #1AB4D7;
 }
 
 .predict-pair{
-    
     grid-column: span 3;
     @media screen and (max-width: 650px) {
         grid-column: span 3;
@@ -90,4 +106,36 @@ h1, h2, h3, h4 {
     @media screen and (max-width: 650px) {
         grid-column: span 3;
     }
+}
+
+
+em {
+    font-family: Poppins-Italic, serif;
+    color: #505050;
+}
+
+#homepage-csv-schema-button:hover, #homepage-json-schema-button:hover{
+    background-color: #ffffff;
+    border: solid 2px #00C795;
+    color: #00C795;
+}
+
+#homepage-csv-schema-button, #homepage-json-schema-button {
+    background-color: #00C795;
+    color: #FFFFFF;
+    border: solid 2px #00C795;
+    width: 8rem;
+}
+
+#help-button:hover{
+    background-color: #cccccc;
+    color: #FFFFFF;
+    border: solid 2px #cccccc;
+}
+
+#help-button{
+    width: 8rem;
+    background-color: #ffffff;
+    border: solid 2px #cccccc;
+    color: #808080;
 }

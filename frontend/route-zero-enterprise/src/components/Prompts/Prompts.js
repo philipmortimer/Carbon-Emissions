@@ -11,8 +11,8 @@ export const PromptSchemaCSV = (props) => {
   };
 
   return (
-    <Button className="homepage-csv-schema-button" variant='primary' onClick={navigateToCSVSchema}>
-      <span className="homepage-csv-schema-button-inner-text">CSV Schema</span>
+    <Button id="homepage-csv-schema-button" onClick={navigateToCSVSchema}>
+      <span id="homepage-csv-schema-button-inner-text">CSV Schema</span>
     </Button>
   )
 }
@@ -26,12 +26,8 @@ export const PromptSchemaJSON = (props) => {
   };
 
   return (
-    <div className="homepage-json-schema-button" >
-      <Button className="homepage-json-schema-button" variant='primary' onClick={navigateToJSONSchema}>
+      <Button id="homepage-json-schema-button" onClick={navigateToJSONSchema}>
         <span>JSON Schema</span>
       </Button>
-
-      
-    </div>
   )
 }

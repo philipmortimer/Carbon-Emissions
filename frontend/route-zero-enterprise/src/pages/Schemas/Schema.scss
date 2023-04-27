@@ -30,8 +30,16 @@ ul {
     list-style-type: none;
    }
 
-.SchemaHeader {
-    color: #00C795;
+#JSONDownloadButton, #CSVDownloadButton{
+    width: 6rem;
+    background-color: #ffffff;
+    border: solid 2px #cccccc;
+    color: #808080;
+}
+#JSONDownloadButton:hover, #CSVDownloadButton:hover{
+    background-color: #cccccc;
+    color: #FFFFFF;
+    border: solid 2px #cccccc;
 }
 
 p {

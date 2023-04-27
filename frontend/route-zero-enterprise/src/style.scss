@@ -15,6 +15,11 @@ $rz_blue: #1AB4D7;
     src: local('Poppins-Regular'), url(./fonts/Poppins-Regular.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'Poppins-Italic';
+    src: local('Poppins-Italic'), url(./fonts/Poppins-Italic.ttf) format('truetype');
+}
+
 //$navbar-padding-y: 10rem 10rem;
 
 /* ...then import */

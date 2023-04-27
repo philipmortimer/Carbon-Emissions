@@ -16,7 +16,7 @@ export const InvalidFileModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>File Incorretly Formatted</h4>
+        <h4 className="InvalidFileModalHeader">File Incorretly Formatted</h4>
         <p>
           The CSV file chosen is invalid as it does not meet the CSV schema.
           Please review the CSV schema and upload a valid file.

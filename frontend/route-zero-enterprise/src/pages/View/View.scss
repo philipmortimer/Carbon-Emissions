@@ -59,15 +59,12 @@ $span_height: 0.35rem;
 
 h2 , h1{
   font-family: Poppins-Black, serif;
-  font-weight: 675;
 }
+
+
 
 h2{
-  color: $rz_green;
-}
-
-h1{
-  color: $rz_grey;
+  color: #00C795;
 }
 
 .cell {
@@ -86,7 +83,8 @@ h1{
 }
 
 .inline {
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 0.5fr 0.5fr;
   flex-direction: row;
   gap: 1rem;
   padding: 15px 0 0 0;
@@ -173,4 +171,29 @@ h1{
 
 .me-2{
   height: 2.65rem;
+}
+
+#DownloadGraphsButton{
+  background-color: #1AB4D7;
+  color: #FFFFFF;
+  border: solid 2px #1AB4D7;
+}
+
+#DownloadGraphsButton:hover{
+  background-color: #ffffff;
+  color: #1AB4D7;
+  border: solid 2px #1AB4D7;
+}
+
+#view-help-button {
+  background-color: #ffffff;
+  color: #1AB4D7;
+  border: solid 2px #1AB4D7;
+  width: 4em;
+}
+
+#view-help-button:hover {
+  background-color: #1AB4D7;
+  color: #FFFFFF;
+  border: solid 2px #1AB4D7;
 }
