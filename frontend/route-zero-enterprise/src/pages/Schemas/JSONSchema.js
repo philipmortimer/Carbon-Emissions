@@ -5,6 +5,13 @@ import { JSONDownloadButton } from '../../components/Download/JSONDownloadButton
 import './Schema.scss'
 
 
+/** @function JSONSchema
+ * 
+ * @desc Provides the JSON schema webpage as pure HTML
+ * 
+ * @returns {JSX.Element} JSON Schema page 
+ */
+
 export const JSONSchema = (props) => {
   
     return(  

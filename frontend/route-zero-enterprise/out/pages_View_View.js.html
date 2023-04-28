@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/View/View.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/View/View.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
+
+//components
+import "./View.scss";
+import { BarChart } from "../../components/Chart/Chart.js";
+import { PolicySelector } from "../../components/Policy/PolicySelector.js";
+import HelpButton from '../../components/HelpButtons/ViewHelpButton.js'
+import { DownloadGraphs } from '../../components/DownloadGraphs/DownloadGraphs'
+
+
+//helpers
+import { journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars } from "../../helpers/chart.js";
+
+//data
+import { getPolicies } from "../../data/policies.js";
+
+// ID's used for each chart
+export const beforeJourneyId = "1";
+export const currentEmissionId = "2";
+export const predictedJourneyId = "3";
+export const predictEmissionsId = "4";
+
+/** @function View
+ * 
+ * @desc Produces the predictions page for our website 
+ * 
+ * @param {Object} props - File-upload and some prediction loading properties 
+ * @param {Object} props.file - The current file object
+ * @param {setFile} props.setFile 
+ * @param {string} props.loading - State of loading predictions
+ * @param {setLoading} props.setLoading 
+ * @returns {JSX.Element} View page
+ * 
+ */
+
+export const View = (props) => {
+
+    // PairArray&lt;BarName, Number>
+    const [beforeJourneys, setBeforeJourneys] = useState([]);
+    const [beforeEmissions, setBeforeEmissions] = useState([]);
+    const [predictJourneys, setPredictJourneys] = useState([]);
+    const [predictEmissions, setPredictEmissions] = useState([]);
+
+    const [originalPredict, setOriginalPredict] = useState({});
+
+    const [policies, setPolicies] = useState([]);
+    // const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
+
+    //console.log(policies);
+
+    const resetGraphsCallback = useCallback(() => { 
+        if (props.file !== null &amp;&amp; props.file !== undefined &amp;&amp; predictJourneys.length === 0) {
+
+            journeyBars(props.file)
+              .then((pairs) => {
+                  setBeforeJourneys(pairs);
+              });
+
+            emissionBarsBefore(props.file, props.response)
+                .then((pairs) => {
+                    setBeforeEmissions(pairs);
+                });
+
+            setPredictJourneys(predictJourneyBars(props.response));
+
+            emissionBarsAfter(props.file, props.response)
+                .then((pairs) => {
+                    setPredictEmissions(pairs)
+                    return pairs;
+                })
+                .then((pairs) => {
+                    //final setup
+                    setOriginalPredict({
+                        journeys: predictJourneyBars(props.response),
+                        emissions: pairs
+                    });
+                    setPolicies(getPolicies());
+                });
+        }
+    }, [props.file, props.response, predictJourneys.length]);
+
+    useEffect(() => {
+        document.title = "Graphs | RouteZero"
+
+        resetGraphsCallback();
+
+    }, [resetGraphsCallback]);
+
+    return (&lt;>
+        {props.file === undefined || props.file === null
+            ?
+            &lt;div className="middle-grid">
+                &lt;h1>Error&lt;/h1>
+                &lt;h3>Could not display predictions&lt;/h3>
+                &lt;p>There was an error displaying your predictions. Your data is not loaded, please &lt;Link to="/">provide a CSV&lt;/Link>&lt;/p>
+            &lt;/div>
+            :
+            &lt;div className="center-grid">
+                &lt;div className="outer">
+                    &lt;div className="cell">
+                        {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
+                        &lt;PolicySelector
+                            policies={policies}
+                            setPolicies={setPolicies}
+                            journeysState={[predictJourneys, setPredictJourneys]}
+                            emissionsState={[predictEmissions, setPredictEmissions]}
+                            originalPredict={originalPredict} />
+                        { // savedCO2e={savedCO2e}
+                            // setSavedCO2e={setSavedCO2e}/>
+                        }
+
+                    &lt;/div>
+
+                    &lt;div className="cell">
+                        &lt;div className="inline">
+                            &lt;h1>Visualisation&lt;/h1>
+                            &lt;DownloadGraphs beforeJourneyId={beforeJourneyId} currentEmissionId={currentEmissionId}
+                                predictedJourneyId={predictedJourneyId} predictEmissionsId={predictEmissionsId} />
+                            &lt;HelpButton />
+                        &lt;/div>
+
+                        &lt;div className="center-grid2">
+
+                            &lt;div className="inner">
+
+                                &lt;div className="cell">
+                                    &lt;h2>Before&lt;/h2>
+                                    &lt;div className="Chart">
+                                        &lt;BarChart chartId={beforeJourneyId} header="Journeys" bars={beforeJourneys} />
+                                    &lt;/div>
+                                    &lt;div className="Chart">
+                                        &lt;BarChart chartId={currentEmissionId} header="Current Emissions (KgCO2)" bars={beforeEmissions} />
+                                    &lt;/div>
+                                &lt;/div>
+                                &lt;div className="cell">
+                                    &lt;h2>After&lt;/h2>
+                                    &lt;div className="Chart">
+                                        &lt;BarChart chartId={predictedJourneyId} header="Average Predicted Journeys" bars={predictJourneys} />
+                                    &lt;/div>
+                                    &lt;div className="Chart">
+                                        &lt;BarChart chartId={predictEmissionsId} header="Predicted Emissions (KgCO2)" bars={predictEmissions} />
+                                    &lt;/div>
+                                &lt;/div>
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        }
+    &lt;/>
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Effect.html">Effect</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CSVDownloadButton">CSVDownloadButton</a></li><li><a href="global.html#CSVSchema">CSVSchema</a></li><li><a href="global.html#Content">Content</a></li><li><a href="global.html#DownloadGraphs">DownloadGraphs</a></li><li><a href="global.html#HelpButton">HelpButton</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#JSONDownloadButton">JSONDownloadButton</a></li><li><a href="global.html#JSONSchema">JSONSchema</a></li><li><a href="global.html#OffCanvasExample">OffCanvasExample</a></li><li><a href="global.html#View">View</a></li><li><a href="global.html#effect">effect</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Apr 28 2023 14:38:07 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

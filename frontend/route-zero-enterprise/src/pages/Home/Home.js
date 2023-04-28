@@ -9,6 +9,22 @@ import { ProgressBar } from '../../components/ProgressBar/ProgressBar.js'
 import './Home.scss'
 import HelpButton from '../../components/HelpButtons/UploadHelpButton.js'
 
+/** @function Home
+ * 
+ * @desc Produces the landing page for our website
+ * 
+ * @param {Object} props - File-upload and some prediction loading properties 
+ * @param {Object} props.file - The current file object
+ * @param {setFile} props.setFile 
+ * @param {string} props.validity - State of the current file as a string
+ * @param {setValidity} props.setValidity 
+ * @param {setResponse} props.setResponse 
+ * @param {string} props.loading - State of loading predictions
+ * @param {setLoading} props.setLoading 
+ * @returns {JSX.Element} Homepage
+ * 
+ */
+
 
 export const Home = (props) => {
 

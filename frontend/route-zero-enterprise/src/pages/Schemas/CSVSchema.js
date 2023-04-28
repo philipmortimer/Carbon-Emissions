@@ -4,8 +4,14 @@ import Col from 'react-bootstrap/Col';
 import { CSVDownloadButton } from '../../components/Download/CSVDownloadButton';
 import './Schema.scss'
 
+/** @function CSVSchema
+ * 
+ * @desc Provides the CSV schema webpage as pure HTML
+ * 
+ * @returns {JSX.Element} CSV Schema page 
+ */
 
-export const CSVSchema = (props) => {
+export const CSVSchema = () => {
   
     return(  
        
