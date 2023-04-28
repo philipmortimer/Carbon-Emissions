@@ -4,6 +4,11 @@ h1, h2, h3, h4, #contained-modal-title-vcenter{
     color: #505050;
 }
 
+span, button, p, #upload-button, #help-button{
+    font-family: Poppins-Regular, serif;
+    white-space: nowrap;
+}
+
 #contained-modal-title-vcenter{
     color: #303030;
 }
@@ -28,8 +33,8 @@ h1, h2, h3, h4, #contained-modal-title-vcenter{
 
 .buttons{
     display: grid;
-    grid-template-columns: 2fr 8rem 8rem 8rem;
-    @media screen and (max-width: 795px) {
+    grid-template-columns: 2fr 9rem 9rem 9rem;
+    @media screen and (max-width: 835px) {
         grid-template-columns: 1fr 1fr 1fr;
     }
     gap: 1rem;
@@ -56,7 +61,7 @@ h1, h2, h3, h4, #contained-modal-title-vcenter{
 }
 
 .homepage-csv-schema{
-    min-width: 8rem;
+    min-width: 9rem;
     grid-column: span 1;
 }
 
@@ -124,7 +129,7 @@ em {
     background-color: #00C795;
     color: #FFFFFF;
     border: solid 2px #00C795;
-    width: 8rem;
+    width: 9rem;
 }
 
 #help-button:hover{
@@ -134,7 +139,7 @@ em {
 }
 
 #help-button{
-    width: 8rem;
+    width: 9rem;
     background-color: #ffffff;
     border: solid 2px #cccccc;
     color: #808080;
