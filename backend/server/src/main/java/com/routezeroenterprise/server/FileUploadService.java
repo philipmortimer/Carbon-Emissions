@@ -1,14 +1,14 @@
 package com.routezeroenterprise.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * This class parses CSV file, performing validation on the file.
@@ -28,13 +28,13 @@ public class FileUploadService {
     /**
      * Uploads the CSV string and sends it to the route zero backend for processing.
      * Returns the API response. If the CSV file is invalid, an error message is returned.
-     * @param csvString The string containing the CSV file.
+     * @param inputString The string containing the CSV/JSON file.
      * @return The API response (or an error message if the string is determined to be invalid).
      */
-    public APIResponse upload(String csvString){
+    public APIResponse upload(String inputString){
         /* Converts csv file to line of Strings, where each line is a row in the file.
         Sends the data to the process method which handles validation and API response. */
-        return process(csvString);
+        return process(inputString);
     }
 
     /**
@@ -53,7 +53,7 @@ public class FileUploadService {
      * Otherwise, a String error message will be returned
      * (e.g. Optional.of("Line 2 of CSV file has invalid transport type 'submarine'")).
      */
-    private static Optional<String> checkForErrors(List<String> lines) {
+    private static Optional<String> checkForCSVErrors(List<String> lines) {
         // Performs null checks. This probably isn't necessary but is safe.
         if (lines == null || lines.stream().anyMatch(x -> x == null)) {
             return Optional.of("Unexpected null error. This is likely because the file provided is empty.");
@@ -99,6 +99,66 @@ public class FileUploadService {
         return Optional.empty(); // No critical errors
     }
 
+    private static Optional<String> checkForJSONErrors(List<Map<String,Object>> jsonFile) {
+        // Checks that file is not empty.
+        if (jsonFile.isEmpty()) {
+            return Optional.of("Empty JSON File provided.");
+        }
+        // Checks that each object is include all required keys and validates distanceKm and transport values
+        List<Integer> errorObjNo = new ArrayList<>();
+        List<String> invalidValues = new ArrayList<>();
+        for (int i = 0; i < jsonFile.size(); i++) {
+            var registeredError = false;
+            var jsonObject = jsonFile.get(i);
+            // Validates object key set
+            if (!jsonObject.keySet().equals(Set.of("origin","destination","distanceKm","departureTime","arrivalTime","transport"))) {
+                errorObjNo.add(i+1);
+                registeredError = true;
+                invalidValues.add("[KEYS] Object number " + (i + 1) + " contains the wrong number of keys.");
+            }
+            // Checks that transport is one of the predefined valid types.
+            if (jsonObject.containsKey("transport")) {
+                String transportType = (String) jsonObject.get("transport");
+                if (!FileFormat.VALID_TRAVEL_TYPES.contains(transportType)) {
+                    if (!registeredError) {
+                        errorObjNo.add(i+1);
+                        registeredError = true;
+                    }
+                    System.out.println("ERROR DISTANCE");
+                    invalidValues.add("[TRANSPORT] Object number " + (i + 1) + " contains an invalid transport type. " +
+                            "Transport type '" + transportType + "' is invalid.");
+                }
+            }
+            // Checks that distanceKm is a real number greater than 0
+            if (jsonObject.containsKey("distanceKm")) {
+                try {
+                    float dist = Float.parseFloat((String) jsonObject.get("distanceKm"));
+                    if (dist <= 0) {
+                        if (!registeredError) {
+                            errorObjNo.add(i+1);
+                            registeredError = true;
+                        }
+                        invalidValues.add("[DISTANCE] Object number " + (i + 1) + " contains and invalid distance value. " +
+                                "Distance must be positive (strictly greater than zero). Distance found: " + dist);
+                    }
+                } catch (NumberFormatException e) {
+                    if (!registeredError) {
+                        errorObjNo.add(i+1);
+                        registeredError = true;
+                    }
+                    System.out.println("ERROR DISTANCE");
+                    invalidValues.add("[DISTANCE] Object number " + (i + 1) + " of file. Distance must be a valid real number (e.g. 1.2).");
+                }
+            }
+        }
+        if (!errorObjNo.isEmpty()) {
+            return Optional.of("Please make sure the JSON file you submitted is formatted properly. Errors found in objects number "
+                    + errorObjNo + " " + (invalidValues.isEmpty() ? "" : invalidValues));
+        }
+        System.out.println(errorObjNo);
+        return Optional.empty(); // No critical errors
+    }
+
     /**
      * This method parses the CSV file for things that the user should be warned about but do not make a file
      * invalid. For example, it may be that the departure time is after the arrival time. As these
@@ -119,60 +179,6 @@ public class FileUploadService {
         return warnings;
     }
 
-
-    /**
-     * Processes the CSV file and returns the Route Zero API predictions.
-     * The CSV file is first validated by this method to ensure that it is potentially valid.
-     * Once validated, it is sent to the Route Zero API. The result of this API query is then returned.
-     * If the file is invalid, an error JSON is returned instead. Additionally, warnings may be returned
-     * about the CSV file alongside the API result.
-     * @param csvFile The CSV file
-     * @return The API response
-     */
-    private APIResponse process(String csvFile) {
-        // Null check
-        if (csvFile == null) {
-            return new APIResponse("{\"error\": \"The File provided was null unexpectedly.\"}");
-        }
-        List<String> lines = csvFile.lines().toList();
-        // Checks for critical errors in CSV file
-        Optional<String> errors = checkForErrors(lines);
-        if (errors.isPresent()) {
-            return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
-        }
-
-        // Builds the data of all the journeys using each record of CSV file.
-        // As first line is header, this line is ignored.
-        StringBuilder journeys = new StringBuilder("");
-        for (int i = 1; i < lines.size(); i++) {
-            String[] line = lines.get(i).split(",", -1);
-            String transportType = line[FileFormat.TRANSPORT_INDEX];
-            float distanceKm = Float.parseFloat(line[FileFormat.DISTANCE_INDEX]);
-            journeys = journeys.append((journeys.isEmpty() ? "" : ",") +
-                    String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
-        }
-
-        // Sends request to API and returns response
-        String jsonString = "{\"apiKey\":" + APIController.API_KEY +
-                String.format(",\"id\":\"id\",\"journeys\":[%s]}", journeys);
-        String responseString = null;
-        try {
-            responseString = Helper.postJsonAsString(APIController.PROPS.getEmissionsEndpoint(), jsonString);
-        } catch (IOException e) {
-            System.err.println("Error making post request " + e);
-            e.printStackTrace();
-            return new APIResponse("{\"errorCommunication\": \"" +
-                    "Error when communicating with backend. Details: " + e.getMessage() + "\"}");
-        }
-
-        // Adds warnings to JSON string
-        JsonObject jsonObject = new Gson().fromJson(responseString, JsonObject.class);
-        addWarningsToJson(jsonObject, getWarnings(lines));
-        responseString = jsonObject.toString();
-
-        return new APIResponse(responseString); // Returns response
-    }
-
     /**
      * Adds string array containing warnings to JSON response.
      * @param jo The JSON.
@@ -184,6 +190,99 @@ public class FileUploadService {
             array.add(new JsonPrimitive(warning));
         }
         jo.add("warnings", array);
+    }
+
+    // Processing file starts here
+    private APIResponse process(String inputFile) {
+        // Null check
+        if (inputFile == null || inputFile.isEmpty()) {
+            return new APIResponse("{\"error\": \"The file provided was null/empty unexpectedly.\"}");
+        }
+
+        // Builds the data of all the journeys using each travel record.
+        StringBuilder journeys = new StringBuilder("");
+        List<String> warnings = new ArrayList<>();
+
+        try{
+            // JSON File: Attempt to parse the file as JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Map<String, Object>> jsonFile = objectMapper.readValue(inputFile, new TypeReference<List<Map<String, Object>>>(){});
+
+            // Checks for critical errors in JSON file
+            Optional<String> errors = checkForJSONErrors(jsonFile);
+            if (errors.isPresent()) {
+                return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
+            }
+
+            journeys = processJSON(jsonFile, journeys);
+        } catch (JsonProcessingException e) {
+            // CSV File
+            List<String> lines = inputFile.lines().toList();
+            warnings = getWarnings(lines);
+
+            // Checks for critical errors in CSV file
+            Optional<String> errors = checkForCSVErrors(lines);
+            if (errors.isPresent()) {
+                return new APIResponse("{\"error\": \"" + errors.get() + "\"}");
+            }
+
+            journeys = processCSV(lines, journeys);
+        }
+
+        // Sends request to API and returns response
+        String jsonString = "{\"apiKey\":" + APIController.API_KEY +
+                String.format(",\"id\":\"id\",\"journeys\":[%s]}", journeys);
+
+        String responseString = null;
+        try {
+            responseString = Helper.postJsonAsString(APIController.PROPS.getEmissionsEndpoint(), jsonString);
+        } catch (IOException e) {
+            System.err.println("Error making POST request " + e);
+            e.printStackTrace();
+            return new APIResponse("{\"errorCommunication\": \"" +
+                    "Error when communicating with backend. Details: " + e.getMessage() + "\"}");
+        }
+
+        // Adds warnings to JSON string
+        JsonObject jsonObject = new Gson().fromJson(responseString, JsonObject.class);
+        addWarningsToJson(jsonObject, warnings);
+        responseString = jsonObject.toString();
+
+        return new APIResponse(responseString);
+    }
+
+    // Processes the JSON file and returns the journeys submitted
+    private StringBuilder processJSON(List<Map<String, Object>> jsonFile, StringBuilder journeys) {
+        // Gets the transport types and distance travelled
+        for (Map<String, Object> map : jsonFile) {
+            String transportType = (String) map.get("transport");
+            Float distanceKm = Float.parseFloat((String) map.get("distanceKm"));
+
+            journeys = journeys.append((journeys.isEmpty() ? "" : ",") +
+                    String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
+
+        }
+        return journeys;
+    }
+
+    /**
+     * Processes the CSV file and returns the Route Zero API predictions.
+     * The CSV file is first validated by this method to ensure that it is potentially valid.
+     * Once validated, it is sent to the Route Zero API. The result of this API query is then returned.
+     * If the file is invalid, an error JSON is returned instead. Additionally, warnings may be returned
+     * about the CSV file alongside the API result.
+     * @param csvLines Lines in the CSV file
+     * @return The API response
+     */
+    private StringBuilder processCSV(List<String> csvLines, StringBuilder journeys) {
+        for (int i = 1; i < csvLines.size(); i++) {
+            String[] line = csvLines.get(i).split(",", -1);
+            String transportType = line[FileFormat.TRANSPORT_INDEX];
+            float distanceKm = Float.parseFloat(line[FileFormat.DISTANCE_INDEX]);
+            journeys = journeys.append((journeys.isEmpty() ? "" : ",") +
+                    String.format(API_REQUEST_TEMPLATE, transportType, distanceKm, TRAVELLERS_PER_JOURNEY));
+        }
+        return journeys;
     }
 
     /**

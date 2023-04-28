@@ -1,0 +1,17 @@
+[{
+    "origin": "",
+    "destination": "",
+    "distanceKm": "0.527",
+    "departureTime": "2022-10-14T20:55:00.000Z",
+    "arrivalTime": "2022-10-14T21:01:30.000Z",
+    "transport": "foot"
+  },
+  {
+    "origin": "Union Street",
+    "destination": "The Centre (C7)",
+    "distanceKm": "0.774",
+    "departureTime": "2022-10-14T21:07:30.000Z",
+    "arrivalTime": "2022-10-14T21:11:00.000Z",
+    "transport": "bus"
+  }
+]

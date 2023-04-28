@@ -1,18 +1,17 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
 
 // Modal that pops up with relevant error message when backend rejects CSV file
 export const InvalidFileModal = (props) => {
-
   return (
     <Modal
       {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
+      size='lg'
+      aria-labelledby='contained-modal-title-vcenter'
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Title id='contained-modal-title-vcenter'>
           Invalid CSV File
         </Modal.Title>
       </Modal.Header>
@@ -31,5 +30,5 @@ export const InvalidFileModal = (props) => {
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }

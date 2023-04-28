@@ -1,9 +1,11 @@
 .custom-container{
     margin-top: 0;
-    //padding: 0 4rem 0 4rem;
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
 }
 
-.centre-grid{
+.middle-grid{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,21 +14,81 @@
 
 .buttons{
     display: grid;
-    grid-template-columns: 10rem 10rem 20rem;
+    grid-template-columns: 2fr 8rem 8rem 8rem;
+    @media screen and (max-width: 795px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
     gap: 1rem;
 }
 
-.csv-prompt{
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.help{
     display: flex;
     flex-direction: row;
     margin-bottom: 1rem;
 }
 
-.homepage-csv-schema-button{
-    margin-left: 1rem;
-    white-space: nowrap;
-}
-
 .csv-schema.body{
     white-space: normal;
+}
+
+.suggestion {
+    grid-column: span 3;
+}
+
+.homepage-csv-schema{
+    min-width: 8rem;
+    grid-column: span 1;
+}
+
+.homepage-csv-schema-button{
+    width: 8rem;
+}
+
+.homepage-json-schema-button{
+    width: 8rem;
+}
+
+.float-right{
+    display: flex;
+    justify-content:right;
+}
+
+#upload-button{
+    grid-column: span 1;
+    max-width: 30.7rem;
+}
+
+.help-button{
+    width: 8rem;
+}
+
+.progress-bar{
+    display: grid;
+    padding: 30px;
+    margin: 0 auto;
+}
+
+.predict-button{
+    width: 15rem;
+}
+
+.predict-pair{
+    
+    grid-column: span 3;
+    @media screen and (max-width: 650px) {
+        grid-column: span 3;
+    }
+}
+
+#upload-button{
+    width: 15rem;
+    @media screen and (max-width: 650px) {
+        grid-column: span 3;
+    }
 }

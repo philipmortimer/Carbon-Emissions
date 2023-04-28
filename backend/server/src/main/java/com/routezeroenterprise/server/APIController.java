@@ -30,14 +30,14 @@ public class APIController {
     /**
      * This method is used to query the Route Zero API for predictions of how
      * carbon emissions could be altered given the relevant travel data.
-     * @param csv The CSV file containing the travel information.
+     * @param inputFile The file containing the travel information (Note that the content of inputFile is passed as a String).
      * @return The API response. This will either be
      * the predicted future emissions data or a suitable error message.
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.POST, path = "/get_predictions")
-    public ResponseEntity<String> getPredictions(@RequestBody String csv){
+    public ResponseEntity<String> getPredictions(@RequestBody String inputFile){
         return ResponseEntity.ok()
-                .body(fs.upload(csv).getResponse()); //will delegate call to required method
+                .body(fs.upload(inputFile).getResponse()); //will delegate call to required method
     }
 }

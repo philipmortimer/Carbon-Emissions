@@ -52,7 +52,7 @@ This will have two main components:
 ## Requirements
 - [Docker](https://www.docker.com/)
 - [Node.js](https://nodejs.org/en/)
-- [Maven](https://maven.apache.org/download.cgi)
+- [Maven v3.8.6](https://maven.apache.org/docs/3.8.6/release-notes.html)
 
 ## Startup guides
 
@@ -60,7 +60,7 @@ This will have two main components:
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**. 
+Before you can run any of the below, please run ``npm install`` in **this directory**.
 
 ### Available Scripts
 
@@ -114,6 +114,7 @@ To change that, change the value of `server.port` in the *application.properties
 ### For the Frontend
 
 To generate and run just the frontend image, observe the following steps: 
+
 - start the docker desktop app
 - find ``frontend/route-zero-enterprise/``
 - select a name for the image, here ``<docker_username>/frontend:latest`` is used
@@ -131,21 +132,21 @@ To generate and run just the backend image, observe the following steps:
 - select a name for the image, here ``<docker_username>/backend:latest`` is used
 - run ``docker build --tag <docker_username>/backend:latest . && docker run -p 8080:8080 <docker_username>/backend:latest``
 
-If no errors were thrown, the backend is now running and bound to port ``8080``. To test this, you may, for example, start the frontend via ``npm run start`` and notice that the full app works. 
+If no errors were thrown, the backend is now running and bound to port ``8080``. To test this, you may, for example, start the frontend via ``npm run start`` and notice that the full app works.
 
 ### For the whole app
 
-To generate and run the whole application, observe the following steps: 
+To generate and run the whole application, observe the following steps:
 - start the docker desktop app
-- find the root of the project 
+- find the root of the project
 - select a name for the image, here ``<docker_username>/fullstack:latest`` is used
 - run ``docker build --tag <docker_username>/fullstack:latest . && docker run -p 3000:3000 -p 8080:8080 <docker_username>/fullstack:latest``
 
-Visit ``localhost:3000`` to use the full app. 
+Visit ``localhost:3000`` to use the full app.
 
 ## GHCR
 
-Pull our docker image from this repository's container reposotiory: 
+Pull our docker image from this repository's container reposotiory:
 - ``docker pull ghcr.io/spe-uob/2022-route_zero_carbon_savings:latest``
 
 Run our docker image as a container:

@@ -1,24 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 
 //components
 import "./View.scss";
-import {BarChart} from "../../components/Chart/Chart.js";
-import {PolicySelector} from "../../components/Policy/Policy.js";
+import { BarChart } from "../../components/Chart/Chart.js";
+import { PolicySelector } from "../../components/Policy/PolicySelector.js";
+import HelpButton from '../../components/HelpButtons/ViewHelpButton.js'
+import { DownloadGraphs } from '../../components/DownloadGraphs/DownloadGraphs'
+
 
 //helpers
-import {journeyBars, emissionBars, predictJourneyBars} from "../../helpers/chart.js";
+import { journeyBars, emissionBarsBefore, emissionBarsAfter, predictJourneyBars } from "../../helpers/chart.js";
 
 //data
-import {getPolicies} from "../../data/policies.js";
+import { getPolicies } from "../../data/policies.js";
 
-const refreshPolicies = (policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e) => {
-    const savedCO2eBuilder = [];
-    policies.map(pol => {
-        savedCO2eBuilder.push(pol.effect.getCO2eSaved([predictJourneys, () => {}], [predictEmissions, setPredictEmissions]));
-        return pol;
-    });
-    setSavedCO2e(savedCO2eBuilder);
-}
+// ID's used for each chart
+export const beforeJourneyId = "1";
+export const currentEmissionId = "2";
+export const predictedJourneyId = "3";
+export const predictEmissionsId = "4";
 
 export const View = (props) => {
 
@@ -28,77 +29,112 @@ export const View = (props) => {
     const [predictJourneys, setPredictJourneys] = useState([]);
     const [predictEmissions, setPredictEmissions] = useState([]);
 
-    const [policies, setPolicies] = useState(getPolicies());
-    const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
+    const [originalPredict, setOriginalPredict] = useState({});
+
+    const [policies, setPolicies] = useState([]);
+    // const [savedCO2e, setSavedCO2e] = useState([]); //array of numbers (in Kt)
 
     //console.log(policies);
 
-    useEffect(() => {
-        document.title = "Graphs | RouteZero"
-        if(props.file !== null && predictJourneys.length === 0) {
+    const resetGraphsCallback = useCallback(() => { 
+        if (props.file !== null && props.file !== undefined && predictJourneys.length === 0) {
 
             journeyBars(props.file)
-            .then((pairs) => {
-                setBeforeJourneys(pairs);
-            });
+              .then((pairs) => {
+                  setBeforeJourneys(pairs);
+              });
 
-            emissionBars(props.file, props.response, "currentCarbonKgCo2e")
-            .then((pairs) => {
-                setBeforeEmissions(pairs);
-            });
+            emissionBarsBefore(props.file, props.response)
+                .then((pairs) => {
+                    setBeforeEmissions(pairs);
+                });
 
             setPredictJourneys(predictJourneyBars(props.response));
 
-            emissionBars(props.file, props.response, "newCarbonKgCo2e")
-            .then((pairs) => {
-                setPredictEmissions(pairs);
-                return pairs;
-            })
-            .then((pairs) => { //This is contained within a promise so data has finished reading before we get to work out CO2e saved
-                refreshPolicies(policies, predictJourneyBars(props.response), pairs, setPredictEmissions, setSavedCO2e);
-            });
-        }else if(props.file === null){ // will eventually be used to refresh CO2e savings on other policy changes
-            refreshPolicies(policies, predictJourneys, predictEmissions, setPredictEmissions, setSavedCO2e);
+            emissionBarsAfter(props.file, props.response)
+                .then((pairs) => {
+                    setPredictEmissions(pairs)
+                    return pairs;
+                })
+                .then((pairs) => {
+                    //final setup
+                    setOriginalPredict({
+                        journeys: predictJourneyBars(props.response),
+                        emissions: pairs
+                    });
+                    setPolicies(getPolicies());
+                });
         }
+    }, [props.file, props.response, predictJourneys.length]);
 
-    }, [props.setFile, props.file, props.response, policies, predictJourneys, predictEmissions]);
-    
-    return(<>
-            {/* <p>{JSON.stringify(props.response)}</p> */}
+    useEffect(() => {
+        document.title = "Graphs | RouteZero"
+
+        resetGraphsCallback();
+
+    }, [resetGraphsCallback]);
+
+    return (<>
+        {props.file === undefined || props.file === null
+            ?
+            <div className="middle-grid">
+                <h1>Error</h1>
+                <h3>Could not display predictions</h3>
+                <p>There was an error displaying your predictions. Your data is not loaded, please <Link to="/">provide a CSV</Link></p>
+            </div>
+            :
             <div className="center-grid">
                 <div className="outer">
-                <div className="cell">
-                    {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
-                    <PolicySelector policies={policies} setPolicies={setPolicies} journeysState={[predictJourneys, setPredictJourneys]} emissionsState={[predictEmissions, setPredictEmissions]} savedCO2e={savedCO2e}/>
-                </div>
-                <div className="cell">
-                    <h1>Visualisation</h1>
-                    <div className="center-grid2">
-                        <div className="inner">
-                        <div className="cell">
-                            <h2>Before</h2>
-                            <div className="Chart">
-                                <BarChart chartId="1" header="Journeys" bars={beforeJourneys}/>
-                            </div>
-                            <div className="Chart">
-                                <BarChart chartId="2" header="Current Emissions (KgCO2)" bars={beforeEmissions}/>
-                            </div>
+                    <div className="cell">
+                        {/*PolicySelector asks for all prediction data as that is what it is modifying based on policy choices*/}
+                        <PolicySelector
+                            policies={policies}
+                            setPolicies={setPolicies}
+                            journeysState={[predictJourneys, setPredictJourneys]}
+                            emissionsState={[predictEmissions, setPredictEmissions]}
+                            originalPredict={originalPredict} />
+                        { // savedCO2e={savedCO2e}
+                            // setSavedCO2e={setSavedCO2e}/>
+                        }
+
+                    </div>
+
+                    <div className="cell">
+                        <div className="inline">
+                            <h1>Visualisation</h1>
+                            <DownloadGraphs beforeJourneyId={beforeJourneyId} currentEmissionId={currentEmissionId}
+                                predictedJourneyId={predictedJourneyId} predictEmissionsId={predictEmissionsId} />
+                            <HelpButton />
                         </div>
-                        <div className="cell">
-                            <h2>After</h2>
-                            <div className="Chart">
-                                <BarChart chartId="3" header="Average Predicted Journeys" bars={predictJourneys}/>
+
+                        <div className="center-grid2">
+
+                            <div className="inner">
+
+                                <div className="cell">
+                                    <h2>Before</h2>
+                                    <div className="Chart">
+                                        <BarChart chartId={beforeJourneyId} header="Journeys" bars={beforeJourneys} />
+                                    </div>
+                                    <div className="Chart">
+                                        <BarChart chartId={currentEmissionId} header="Current Emissions (KgCO2)" bars={beforeEmissions} />
+                                    </div>
+                                </div>
+                                <div className="cell">
+                                    <h2>After</h2>
+                                    <div className="Chart">
+                                        <BarChart chartId={predictedJourneyId} header="Average Predicted Journeys" bars={predictJourneys} />
+                                    </div>
+                                    <div className="Chart">
+                                        <BarChart chartId={predictEmissionsId} header="Predicted Emissions (KgCO2)" bars={predictEmissions} />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="Chart">
-                                <BarChart chartId="4" header="Predicted Emissions (KgCO2)" bars={predictEmissions}/>
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
-
-        </>
+        }
+    </>
     )
 }
