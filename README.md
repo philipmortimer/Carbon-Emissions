@@ -154,7 +154,8 @@ Run our docker image as a container:
 
 ## Concepts and planning
 ### Early design diagrams
-<img width="307" alt="image" src="https://user-images.githubusercontent.com/98458590/235306377-616465a0-7e59-472d-82d9-a247ea6d294a.png">
+
+<img width="762" alt="Screenshot 2023-04-29 at 14 50 18" src="https://user-images.githubusercontent.com/98458590/235306423-14698edd-d2f2-42df-a7aa-5a3379c55d7e.png">
 
 
 
