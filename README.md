@@ -32,6 +32,7 @@ Visit our Continuously Delivered (on merge with main) deployment at [http://rzca
   - [GHCR](#ghcr)
   - [Concepts and planning](#concepts-and-planning)
     - [Early design diagrams](#early-design-diagrams)
+    - [Early design sketches](#early-design-sketches)
   - [User Journeys](#user-journeys)
   - [User Stories of RouteZero](#user-stories-of-routezero)
   - [Ethics](#ethics)
@@ -174,6 +175,8 @@ Run our docker image as a container:
 ### Early design diagrams
 
 <img width="762" alt="Screenshot 2023-04-29 at 14 50 18" src="https://user-images.githubusercontent.com/98458590/235306423-14698edd-d2f2-42df-a7aa-5a3379c55d7e.png">
+
+### Early design sketches
 
 ![image](https://user-images.githubusercontent.com/45922387/201781191-0ab142ed-e5b4-4942-87ea-2bc93bbc2091.png)
 ![image](https://user-images.githubusercontent.com/45922387/201781254-fe7f4a76-d90c-4204-8037-f001b6d83f12.png)
