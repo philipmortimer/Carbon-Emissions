@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * This class parses CSV file, performing validation on the file.
+ * This class parses input file (CSV/JSON), performing validation on the file.
  * The class then returns the Route Zero API response.
  */
 @Service
@@ -21,18 +21,18 @@ public class FileUploadService {
      */
     private static final String API_REQUEST_TEMPLATE = "{\"transport\":{\"type\":\"%s\"},\"distanceKm\":%f,\"travellers\":%d}";
     /**
-     * The number of travellers per journey. This is needed for the API request but is not provided in the CSV schema.
+     * The number of travellers per journey. This is needed for the API request but is not provided in the schema.
      * It is set to 1.
      */
     private static final int TRAVELLERS_PER_JOURNEY = 1;
     /**
-     * Uploads the CSV string and sends it to the route zero backend for processing.
-     * Returns the API response. If the CSV file is invalid, an error message is returned.
+     * Uploads the input CSV/JSON file as a string and sends it to the route zero backend for processing.
+     * Returns the API response. If the file is invalid, an error message is returned.
      * @param inputString The string containing the CSV/JSON file.
      * @return The API response (or an error message if the string is determined to be invalid).
      */
     public APIResponse upload(String inputString){
-        /* Converts csv file to line of Strings, where each line is a row in the file.
+        /* Converts file to line of Strings, where each line is a row in the file.
         Sends the data to the process method which handles validation and API response. */
         return process(inputString);
     }
@@ -99,6 +99,20 @@ public class FileUploadService {
         return Optional.empty(); // No critical errors
     }
 
+    /**
+     * Checks the JSON String for any critical errors.
+     * A critical error is either:
+     * 1) An incorrectly formatted JSON file.
+     * 2) Invalid data in mandatory fields. Only "distanceKm" and "transport" are required fields.
+     * Each object in the JSON string should at least contain these 5 keys,
+     * even if their values are empty except for "transport" and "distanceKm".
+     * "transport" must be one of the predefined valid transport types. "distanceKm" must be a positive
+     * real number to be a valid journey.
+     * @param jsonFile The JSON file.
+     * @return Optional.empty() is returned if there are no critical errors.
+     * Otherwise, a String error message will be returned
+     * (e.g. Optional.of("[DISTANCE] Object number 3 of file. Distance must be a valid real number (e.g. 1.2).")).
+     */
     private static Optional<String> checkForJSONErrors(List<Map<String,Object>> jsonFile) {
         // Checks that file is not empty.
         if (jsonFile.isEmpty()) {
@@ -160,16 +174,16 @@ public class FileUploadService {
     }
 
     /**
-     * This method parses the CSV file for things that the user should be warned about but do not make a file
+     * This method parses the passed file (CSV/JSON) for things that the user should be warned about but do not make a file
      * invalid. For example, it may be that the departure time is after the arrival time. As these
      * variables are not used by the Route Zero API, it is not a fatal error. However, it is something that the
      * user probably should be warned about. This method must only be called for files with no critical errors.
      * Note that no warning logic has been implemented yet as we have decided that most warnings hurt the user
      * experience.
-     * @param lines The CSV file.
+     * @param fileString The CSV/JSON file.
      * @return All the warnings. Each list element is a warning message.
      */
-    private static List<String> getWarnings(List<String> lines) {
+    private static List<String> getWarnings(List<String> fileString) {
         List<String> warnings =  new ArrayList<>();
         /*
         At the moment, this code generates no warnings as we have decided that most warnings are likely
