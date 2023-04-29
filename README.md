@@ -8,18 +8,36 @@
 Visit our Continuously Delivered (on merge with main) deployment at [http://rzcarbonsavings.ddns.net/](http://rzcarbonsavings.ddns.net/) or [http://34.226.134.137](http://34.226.134.137).
 
 ## Index
-- [Overview](#overview)
-- [Starting our app](#startup-guides)
-- [Starting our frontend](#starting-our-frontend)
-- [Starting our backend](#starting-our-backend)
-- [Docker Images](#docker-images)
-- [GHCR](#ghcr)
-- [Concept and planning](#concepts-and-planning)
-- [User journeys](#user-journeys)
-- [Ethics](#ethics)
-- [License](#license)
-- [Documentation](#documentation)
-- [Group notes and Gantt chart](#group-notes-and-gantt-chart)
+- [Route Zero Enterprise Carbon Savings Prediction](#route-zero-enterprise-carbon-savings-prediction)
+  - [Index](#index)
+  - [Overview](#overview)
+    - [Repository Structure](#repository-structure)
+  - [Requirements](#requirements)
+  - [Startup guides](#startup-guides)
+    - [Starting our Frontend](#starting-our-frontend)
+    - [Installing dependancies (prerequisite)](#installing-dependancies-prerequisite)
+    - [Available Scripts](#available-scripts)
+      - [`npm start`](#npm-start)
+      - [`npm test`](#npm-test)
+      - [`npm run build`](#npm-run-build)
+    - [Deployment](#deployment)
+  - [Starting our Backend](#starting-our-backend)
+    - [Getting the server running](#getting-the-server-running)
+    - [Terminal](#terminal)
+    - [IntelliJ (Alternative)](#intellij-alternative)
+  - [Docker Images](#docker-images)
+    - [For the Frontend](#for-the-frontend)
+    - [For the Backend](#for-the-backend)
+    - [For the whole app](#for-the-whole-app)
+  - [GHCR](#ghcr)
+  - [Concepts and planning](#concepts-and-planning)
+    - [Early design diagrams](#early-design-diagrams)
+  - [User Journeys](#user-journeys)
+  - [User Stories of RouteZero](#user-stories-of-routezero)
+  - [Ethics](#ethics)
+  - [License](#license)
+  - [Documentation](#documentation)
+  - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
 ----
 ## Overview
@@ -157,7 +175,9 @@ Run our docker image as a container:
 
 <img width="762" alt="Screenshot 2023-04-29 at 14 50 18" src="https://user-images.githubusercontent.com/98458590/235306423-14698edd-d2f2-42df-a7aa-5a3379c55d7e.png">
 
-
+![image](https://user-images.githubusercontent.com/45922387/201781191-0ab142ed-e5b4-4942-87ea-2bc93bbc2091.png)
+![image](https://user-images.githubusercontent.com/45922387/201781254-fe7f4a76-d90c-4204-8037-f001b6d83f12.png)
+![image](https://user-images.githubusercontent.com/45922387/201781291-5eaae519-c5ae-4c30-b8a0-703d28cc5aab.png)
 
 ## User Journeys
 **Small climate-conscious business**, visits website looking for a cost-effective way to make as large an impact on their emissions as possible. They land on the [main page](https://enterprise.routezero.world/) and discover that travel contributes largly to corporate emissions.\
