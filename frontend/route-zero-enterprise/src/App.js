@@ -16,6 +16,40 @@ import './style.scss';
 
 // import Button from 'react-bootstrap/Button';
 
+
+/**
+ * This callback is `setFile` and is used by pages for setting the uploaded file residing in App.js. 
+ * 
+ * @callback setFile
+ * @param {Object} file - File uploaded in the web-browser
+ */
+
+/**
+ * This callback is `setValidity` and is used by pages for setting the state string of the uploaded file in App.js.
+ * 
+ * @callback setValidity
+ * @param {string} validity - New validity state string
+ */
+
+/**
+ * This callback is `setResponse` sets `response` to the JSON returned from our Spring API in App.js.
+ * 
+ * @callback setResponse
+ * @param {Object} response - API response JSON
+ */
+
+/**
+ * This callback is `setLoading` sets `loading` to the state string representing the predictions loading in App.js.
+ * 
+ * @callback setLoading
+ * @param {string} loading - New state string representing predictions loading
+ */
+
+/**
+ * Displays page on path/site location using BrowserRouter
+ * 
+ * @returns {JSX.Element} App pages
+ */
 function App () {
   // hoisted from button components to share between pages (home, view)
   const [file, setFile] = useState(null) // current file

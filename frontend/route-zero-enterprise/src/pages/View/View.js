@@ -21,6 +21,19 @@ export const currentEmissionId = "2";
 export const predictedJourneyId = "3";
 export const predictEmissionsId = "4";
 
+/** @function View
+ * 
+ * @desc Produces the predictions page for our website 
+ * 
+ * @param {Object} props - File-upload and some prediction loading properties 
+ * @param {Object} props.file - The current file object
+ * @param {setFile} props.setFile 
+ * @param {string} props.loading - State of loading predictions
+ * @param {setLoading} props.setLoading 
+ * @returns {JSX.Element} View page
+ * 
+ */
+
 export const View = (props) => {
 
     // PairArray<BarName, Number>
