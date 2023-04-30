@@ -212,7 +212,23 @@ This project uses the MIT License. Please refer to the link below for more infor
 [See more...](/LICENSE.md)
 
 ## Documentation
+
+### Backend
+
 Find the javadocs here. (upcoming)
+
+### Frontend 
+
+#### Viewing  
+
+Open ``frontend/route-zero-enterprise/out/index.html`` in your browser to view documentation, having cloned the repository.
+
+#### Updating
+
+Please run this at the top-level of our repository when you made additions to the documentation \
+``jsdoc -r ./frontend/route-zero-enterprise/src -d ./frontend/route-zero-enterprise/out ``
+
+#### **NB** this requires you to install jsdocs with npm, please refer to https://jsdoc.app/ for these instructions 
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \
