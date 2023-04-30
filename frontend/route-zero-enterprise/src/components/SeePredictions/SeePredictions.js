@@ -83,8 +83,8 @@ export const PredictButton = (props) => {
     <span className="flex-row predict-pair">
       {
         props.validity === 'valid' && props.loading === 'loaded'
-        ? <Button className="predict-button" onClick={loadThenPost}>See predictions</Button> 
-        : <Button className="predict-button" disabled>See predictions</Button>
+        ? <Button id="predict-button" onClick={loadThenPost}>See predictions</Button>
+        : <Button id="predict-button-disabled" disabled>See predictions</Button>
       }
       <p className='suggestion'>{getSuggestion(props.validity)}</p>
       <InvalidFileModal show={showModal} onHide={() => { setModalErrorTxt(''); setShowModal(false) }} msg={modalErrorTxt} />

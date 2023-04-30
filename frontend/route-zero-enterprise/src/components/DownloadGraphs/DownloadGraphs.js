@@ -166,6 +166,6 @@ export const DownloadGraphs = () => {
     }
 
     return (
-        <Button onClick={downloadGraphs} className="me-2 pull-right">Save</Button>
+        <Button onClick={downloadGraphs} className="me-2 pull-right" id="DownloadGraphsButton">Save</Button>
     )
 }

@@ -4,9 +4,9 @@ import './Logo.scss'
 
 export const Logo = () => {
   return (
-    <svg width='74' height='41' viewBox='0 0 74 41' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M27.0769 7H7V34' stroke='#00DF74' strokeWidth='12.0789' strokeLinecap='round' strokeLinejoin='round' />
-      <path d='M8.79994 7.55385C17.3846 23.8923 24.0307 32.2 35.1076 32.2M35.1076 32.2C44.9384 32.2 50.1999 26.8 63.9076 7H43.1384M35.1076 32.2H67.2307' stroke='#00DF74' strokeWidth='12.0789' strokeLinecap='round' strokeLinejoin='round' />
+    <svg width='74' height='41' viewBox="0 0 347 195" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M133.577 37H43.231V158.5" stroke="#00CC99" stroke-width="54.8308" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M51.3308 39.4923C89.9616 113.015 119.869 150.4 169.715 150.4M169.715 150.4C213.954 150.4 237.631 126.1 299.315 37H205.854M169.715 150.4H314.269" stroke="#00CC99" stroke-width="54.8308" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   )
 }

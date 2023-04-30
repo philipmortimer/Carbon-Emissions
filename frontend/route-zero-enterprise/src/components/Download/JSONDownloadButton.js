@@ -212,7 +212,7 @@ export const JSONDownloadButton = (props) => {
 
   return (
     <>
-      <Button variant="primary" value="download" onClick= {downloadTxtFile}>Download</Button>  {''}
+      <Button id="JSONDownloadButton" value="download" onClick= {downloadTxtFile}>Download</Button>  {''}
     </>
   )
 }

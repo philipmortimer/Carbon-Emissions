@@ -13,25 +13,25 @@ export const CSVSchema = (props) => {
         <div class="middle-container">
                 <div class="section">
                 <div class="sub-section">
-                <h1>CSV Schema</h1>
+                <h1 className={"SchemaHeader"}>CSV Schema</h1>
                 </div>
                 </div>
                 <div class="section">
                 <div class="sub-section">
-                <h2>Line format</h2>
+                <h2 className={"SchemaHeader"}>Line format</h2>
                 </div>
                 <div class="sub-section">
                 <Row>
                     <Col>
                     <p>Please format each line of your CSV as follows:</p>
-                    <p class="highlight">origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
+                    <p class="highlight">origin, destination, distanceKm, departureTime, arrivalTime, transport</p>
                     </Col>
                 </Row>
                 </div>
                 </div>
                 <div class="section">
                 <div class="sub-section">
-                <h2>Download example</h2>
+                <h2 className={"SchemaHeader"}>Download example</h2>
                 </div>
                 <div class="sub-section">
                 <CSVDownloadButton/>
@@ -39,7 +39,7 @@ export const CSVSchema = (props) => {
                 </div>
                 <div class="section">
                 <div class="sub-section">   
-                <h4>Origin & Destination</h4>
+                <h4 className={"SchemaHeader"}>Origin & Destination</h4>
                 </div> 
                 <div class="sub-section"> 
                 <p>These are the name of the source and destination of your travel journey. Please include these names, but you
@@ -48,7 +48,7 @@ export const CSVSchema = (props) => {
                 </div>
                 <div class="section">
                 <div class="sub-section"> 
-                <h4>Distance</h4>
+                <h4 className={"SchemaHeader"}>Distance</h4>
                 </div>
                 <div class="sub-section"> 
                 <p>This is the number of kilometers you travelled between source and destination. This information could easily be 
@@ -58,7 +58,7 @@ export const CSVSchema = (props) => {
                 </div>
                 <div class="section">
                 <div class="sub-section"> 
-                <h4>Arrival & Departure time</h4>
+                <h4 className={"SchemaHeader"}>Arrival & Departure time</h4>
                 </div>
                 <div class="sub-section"> 
                 <p>Please include the time in the following format yyyy-mm-ddThh:mm:ss.000Z, where yyyy stands for year,
@@ -69,7 +69,7 @@ export const CSVSchema = (props) => {
                 </div>
                 <div class="section">
                 <div class="sub-section"> 
-                    <h4>Transport</h4>
+                    <h4 className={"SchemaHeader"}>Transport</h4>
                     </div>
                     <div class="sub-section"> 
                     <p>To include the type of transportation used, please pick one from the following dictionary and 

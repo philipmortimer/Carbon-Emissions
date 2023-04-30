@@ -47,7 +47,7 @@ describe("CSVSchema component tests", () => {
     expect(screen.getByText("CSV Schema")).toBeInTheDocument()
     expect(screen.getByText("Line format")).toBeInTheDocument()
     expect(screen.getByText("Please format each line of your CSV as follows:")).toBeInTheDocument()
-    expect(screen.getByText("origin,destination,distanceKm,departureTime,arrivalTime,transport")).toBeInTheDocument()
+    expect(screen.getByText("origin, destination, distanceKm, departureTime, arrivalTime, transport")).toBeInTheDocument()
     expect(screen.getByText("Download example")).toBeInTheDocument()
     expect(screen.getByText("Download")).toBeInTheDocument()
     expect(screen.getByText("Origin & Destination")).toBeInTheDocument()

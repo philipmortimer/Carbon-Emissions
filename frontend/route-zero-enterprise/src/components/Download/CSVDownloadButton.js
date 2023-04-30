@@ -94,7 +94,7 @@ export const CSVDownloadButton = (props) => {
 
   return (
     <>
-      <Button variant="primary" value="download" onClick={downloadTxtFile}>Download</Button>{' '}
+      <Button id="CSVDownloadButton" value="download" onClick={downloadTxtFile}>Download</Button>{' '}
     </>
   )
 }
