@@ -1,6 +1,3 @@
-
-
-
 export const getTransports = (file) => {
     /* getTransportLines :: file -> Promise<string[]>  
        Takes a file and returns a promise of the array of transports.
