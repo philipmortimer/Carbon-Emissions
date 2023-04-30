@@ -205,7 +205,7 @@ export const JSONDownloadButton = (props) => {
           '  "departureTime": "2022-10-14T20:55:00.000Z",\n'   +
           '  "arrivalTime": "2022-10-14T20:58:03.000Z",\n'   +
           '  "transport": "electricScooter"\n'   +
-        " {\n" +
+        " }\n" +
       "]\n"]
     // file object
     const file = new Blob(texts,  {type: 'text/json'   });
