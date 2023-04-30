@@ -93,10 +93,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-If you're testing the frontend with a locally hosted backend, to avoid CORS issues, please visit the website in Chrome by starting it with the following settings, from console:
-- Ubuntu: ``google-chrome --disable-site-isolation-trials --disable-web-security --user-data-dir="~/tmp"``
-- Windows: ``todo``
-
 #### `npm test`
 
 Testing feature to-be implemented. 
