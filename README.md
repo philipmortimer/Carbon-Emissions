@@ -79,7 +79,7 @@ This will have two main components:
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**.
+Before you can run any of the below, please run ``npm install`` in **./frontend/route-zero-enterprise**.
 
 ### Available Scripts
 
