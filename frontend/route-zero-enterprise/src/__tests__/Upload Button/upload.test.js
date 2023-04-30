@@ -39,7 +39,7 @@ function getUploadComp (props) {
     <UploadButton
       setFile={props.setFile} file={props.file}
       validity={props.validity} setValidity={props.setValidity}
-      setResponse={() => {} /* Response setting is not needed for upload tests */}
+      setResponse={() => {} /* Response setting is not needed for upload tests. */}
     />
   )
 }
