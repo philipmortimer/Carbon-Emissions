@@ -24,7 +24,7 @@ export const CSVSchema = (props) => {
                 <Row>
                     <Col>
                     <p>Please format each line of your CSV as follows:</p>
-                    <p class="highlight">origin,destination,distanceKm,departureTime,arrivalTime,transport</p>
+                    <p class="highlight">origin, destination, distanceKm, departureTime, arrivalTime, transport</p>
                     </Col>
                 </Row>
                 </div>
