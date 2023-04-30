@@ -41,7 +41,7 @@ export const Home = (props) => {
                     <h4>Simply upload your travel expense or milage data as a CSV or JSON file</h4>
                 </div>
                 <div className="buttons">
-                    <UploadButton file={props.file} setFile={props.setFile} validity={props.validity}/>
+                    <UploadButton file={props.file} setFile={props.setFile} validity={props.validity} setResponse={props.setResponse}/>
                     <PromptSchemaCSV className="homepage-csv-schema"/>
                     <PromptSchemaJSON className="homepage-json-schema"/>
                     <HelpButton/>
