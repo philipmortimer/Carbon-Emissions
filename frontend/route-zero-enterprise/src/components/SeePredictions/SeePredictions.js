@@ -78,7 +78,7 @@ export const PredictButton = (props) => {
   }
 
   useEffect(() => {
-    dispatch({ f: props.file, setV: props.setValidity }) // dubiously important console warning in exchange for removing a compilation warning, bring this up in discussion for more information
+    dispatch({ f: props.file, setV: props.setValidity}) // dubiously important console warning in exchange for removing a compilation warning, bring this up in discussion for more information
   }, [props.file, props.setValidity]) // refreshes on updates to props['file']
 
   return (
