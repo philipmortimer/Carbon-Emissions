@@ -54,18 +54,42 @@ This will have two main components:
 ### Repository Structure
 
 ```
+.
 ├── backend
-│   ├── README.md
-│   ├── server
-│   └── server.iml
+│   ├── server
+│   │   ├── compose_backend.yaml
+│   │   ├── Dockerfile
+│   │   ├── Javadocs
+│   │   ├── mvnw
+│   │   ├── mvnw.cmd
+│   │   ├── pom.xml
+│   │   ├── src
+│   │   └── target
+│   └── server.iml
+├── Dockerfile
 ├── docs
-│   ├── ETHICS.md
-│   └── stakeholders-and-user-stories.txt
+│   ├── backend tests plan.xlsx
+│   ├── ETHICS.md
+│   ├── PULL_REQUEST_TEMPLATE
+│   │   └── pull_request_template.md
+│   └── stakeholders-and-user-stories.txt
 ├── frontend
-│   ├── package-lock.json
-│   └── route-zero-enterprise
+│   ├── package-lock.json
+│   └── route-zero-enterprise
+│       ├── compose.yaml
+│       ├── Dockerfile
+│       ├── example_data
+│       ├── node_modules
+│       ├── out
+│       ├── package.json
+│       ├── package-lock.json
+│       ├── public
+│       └── src
 ├── LICENSE.md
-└── README.md
+├── pull_and_run
+├── push_to_ghcr
+├── README.md
+└── start
 
 ```
 ## Requirements
@@ -211,9 +235,11 @@ This project uses the MIT License. Please refer to the link below for more infor
 
 ### Backend
 
-Find the javadocs here. (upcoming)
+Find the javadocs here -> ``backend/server/Javadocs/index.html``
 
 ### Frontend 
+
+Find the JSDocs here -> ``frontend/route-zero-enterprise/out/index.html``
 
 #### Viewing  
 
