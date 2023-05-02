@@ -47,7 +47,7 @@ describe("Policy Selector Aesthetics", () => {
         expect(screen.queryByText("Replace all ICEs with Electric cars")).toBeInTheDocument()
         expect(screen.queryByText("Train routes <300mi")).toBeInTheDocument()
         expect(screen.queryByText("50% of flights become coach and train")).toBeInTheDocument()
-        expect(screen.queryByText("Replace personal vehicles with taxis")).toBeInTheDocument()
+        expect(screen.queryByText("Replace personal cars with taxis")).toBeInTheDocument()
         expect(screen.queryByText("Electric scooters forbidden")).toBeInTheDocument()
         expect(screen.queryByText("No personal ICE vehicles")).toBeInTheDocument()
     })
