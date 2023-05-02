@@ -59,15 +59,27 @@ export const PolicyOption = ({
         setEmissions(emissionsAccumulator);
     }
 
+    const interpretSaved = (saved) => {
+        return saved === 0
+        ? 'disabled'
+        : saved < 0
+            ? 'bad'
+            : 'enabled';
+    };
+
     return (
         <label key={ID} className="list-group-item">
             <input className="form-check-input me-1" type="checkbox" value="" onClick={() => {
                 togglePolicy(); 
                 applyAllEffects();
-            }}/>
-            <p>{policyOption.name}</p>
+            }} disabled={
+                saved === 0 
+                ? true
+                : false
+            }/>
+            <p className={interpretSaved(saved)}>{policyOption.name}</p>
             <div className="aligner">
-                <span className={`${policyOption.selected}`}>{Math.round(saved * 100)/100}Kt</span>
+                <span className={`${interpretSaved(saved)} ${policyOption.selected}`}>{Math.round(saved * 100)/100}Kt</span>
             </div>
         </label>
     )

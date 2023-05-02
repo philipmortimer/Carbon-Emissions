@@ -2,6 +2,9 @@ import {travelKind} from "../data/travelkind";
 
 const INCLUDE_EFFECTS = true;
 
+// assumptions 
+const DOMESTIC_FLIGHT_PROPORTION = 0.75;
+
 // policies is an object containing all selectable options
 /* 
 it may look something like this
@@ -157,14 +160,34 @@ const POLICIES_BASE =
 [
     {
         name: "No domestic flights",
-        effect: new NoEffect() 
+        //this effect requires some creativity; we say that a high proportion of flights for a small/medium sized company are domestic; ~0.75 (completely arbitrary number).
+        effect: new SimpleEffect((jState, eState) => {
+
+            const jOld = jState[0];
+            const eOld = eState[0];
+
+            const iFlight = Effect.searchBarsOnNames(jOld, travelKind.flight);
+            const jFlight = Effect.tallyBarsOnIndices(jOld, ...iFlight);
+            
+            let jNew = Effect.copyBars(jOld);
+
+            if(iFlight !== -1) {
+                jNew[iFlight][1] *= (1 - DOMESTIC_FLIGHT_PROPORTION);
+                jNew = Effect.extrapolateJourneys(jNew, jFlight * DOMESTIC_FLIGHT_PROPORTION);
+            }
+
+            const eNew = Effect.interpolateEmissions(eOld, jOld, jNew);
+
+            return [jNew, eNew];
+
+        }, "")
     },
     {
         name: "Economy-class flights",
         effect: new NoEffect()
     },
     {
-        name: "Replace all ICEs with EVs",
+        name: "Replace all ICEs with Electric cars",
         effect: new SimpleEffect((jState, eState) => {
             const journeys = jState[0];
             const emissions = eState[0];
@@ -200,12 +223,53 @@ const POLICIES_BASE =
         effect: new NoEffect()
     },
     {
-        name: "Coach routes for <3hrs",
-        effect: new NoEffect()
+        name: "50% of flights become coach and train",
+        //assume that all flights take a coach and a train to replace (admittedly not always true or possible)
+        effect: new SimpleEffect((jState, eState) => {
+            const jOld = jState[0];
+            const eOld = eState[0];
+            const flight = Effect.searchBarsOnNames(jOld, travelKind.flight);
+            const jFlight = Effect.tallyBarsOnIndices(jOld, ...flight);
+            const [coach, train] = Effect.searchBarsOnNames(jOld, travelKind.coach, travelKind.train);
+
+            let jNew = Effect.copyBars(jOld);
+            jNew[flight][1] /= 2;
+            jNew[coach][1] += jFlight / 2;
+            jNew[train][1] += jFlight / 2;
+            
+            const eNew = Effect.interpolateEmissions(eOld, jOld, jNew);
+
+            return [jNew, eNew];
+
+        }, "flight_coachrail")
     },
     {
-        name: "Replace personal vehicles with taxis",
-        effect: new NoEffect()
+        name: "Replace personal cars with taxis",
+        effect: new SimpleEffect((jState, eState) => {
+            const jOld = jState[0];
+            const eOld = eState[0];
+            const personalVehicles = Effect.searchBarsOnNames(jOld, travelKind.petrolCar, travelKind.dieselCar, travelKind.hybridCar)
+            const personalJourneys = Effect.tallyBarsOnIndices(jOld, ...personalVehicles);
+
+            const taxi = Effect.searchBarsOnNames(jOld, travelKind.taxi);
+
+            let jNew = Effect.copyBars(jOld);
+            //flatten personal vehicle bars
+            personalVehicles.map((index) => {
+                if(index !== -1){
+                    jNew[index][1] = 0;
+                }
+                return index;
+            });
+            //increase taxi by personalJourneys
+            jNew[taxi][1] += personalJourneys
+
+            //figure out emissions
+            const eNew = Effect.interpolateEmissions(eOld, jOld, jNew);
+
+            return [jNew, eNew];
+
+        }, "taxis_personal")
     },
     {
         name: "Electric scooters forbidden",
