@@ -166,8 +166,8 @@ const POLICIES_BASE =
             const jOld = jState[0];
             const eOld = eState[0];
 
-            const iFlight = Effect.searchBarsOnNames(jOld, travelKind.flight);
-            const jFlight = Effect.tallyBarsOnIndices(jOld, ...iFlight);
+            const [iFlight] = Effect.searchBarsOnNames(jOld, travelKind.flight);
+            const jFlight = Effect.tallyBarsOnIndices(jOld, iFlight);
             
             let jNew = Effect.copyBars(jOld);
 
@@ -228,14 +228,14 @@ const POLICIES_BASE =
         effect: new SimpleEffect((jState, eState) => {
             const jOld = jState[0];
             const eOld = eState[0];
-            const flight = Effect.searchBarsOnNames(jOld, travelKind.flight);
-            const jFlight = Effect.tallyBarsOnIndices(jOld, ...flight);
+            const [flight] = Effect.searchBarsOnNames(jOld, travelKind.flight);
+            const jFlight = Effect.tallyBarsOnIndices(jOld, flight);
             const [coach, train] = Effect.searchBarsOnNames(jOld, travelKind.coach, travelKind.train);
 
             let jNew = Effect.copyBars(jOld);
-            jNew[flight][1] /= 2;
-            jNew[coach][1] += jFlight / 2;
-            jNew[train][1] += jFlight / 2;
+            if(flight !== -1) jNew[flight][1] /= 2;
+            if(coach !== -1) jNew[coach][1] += jFlight / 2;
+            if(train !== -1) jNew[train][1] += jFlight / 2;
             
             const eNew = Effect.interpolateEmissions(eOld, jOld, jNew);
 
@@ -251,7 +251,7 @@ const POLICIES_BASE =
             const personalVehicles = Effect.searchBarsOnNames(jOld, travelKind.petrolCar, travelKind.dieselCar, travelKind.hybridCar)
             const personalJourneys = Effect.tallyBarsOnIndices(jOld, ...personalVehicles);
 
-            const taxi = Effect.searchBarsOnNames(jOld, travelKind.taxi);
+            const [taxi] = Effect.searchBarsOnNames(jOld, travelKind.taxi);
 
             let jNew = Effect.copyBars(jOld);
             //flatten personal vehicle bars
@@ -262,7 +262,7 @@ const POLICIES_BASE =
                 return index;
             });
             //increase taxi by personalJourneys
-            jNew[taxi][1] += personalJourneys
+            if(taxi !== -1) jNew[taxi][1] += personalJourneys;
 
             //figure out emissions
             const eNew = Effect.interpolateEmissions(eOld, jOld, jNew);
