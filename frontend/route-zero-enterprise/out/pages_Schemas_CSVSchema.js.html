@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Schemas/CSVSchema.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Schemas/CSVSchema.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { CSVDownloadButton } from '../../components/Download/CSVDownloadButton';
+import './Schema.scss'
+
+/** @function CSVSchema
+ * 
+ * @desc Provides the CSV schema webpage as pure HTML
+ * 
+ * @returns {JSX.Element} CSV Schema page 
+ */
+
+export const CSVSchema = () => {
+  
+    return(  
+       
+        &lt;div class="custom-container">
+        &lt;div class="middle-container">
+                &lt;div class="section">
+                &lt;div class="sub-section">
+                &lt;h1 className={"SchemaHeader"}>CSV Schema&lt;/h1>
+                &lt;/div>
+                &lt;/div>
+                &lt;div class="section">
+                &lt;div class="sub-section">
+                &lt;h2 className={"SchemaHeader"}>Line format&lt;/h2>
+                &lt;/div>
+                &lt;div class="sub-section">
+                &lt;Row>
+                    &lt;Col>
+                    &lt;p>Please format each line of your CSV as follows:&lt;/p>
+                    &lt;p class="highlight">origin,destination,distanceKm,departureTime,arrivalTime,transport&lt;/p>
+                    &lt;/Col>
+                &lt;/Row>
+                &lt;/div>
+                &lt;/div>
+                &lt;div class="section">
+                &lt;div class="sub-section">
+                &lt;h2 className={"SchemaHeader"}>Download example&lt;/h2>
+                &lt;/div>
+                &lt;div class="sub-section">
+                &lt;CSVDownloadButton/>
+                &lt;/div>
+                &lt;/div>
+                &lt;div class="section">
+                &lt;div class="sub-section">   
+                &lt;h4 className={"SchemaHeader"}>Origin &amp; Destination&lt;/h4>
+                &lt;/div> 
+                &lt;div class="sub-section"> 
+                &lt;p>These are the name of the source and destination of your travel journey. Please include these names, but you
+                    could also opt to omit them. For more information, please refer to the example above.&lt;/p>
+                &lt;/div>
+                &lt;/div>
+                &lt;div class="section">
+                &lt;div class="sub-section"> 
+                &lt;h4 className={"SchemaHeader"}>Distance&lt;/h4>
+                &lt;/div>
+                &lt;div class="sub-section"> 
+                &lt;p>This is the number of kilometers you travelled between source and destination. This information could easily be 
+                    found through a map application such as Google Maps.
+                &lt;/p>
+                &lt;/div>
+                &lt;/div>
+                &lt;div class="section">
+                &lt;div class="sub-section"> 
+                &lt;h4 className={"SchemaHeader"}>Arrival &amp; Departure time&lt;/h4>
+                &lt;/div>
+                &lt;div class="sub-section"> 
+                &lt;p>Please include the time in the following format yyyy-mm-ddThh:mm:ss.000Z, where yyyy stands for year,
+                    mm stands for month, dd stands for day, hh stands for hour, mm stands for minutes and ss stands for 
+                    seconds, e.g. 2022-10-14T17:48:00.000Z.
+                &lt;/p>
+                &lt;/div>
+                &lt;/div>
+                &lt;div class="section">
+                &lt;div class="sub-section"> 
+                    &lt;h4 className={"SchemaHeader"}>Transport&lt;/h4>
+                    &lt;/div>
+                    &lt;div class="sub-section"> 
+                    &lt;p>To include the type of transportation used, please pick one from the following dictionary and 
+                        use the exact spelling seen bellow:&lt;/p>
+                    &lt;ul class="highlight">
+                        &lt;Row>
+                            &lt;Col> 
+                                &lt;li>foot&lt;/li>
+                                &lt;li>bike&lt;/li>
+                                &lt;li>electricScooter&lt;/li>
+                                &lt;li>petrolCar&lt;/li>
+                            &lt;/Col>
+                        &lt;Col>
+                            &lt;li>dieselCar&lt;/li>
+                            &lt;li>hybridCar&lt;/li>
+                            &lt;li>electricCar&lt;/li>
+                            &lt;li>taxi&lt;/li>
+                        &lt;/Col>
+                        &lt;Col>
+                            &lt;li>bus&lt;/li>
+                            &lt;li>coach&lt;/li>
+                            &lt;li>eurostar&lt;/li>
+                            &lt;li>lightRail&lt;/li>
+                        &lt;/Col>
+                        &lt;Col>
+                            &lt;li>tram&lt;/li>
+                            &lt;li>subway&lt;/li>
+                            &lt;li>flight&lt;/li>
+                            &lt;li>ferry&lt;/li>
+                        &lt;/Col>
+                        &lt;/Row>
+                    &lt;/ul>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;/div>
+            
+    );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Effect.html">Effect</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#BarChart">BarChart</a></li><li><a href="global.html#CSVDownloadButton">CSVDownloadButton</a></li><li><a href="global.html#CSVSchema">CSVSchema</a></li><li><a href="global.html#Content">Content</a></li><li><a href="global.html#DownloadGraphs">DownloadGraphs</a></li><li><a href="global.html#HelpButton">HelpButton</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#JSONDownloadButton">JSONDownloadButton</a></li><li><a href="global.html#JSONSchema">JSONSchema</a></li><li><a href="global.html#OffCanvasExample">OffCanvasExample</a></li><li><a href="global.html#View">View</a></li><li><a href="global.html#effect">effect</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Apr 28 2023 15:56:36 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

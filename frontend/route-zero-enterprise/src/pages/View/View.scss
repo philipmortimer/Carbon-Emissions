@@ -1,6 +1,10 @@
-$rz_green: #00DF74;
+$rz_green: #00C795;
+$rz_grey: #505050;
+$rz_light_grey: #979797;
 $span_width: 0.75rem;
 $span_height: 0.35rem;
+$rz_red: #ff5d5d;
+
 
 .center-grid {
   background-color: rgb(255, 255, 255);
@@ -12,7 +16,6 @@ $span_height: 0.35rem;
 .center-grid2 {
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
-  padding: 5px;
 }
 
 .inner{
@@ -49,24 +52,27 @@ $span_height: 0.35rem;
 
 @media (max-width: 500px){
   .center-grid {
-    padding: 0px;
+    padding: 0;
   }
   .cell{
-    margin: 0px;
+    margin: 0;
   }
 }
 
-#h2 {
-  padding: 15px;
-  font-family: unset;
-  font-weight: 675;
-  color: rgb(80, 80, 80);
+h2 , h1{
+  font-family: Poppins-Black, serif;
+}
+
+
+
+h2{
+  color: #00C795;
 }
 
 .cell {
   display:grid;
   border-radius: 15px;
-  padding: 0.5rem;
+  padding: 40px 0 0 0;
   margin: 0 auto;
 }
 
@@ -79,40 +85,38 @@ $span_height: 0.35rem;
 }
 
 .inline {
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 0.5fr 0.5fr;
   flex-direction: row;
   gap: 1rem;
+  padding: 15px 0 0 0;
 }
 
+
 .policy{
+
+  #policySelector{
+    border-radius: 10px;
+    margin: 0 1rem 0 0;
+  }
 
   .list-group-item{
     display: grid;
     grid-template-columns: 1.5rem 1fr 0fr;
-    height: 3.5rem;
-    padding: 1rem 0 1rem 0.5rem;
+    
+    padding: 0.5rem;
   }
 
-  @media screen and (max-width: 1040px) and (min-width: 800px){
-    .list-group-item{
-      height: 3.5rem;
-      padding: 1rem 0 1rem 0.5rem;
-    }
-
-    p{
-      margin-top: -0.75rem;
-    }
+  p{
+    font-family: Poppins-Regular, serif;
+    color: $rz_grey;
+    margin: 0rem 0 0 0;
   }
 
-  @media screen and (max-width: 1345px) and (min-width: 1230px) {
-    .list-group-item{
-      height: 3.5rem;
-      padding: 1rem 0 1rem 0.5rem;
-    }
-
-    p{
-      margin-top: -0.75rem;
-    }
+  p.disabled{
+    font-family: Poppins-Regular, serif;
+    color: $rz_light_grey;
+    margin: 0rem 0 0 0;
   }
 
   min-width: 200px;
@@ -131,8 +135,8 @@ $span_height: 0.35rem;
     background-color: white;
     padding: $span_height $span_width $span_height $span_width;
     border-radius: 1.4rem;
-    border-color: $rz-green;
-    color: $rz-green;
+    border-color: $rz_green;
+    color: $rz_green;
     border-style: solid;
     border-width: 0.15rem;
     margin: 10px;
@@ -140,6 +144,21 @@ $span_height: 0.35rem;
 
   span.true{
     background-color: $rz_green;
+    color: white;
+  }
+
+  span.disabled{
+    border-color: $rz_grey;
+    color: $rz_grey;
+  }
+
+  span.bad{
+    border-color: $rz_red;
+    color: $rz_red;
+  }
+
+  span.bad.true{
+    background-color: $rz_red;
     color: white;
   }
 }
@@ -150,8 +169,46 @@ $span_height: 0.35rem;
   margin-left: 2.5rem;
   color:rgb(156, 156, 156);
   font-size: 2rem;
+
 }
 
 .me-2{
   height: 2.65rem;
+}
+
+#DownloadGraphsButton{
+  background-color: #1AB4D7;
+  color: #FFFFFF;
+  border: solid 2px #1AB4D7;
+}
+
+#DownloadGraphsButton:hover{
+  background-color: #ffffff;
+  color: #1AB4D7;
+  border: solid 2px #1AB4D7;
+}
+
+#view-help-button {
+  background-color: #ffffff;
+  color: #1AB4D7;
+  border: solid 2px #1AB4D7;
+  width: 4em;
+}
+
+#view-help-button:hover {
+  background-color: #1AB4D7;
+  color: #FFFFFF;
+  border: solid 2px #1AB4D7;
+}
+
+.aligner{
+  width: 7rem;
+  display:flex;
+  justify-content:right;
+  margin-top: 0;
+  height: 2.5rem;
+
+  span{
+    margin: 0;
+  }
 }

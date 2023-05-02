@@ -2,6 +2,15 @@ import React, { useEffect } from 'react'
 import Chart from 'chart.js/auto'
 import { travelKind } from '../../data/travelkind.js';
 
+/** @function BarChart
+ * @desc Controls settings for Charts.js, object is instantiated for each chart 
+ * 
+ * @param {number} chartId - Unique number to identify a chart 
+ * @param {string} header - Chart title
+ * @param {Object[]} bars - Tuples of names and numbers to display on the chart 
+ * @returns {JSX.Element} Charts.js canvas containing corresponding chart
+ */
+
 export const BarChart = ({ chartId, header, bars }) => {
   useEffect(() => {
     const ctx = document.getElementById(chartId)
@@ -33,8 +42,8 @@ export const BarChart = ({ chartId, header, bars }) => {
           datasets: [
             {
               data: values,
-              backgroundColor: '#00DF74',
-              borderColor: '#00DF74',
+              backgroundColor: '#00C795',
+              borderColor: '#00C795',
               borderWidth: 1,
               borderRadius: 5
             }
@@ -46,10 +55,11 @@ export const BarChart = ({ chartId, header, bars }) => {
           plugins: {
             title: {
               display: true,
+              //color: '#1AB4D7',
               text: header,
               font: {
                 size: 15,
-                family: 'tahoma'
+                family: 'Poppins-Regular',
               }
             },
             legend: {
@@ -58,7 +68,12 @@ export const BarChart = ({ chartId, header, bars }) => {
           },
           scales: {
             x: {
-              display: true
+              display: true,
+              ticks: {
+                font: {
+                  family: 'Poppins-Regular'
+                }
+              }
             },
             y: {
               display: true,

@@ -1,5 +1,6 @@
 .custom-container{
-    margin-top: 0;
+    margin: 0 auto;
+    max-width: 1000px;
     //padding: 0 4rem 0 4rem;
 }
 
@@ -23,9 +24,25 @@
    
 }
 .highlight{
-    color: #A52A2A;
+    color: #505050;
+    
 }
 ul {
     list-style-type: none;
    }
 
+#JSONDownloadButton, #CSVDownloadButton{
+    width: 6rem;
+    background-color: #ffffff;
+    border: solid 2px #cccccc;
+    color: #808080;
+}
+#JSONDownloadButton:hover, #CSVDownloadButton:hover{
+    background-color: #cccccc;
+    color: #FFFFFF;
+    border: solid 2px #cccccc;
+}
+
+p {
+    font-family: Poppins-Regular, serif;
+}

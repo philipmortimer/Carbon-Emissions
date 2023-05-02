@@ -1,8 +1,17 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-export const CSVDownloadButton = (props) => {
-  
-    const downloadTxtFile = () => {
+
+/** @function CSVDownloadButton 
+ *  @desc Closure returning a JSX element with a button to download a file pertaining to the example CSV
+ * 
+ * @returns {JSX.Element} Button to download CSV file of travel records 
+ * 
+ */
+
+export const CSVDownloadButton = () => {
+
+
+const downloadTxtFile = () => {
     // text content
     const texts = ["origin,destination,distanceKm,departureTime,arrivalTime,transport\n" + 
     "Paddington,Bristol Parkway,179.08,2022-10-14T17:48:00.000Z,2022-10-14T19:01:00.000Z,train\n" +
@@ -94,7 +103,7 @@ export const CSVDownloadButton = (props) => {
 
   return (
     <>
-      <Button variant="primary" value="download" onClick={downloadTxtFile}>Download</Button>{' '}
+      <Button id="CSVDownloadButton" value="download" onClick={downloadTxtFile}>Download</Button>{' '}
     </>
   )
 }

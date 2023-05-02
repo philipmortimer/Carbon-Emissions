@@ -5,9 +5,9 @@ import html2canvas from 'html2canvas';
 import { beforeJourneyId, currentEmissionId, predictedJourneyId, predictEmissionsId } from '../../pages/View/View';
 import { policySelectorId } from '../Policy/PolicySelector';
 
-/**
- * Component used to download pdf summary of graph information.
- * @returns The component used to download graphs.
+/** @function DownloadGraphs
+ * @desc Component used to download pdf summary of graph information.
+ * @returns {JSX.Element} The component used to download graphs.
  */
 export const DownloadGraphs = () => {
 
@@ -166,6 +166,6 @@ export const DownloadGraphs = () => {
     }
 
     return (
-        <Button onClick={downloadGraphs} className="me-2 pull-right">Save</Button>
+        <Button onClick={downloadGraphs} className="me-2 pull-right" id="DownloadGraphsButton">Save</Button>
     )
 }

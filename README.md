@@ -8,18 +8,37 @@
 Visit our Continuously Delivered (on merge with main) deployment at [http://rzcarbonsavings.ddns.net/](http://rzcarbonsavings.ddns.net/) or [http://34.226.134.137](http://34.226.134.137).
 
 ## Index
-- [Overview](#overview)
-- [Starting our app](#startup-guides)
-- [Starting our frontend](#starting-our-frontend)
-- [Starting our backend](#starting-our-backend)
-- [Docker Images](#docker-images)
-- [GHCR](#ghcr)
-- [Concept and planning](#concepts-and-planning)
-- [User journeys](#user-journeys)
-- [Ethics](#ethics)
-- [License](#license)
-- [Documentation](#documentation)
-- [Group notes and Gantt chart](#group-notes-and-gantt-chart)
+- [Route Zero Enterprise Carbon Savings Prediction](#route-zero-enterprise-carbon-savings-prediction)
+  - [Index](#index)
+  - [Overview](#overview)
+    - [Repository Structure](#repository-structure)
+  - [Requirements](#requirements)
+  - [Startup guides](#startup-guides)
+    - [Starting our Frontend](#starting-our-frontend)
+    - [Installing dependancies (prerequisite)](#installing-dependancies-prerequisite)
+    - [Available Scripts](#available-scripts)
+      - [`npm start`](#npm-start)
+      - [`npm test`](#npm-test)
+      - [`npm run build`](#npm-run-build)
+    - [Deployment](#deployment)
+  - [Starting our Backend](#starting-our-backend)
+    - [Getting the server running](#getting-the-server-running)
+    - [Terminal](#terminal)
+    - [IntelliJ (Alternative)](#intellij-alternative)
+  - [Docker Images](#docker-images)
+    - [For the Frontend](#for-the-frontend)
+    - [For the Backend](#for-the-backend)
+    - [For the whole app](#for-the-whole-app)
+  - [GHCR](#ghcr)
+  - [Concepts and planning](#concepts-and-planning)
+    - [Early design diagrams](#early-design-diagrams)
+    - [Early design sketches](#early-design-sketches)
+  - [User Journeys](#user-journeys)
+  - [User Stories of RouteZero](#user-stories-of-routezero)
+  - [Ethics](#ethics)
+  - [License](#license)
+  - [Documentation](#documentation)
+  - [Group notes and Gantt chart](#group-notes-and-gantt-chart)
 
 ----
 ## Overview
@@ -35,18 +54,42 @@ This will have two main components:
 ### Repository Structure
 
 ```
+.
 ├── backend
-│   ├── README.md
-│   ├── server
-│   └── server.iml
+│   ├── server
+│   │   ├── compose_backend.yaml
+│   │   ├── Dockerfile
+│   │   ├── Javadocs
+│   │   ├── mvnw
+│   │   ├── mvnw.cmd
+│   │   ├── pom.xml
+│   │   ├── src
+│   │   └── target
+│   └── server.iml
+├── Dockerfile
 ├── docs
-│   ├── ETHICS.md
-│   └── stakeholders-and-user-stories.txt
+│   ├── backend tests plan.xlsx
+│   ├── ETHICS.md
+│   ├── PULL_REQUEST_TEMPLATE
+│   │   └── pull_request_template.md
+│   └── stakeholders-and-user-stories.txt
 ├── frontend
-│   ├── package-lock.json
-│   └── route-zero-enterprise
+│   ├── package-lock.json
+│   └── route-zero-enterprise
+│       ├── compose.yaml
+│       ├── Dockerfile
+│       ├── example_data
+│       ├── node_modules
+│       ├── out
+│       ├── package.json
+│       ├── package-lock.json
+│       ├── public
+│       └── src
 ├── LICENSE.md
-└── README.md
+├── pull_and_run
+├── push_to_ghcr
+├── README.md
+└── start
 
 ```
 ## Requirements
@@ -60,7 +103,7 @@ This will have two main components:
 
 ### Installing dependancies (prerequisite)
 
-Before you can run any of the below, please run ``npm install`` in **this directory**.
+Before you can run any of the below, please run ``npm install`` in **./frontend/route-zero-enterprise**.
 
 ### Available Scripts
 
@@ -73,10 +116,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-If you're testing the frontend with a locally hosted backend, to avoid CORS issues, please visit the website in Chrome by starting it with the following settings, from console:
-- Ubuntu: ``google-chrome --disable-site-isolation-trials --disable-web-security --user-data-dir="~/tmp"``
-- Windows: ``todo``
 
 #### `npm test`
 
@@ -154,10 +193,14 @@ Run our docker image as a container:
 
 ## Concepts and planning
 ### Early design diagrams
+
+<img width="762" alt="Screenshot 2023-04-29 at 14 50 18" src="https://user-images.githubusercontent.com/98458590/235306423-14698edd-d2f2-42df-a7aa-5a3379c55d7e.png">
+
+### Early design sketches
+
 ![image](https://user-images.githubusercontent.com/45922387/201781191-0ab142ed-e5b4-4942-87ea-2bc93bbc2091.png)
 ![image](https://user-images.githubusercontent.com/45922387/201781254-fe7f4a76-d90c-4204-8037-f001b6d83f12.png)
 ![image](https://user-images.githubusercontent.com/45922387/201781291-5eaae519-c5ae-4c30-b8a0-703d28cc5aab.png)
-
 
 ## User Journeys
 **Small climate-conscious business**, visits website looking for a cost-effective way to make as large an impact on their emissions as possible. They land on the [main page](https://enterprise.routezero.world/) and discover that travel contributes largly to corporate emissions.\
@@ -189,7 +232,25 @@ This project uses the MIT License. Please refer to the link below for more infor
 [See more...](/LICENSE.md)
 
 ## Documentation
-Find the javadocs here. (upcoming)
+
+### Backend
+
+Find the javadocs here -> ``backend/server/Javadocs/index.html``
+
+### Frontend 
+
+Find the JSDocs here -> ``frontend/route-zero-enterprise/out/index.html``
+
+#### Viewing  
+
+Open ``frontend/route-zero-enterprise/out/index.html`` in your browser to view documentation, having cloned the repository.
+
+#### Updating
+
+Please run this at the top-level of our repository when you made additions to the documentation \
+``jsdoc -r ./frontend/route-zero-enterprise/src -d ./frontend/route-zero-enterprise/out ``
+
+#### **NB** this requires you to install jsdocs with npm, please refer to https://jsdoc.app/ for these instructions 
 
 ## Group notes and Gantt chart
 [View our group notes](https://succinct-structure-02b.notion.site/SPE-group-notes-1d5c154901614994adeb4df74cc76579) (Notion) \

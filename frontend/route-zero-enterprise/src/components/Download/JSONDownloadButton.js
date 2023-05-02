@@ -1,5 +1,14 @@
 import React from 'react'  ;
 import Button from 'react-bootstrap/Button'  ;
+
+/** @function JSONDownloadButton 
+ *  @desc Closure returning a JSX element with a button to download a file pertaining to the example JSON
+ * 
+ * @returns {JSX.Element} Button to download JSON file of travel records 
+ * 
+ */
+
+
 export const JSONDownloadButton = (props) => {
   
     const downloadTxtFile = () =>  {
@@ -196,7 +205,7 @@ export const JSONDownloadButton = (props) => {
           '  "departureTime": "2022-10-14T20:55:00.000Z",\n'   +
           '  "arrivalTime": "2022-10-14T20:58:03.000Z",\n'   +
           '  "transport": "electricScooter"\n'   +
-        " {\n" +
+        " }\n" +
       "]\n"]
     // file object
     const file = new Blob(texts,  {type: 'text/json'   });
@@ -212,7 +221,7 @@ export const JSONDownloadButton = (props) => {
 
   return (
     <>
-      <Button variant="primary" value="download" onClick= {downloadTxtFile}>Download</Button>  {''}
+      <Button id="JSONDownloadButton" value="download" onClick= {downloadTxtFile}>Download</Button>  {''}
     </>
   )
 }

@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
+/**@function OffCanvasExample
+ * @desc Handles characteristics of off-canvas modal
+ * 
+ * 
+ * @param {Object} nameAndProps - The name spread with the props 
+ * @returns {JSX.Element} Offscreen modal
+ */
+
 function OffCanvasExample({ name, ...props }) {
     const [show, setShow] = useState(false);
 
@@ -10,7 +18,7 @@ function OffCanvasExample({ name, ...props }) {
 
     return (
         <>
-            <Button className="help-button" variant="secondary" onClick={handleShow}>
+            <Button id="help-button" onClick={handleShow}>
                 Help
             </Button>
             <Offcanvas show={show} onHide={handleClose} {...props}>
@@ -28,6 +36,12 @@ function OffCanvasExample({ name, ...props }) {
         </>
     );
 }
+
+/**@function HelpButton
+ * @desc Places an OffCanvasExample at the end
+ *  
+ * @returns {JSX.Element} Help button 
+ */
 
 function HelpButton() {
     return (

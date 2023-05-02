@@ -10,11 +10,13 @@ import { exposedEndpoints } from '../../data/backend.js'
 import './SeePredictions.scss'
 import { InvalidFileModal } from '../InvalidFileModal/InvalidFileModal.js'
 
+import {fileTypeAndValidation} from '../../helpers/file.js'
+
 
 function checkValidity (state, action) {
   // TODO: Note this code here causes a console warning. This needs to be fixed in future!
   if (action.f !== null) {
-    if (action.f.name.split('.')[1] !== 'csv' && action.f.name.split('.')[1].toLowerCase() !== 'json') { 
+    if (!fileTypeAndValidation(action.f.name).isValidFile) { 
       action.setV('invalid_extension')
     } else {
       action.setV('valid')
@@ -76,15 +78,15 @@ export const PredictButton = (props) => {
   }
 
   useEffect(() => {
-    dispatch({ f: props.file, setV: props.setValidity }) // dubiously important console warning in exchange for removing a compilation warning, bring this up in discussion for more information
+    dispatch({ f: props.file, setV: props.setValidity}) // dubiously important console warning in exchange for removing a compilation warning, bring this up in discussion for more information
   }, [props.file, props.setValidity]) // refreshes on updates to props['file']
 
   return (
     <span className="flex-row predict-pair">
       {
         props.validity === 'valid' && props.loading === 'loaded'
-        ? <Button className="predict-button" onClick={loadThenPost}>See predictions</Button> 
-        : <Button className="predict-button" disabled>See predictions</Button>
+        ? <Button id="predict-button" onClick={loadThenPost}>See predictions</Button>
+        : <Button id="predict-button-disabled" disabled>See predictions</Button>
       }
       <p className='suggestion'>{getSuggestion(props.validity)}</p>
       <InvalidFileModal show={showModal} onHide={() => { setModalErrorTxt(''); setShowModal(false) }} msg={modalErrorTxt} />

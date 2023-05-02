@@ -17,6 +17,9 @@ export const UploadButton = (props) => {
     if (f) {
       console.log(f)
       props.setFile(f)
+      // Response is set to null to display navigation to view tab until call to backend has been made
+      // and file validity has been verified.
+      props.setResponse(null)
       // let data = new FormData();
       // data.append(f.name, f);
       // console.log(data.get(f.name));
@@ -28,7 +31,7 @@ export const UploadButton = (props) => {
       <input id='file-input' onChange={handleUpload} className='d-none' type='file' />
       <Button
         className={`btn-${props.validity === 'valid'
-? 'success'
+? 'success2'
 : (props.validity === 'invalid_extension' ||
                 props.validity === 'invalid_by_backend_determination')
 ? 'danger'
