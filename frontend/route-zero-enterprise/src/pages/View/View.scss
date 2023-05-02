@@ -1,7 +1,9 @@
 $rz_green: #00C795;
 $rz_grey: #505050;
+$rz_light_grey: #979797;
 $span_width: 0.75rem;
 $span_height: 0.35rem;
+$rz_red: #ff5d5d;
 
 
 .center-grid {
@@ -101,35 +103,20 @@ h2{
   .list-group-item{
     display: grid;
     grid-template-columns: 1.5rem 1fr 0fr;
-    height: 3.5rem;
-    padding: 1rem 0 1rem 0.5rem;
+    
+    padding: 0.5rem;
   }
 
   p{
     font-family: Poppins-Regular, serif;
     color: $rz_grey;
+    margin: 0rem 0 0 0;
   }
 
-  @media screen and (max-width: 1040px) and (min-width: 800px){
-    .list-group-item{
-      height: 3.5rem;
-      padding: 1rem 0 1rem 0.5rem;
-    }
-
-    p{
-      margin-top: -0.75rem;
-    }
-  }
-
-  @media screen and (max-width: 1345px) and (min-width: 1230px) {
-    .list-group-item{
-      height: 3.5rem;
-      padding: 1rem 0 1rem 0.5rem;
-    }
-
-    p{
-      margin-top: -0.75rem;
-    }
+  p.disabled{
+    font-family: Poppins-Regular, serif;
+    color: $rz_light_grey;
+    margin: 0rem 0 0 0;
   }
 
   min-width: 200px;
@@ -148,8 +135,8 @@ h2{
     background-color: white;
     padding: $span_height $span_width $span_height $span_width;
     border-radius: 1.4rem;
-    border-color: $rz-green;
-    color: $rz-green;
+    border-color: $rz_green;
+    color: $rz_green;
     border-style: solid;
     border-width: 0.15rem;
     margin: 10px;
@@ -157,6 +144,21 @@ h2{
 
   span.true{
     background-color: $rz_green;
+    color: white;
+  }
+
+  span.disabled{
+    border-color: $rz_grey;
+    color: $rz_grey;
+  }
+
+  span.bad{
+    border-color: $rz_red;
+    color: $rz_red;
+  }
+
+  span.bad.true{
+    background-color: $rz_red;
     color: white;
   }
 }
@@ -197,4 +199,16 @@ h2{
   background-color: #1AB4D7;
   color: #FFFFFF;
   border: solid 2px #1AB4D7;
+}
+
+.aligner{
+  width: 7rem;
+  display:flex;
+  justify-content:right;
+  margin-top: 0;
+  height: 2.5rem;
+
+  span{
+    margin: 0;
+  }
 }
