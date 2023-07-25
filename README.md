@@ -7,6 +7,8 @@ This project was undertaken by myself and four others over 6 months. We produced
 
 https://github.com/philipmortimer/Carbon-Emissions/assets/64362945/6fc37eae-d133-4ee6-9620-0ce5396dc5bc
 
+I have also made a more [detailed demo video](Demo-Video.mp4) ("Demo-Video.mp4").
+
 Please view the project readme below:
 
 <p align="center">
