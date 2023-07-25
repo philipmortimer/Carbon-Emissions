@@ -1,3 +1,13 @@
+# Project Context
+This project was undertaken by myself and four others over 6 months. We produced a website (frontend + backend) that allows companies to enter their travel data and understand what actions they can choose to take to reduce their carbon emissions. We used a range of external project management tools like a Kanban board to ensure the project functioned correctly (unfortunately, this is not visible on this cloned version of the repository). Please note that the website may not work as the domain is due to expire soon and as this version does not contain the API key used to make the project work. I received a first class grade for this project. Here are some screenshots and videos of the functioning site:
+
+![Site Homepage](https://github.com/philipmortimer/Carbon-Emissions/assets/64362945/5a2a2f9c-8f63-452e-8113-60ea06f44687)
+
+![Main Screen](https://github.com/philipmortimer/Carbon-Emissions/assets/64362945/effe8112-4c62-445c-9304-26ec3f8339cf)
+
+https://github.com/philipmortimer/Carbon-Emissions/assets/64362945/6fc37eae-d133-4ee6-9620-0ce5396dc5bc
+
+Please view the project readme below:
 
 <p align="center">
   <img src="https://enterprise.routezero.world/static/media/routezero.e760ac773e0cf56e3c20e228ee964ebb.svg" alt="rze_logo" width="400px"/>
